@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！ AFL 是什么，它有什么用？AFL是一个覆盖导向或基于反馈的模糊测试工具，关于这些概念的更多信息可以在参考这篇论文 Fuzzing: Art, Science, and Engineering。总结一">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-29T06:47:06.933Z">
+<meta property="og:updated_time" content="2019-04-29T06:51:55.639Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL及其相关拓展项目总结">
 <meta name="twitter:description" content="本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！ AFL 是什么，它有什么用？AFL是一个覆盖导向或基于反馈的模糊测试工具，关于这些概念的更多信息可以在参考这篇论文 Fuzzing: Art, Science, and Engineering。总结一">
@@ -546,7 +546,7 @@
 <li><a href="https://github.com/zhunki/Superion" target="_blank" rel="noopener">Superion</a> — 灰盒模糊测试器，其优点是除了插桩程序外，它还使用 ANTLR 语法获取输入数据的规范，然后在此语法的帮助下执行变异</li>
 <li><a href="https://github.com/aflsmart/aflsmart" target="_blank" rel="noopener">AFLSmart</a> — 另一个灰盒模糊测试器，它以 Peach 使用的格式获得输入数据的规范</li>
 </ul>
-<p>有许多研究论文致力于实现 AFL 被改进的新方法和模糊测试技术。由于它们只有白皮书，所以我们甚至没有提到这些。如果你愿意，你可以搜索它们。例如最新的一些有 <a href="http://chao.100871.net/papers/oakland18.pdf" target="_blank" rel="noopener">CollAFL: Path Sensitive Fuzzing</a>、<a href="https://arxiv.org/pdf/1807.00182.pdf" target="_blank" rel="noopener">EnFuzz</a>、<a href="https://i.blackhat.com/asia-19/Fri-March-29/bh-asia-Dominiak-Efficient-Approach-to-Fuzzing-Interpreters-wp.pdf" target="_blank" rel="noopener">«Efficient approach to fuzzing interpreters»</a>、<a href="https://arxiv.org/pdf/1811.08973.pdf" target="_blank" rel="noopener">ML</a> 用于 AFL 等。</p>
+<p>有许多研究论文致力于实现 AFL 被改进的新方法和模糊测试技术。由于它们只有白皮书，所以我们甚至没有提到这些。如果你愿意，你可以搜索它们。例如最新的一些有 <a href="http://chao.100871.net/papers/oakland18.pdf" target="_blank" rel="noopener">CollAFL: Path Sensitive Fuzzing</a>、<a href="https://arxiv.org/pdf/1807.00182.pdf" target="_blank" rel="noopener">EnFuzz</a>、<a href="https://i.blackhat.com/asia-19/Fri-March-29/bh-asia-Dominiak-Efficient-Approach-to-Fuzzing-Interpreters-wp.pdf" target="_blank" rel="noopener">Efficient approach to fuzzing interpreters</a>、<a href="https://arxiv.org/pdf/1811.08973.pdf" target="_blank" rel="noopener">ML</a> 用于 AFL 等。</p>
 <h2 id="基于-QEMU-的改进"><a href="#基于-QEMU-的改进" class="headerlink" title="基于 QEMU 的改进"></a>基于 QEMU 的改进</h2><ul>
 <li><a href="https://github.com/nccgroup/TriforceAFL" target="_blank" rel="noopener">TriforceAFL</a> — AFL/QEMU对系统完全模拟来进行模糊测试。是由 nccgroup 提供的一个分支。它允许在 QEMU 模式下对整个操作系统进行模糊测试。它是通过一个特殊指令（aflCall (0f 24)）（在 QEMU x64 CPU 中添加）实现的。然而它不再受支持; 支持 AFL 的最后一个版本是2.06b</li>
 <li><a href="https://github.com/nccgroup/TriforceLinuxSyscallFuzzer" target="_blank" rel="noopener">TriforceLinuxSyscallFuzzer</a> — Linux 系统调用的模糊测试</li>
