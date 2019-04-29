@@ -5,9 +5,9 @@
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://zanderchang.github.io/"/>
   <updated>2019-04-29T01:04:23.609Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://zanderchang.github.io/</id>
   
   <author>
     <name>Glory</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2019/04/29/hello-world/"/>
-    <id>http://yoursite.com/2019/04/29/hello-world/</id>
+    <link href="http://zanderchang.github.io/2019/04/29/hello-world/"/>
+    <id>http://zanderchang.github.io/2019/04/29/hello-world/</id>
     <published>2019-04-29T00:52:04.382Z</published>
     <updated>2019-04-29T01:04:23.609Z</updated>
     
@@ -34,12 +34,12 @@
     
     </summary>
     
-      <category term="cat1" scheme="http://yoursite.com/categories/cat1/"/>
+      <category term="cat1" scheme="http://zanderchang.github.io/categories/cat1/"/>
     
     
-      <category term="tag1" scheme="http://yoursite.com/tags/tag1/"/>
+      <category term="tag1" scheme="http://zanderchang.github.io/tags/tag1/"/>
     
-      <category term="tag2" scheme="http://yoursite.com/tags/tag2/"/>
+      <category term="tag2" scheme="http://zanderchang.github.io/tags/tag2/"/>
     
   </entry>
   
