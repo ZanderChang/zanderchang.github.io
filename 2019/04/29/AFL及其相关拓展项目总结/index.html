@@ -131,18 +131,18 @@
 
 
 
-<meta name="description" content="本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
+<meta name="description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
 <meta name="keywords" content="外文翻译,漏洞挖掘,AFL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AFL及其相关拓展项目总结">
 <meta property="og:url" content="http://zanderchang.github.io/2019/04/29/AFL及其相关拓展项目总结/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
+<meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-29T07:38:19.922Z">
+<meta property="og:updated_time" content="2019-04-30T04:04:52.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL及其相关拓展项目总结">
-<meta name="twitter:description" content="本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
+<meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！">
 
 
 
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-04-29T15:38:19+08:00">
-                2019-04-29 15:38:19
+              <time title="更新于" itemprop="dateModified" datetime="2019-04-30T12:04:52+08:00">
+                2019-04-30 12:04:52
               </time>
             
           </span>
@@ -438,7 +438,9 @@
       
 
       
-        <p>本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！</p>
+        <p><em>原文标题 Zoo AFL (Apr 24, 2019)</em></p>
+<p>作者：<a href="https://habr.com/en/users/d1g1/" target="_blank" rel="noopener">@d1g1</a></p>
+<p>本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！</p>
 <a id="more"></a>
 <h1 id="AFL-是什么，它有什么用？"><a href="#AFL-是什么，它有什么用？" class="headerlink" title="AFL 是什么，它有什么用？"></a>AFL 是什么，它有什么用？</h1><p>AFL是一个覆盖导向或基于反馈的模糊测试工具，关于这些概念的更多信息可以在参考这篇论文 <a href="https://arxiv.org/abs/1812.00140" target="_blank" rel="noopener">Fuzzing: Art, Science, and Engineering</a>。总结一下 AFL：</p>
 <ul>
@@ -602,6 +604,7 @@
 <p>当然，谈到处理器硬件功能，我们最感兴趣的是 <a href="https://software.intel.com/en-us/node/721535" target="_blank" rel="noopener">Intel PT</a>。从第 6 代处理器开始（大约自2015年起）支持该功能。 因此，为了能够使用下面列出的模糊测试器，我们需要一个支持 Intel PT 的处理器。</p>
 <ul>
 <li><a href="https://github.com/intelpt/winafl-intelpt" target="_blank" rel="noopener">WinAFL-IntelPT</a> — 使用 Intel PT 而不是 DynamoRIO 的第三方 WinAFL。</li>
+<li><a href="https://github.com/hunter-ht-2018/ptfuzzer" target="_blank" rel="noopener">ptfuzzer</a> - 使用 Intel PT 对二进制进行黑盒测试。</li>
 <li><a href="https://github.com/RUB-SysSec/kAFL" target="_blank" rel="noopener">kAFL</a> — 一个旨在解决独立于操作系统的模糊测试内核时的覆盖率导向问题的学术项目。 它通过使用管理程序（hypervisor）和 Intel PT 来解决该问题。有关它的更多信息可以在白皮书 <a href="https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-schumilo.pdf" target="_blank" rel="noopener">kAFL: Hardware-Assisted Feedback Fuzzing for OS Kernels</a> 中找到。</li>
 </ul>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
@@ -655,6 +658,22 @@
       
       
 
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/30/VBA-Stomping简介/" rel="prev" title="VBA Stomping简介">
+                VBA Stomping简介 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
 
       
@@ -728,7 +747,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -739,7 +758,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -750,7 +769,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
