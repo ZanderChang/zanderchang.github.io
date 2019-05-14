@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="密码学,数字签名,">
 
 
 
@@ -131,13 +131,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的博客">
-<meta property="og:url" content="http://zanderchang.github.io/index.html">
+<meta name="description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
+<meta name="keywords" content="密码学,数字签名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="秘密共享及门限签名">
+<meta property="og:url" content="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/index.html">
 <meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-14T11:47:11.008Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的博客">
+<meta name="twitter:title" content="秘密共享及门限签名">
+<meta name="twitter:description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
 
 
 
@@ -167,13 +172,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/">
+  <link rel="canonical" href="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/">
 
 
 
 
 
-  <title>我的博客</title>
+  <title>秘密共享及门限签名 | 我的博客</title>
   
 
 
@@ -192,8 +197,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -318,9 +322,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -350,9 +354,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/14/秘密共享及门限签名/" itemprop="url">秘密共享及门限签名</a></h1>
+          <h1 class="post-title" itemprop="name headline">秘密共享及门限签名</h1>
         
 
         <div class="post-meta">
@@ -436,22 +438,40 @@
       
 
       
-        
-          
-          
-Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：
-$$b=g^a\bmod p$$
-是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。
-初始化Alice随机选
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/14/秘密共享及门限签名/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <a id="more"></a>
+<h1 id="Elgamal签名算法"><a href="#Elgamal签名算法" class="headerlink" title="Elgamal签名算法"></a>Elgamal签名算法</h1><p>依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：</p>
+<p>$$b=g^a\bmod p$$</p>
+<p>是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算：</p>
+<p>$$y=g^x\bmod p$$</p>
+<p>则公钥为$y$，私钥为$x$。</p>
+<h3 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h3><p>设待签名消息为$m$，Alice随机选择整数$k$，满足$k&lt;p$，$gcd(k,p-1)=1$。计算：</p>
+<p>$$r=g^k\bmod p$$<br>$$s=(m-xr)k^{-1}\bmod p$$</p>
+<p>将$m$的签名$(r,s)$发送给Bob。</p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>Bob收到$(r,s)$，利用Alice的公钥$y$验证等式：</p>
+<p>$$g^m\equiv y^rr^s\bmod p$$</p>
+<p>若等式成立则签名有效。</p>
+<h1 id="Harn的门限签名方案"><a href="#Harn的门限签名方案" class="headerlink" title="Harn的门限签名方案"></a>Harn的门限签名方案</h1><h3 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h3><p>假设有$n$个成员$P_1,P_2,…P_n$，$t$为门限值，$p$、$q$为大素数，$q|(p-1)$，$g$为有限域$Z_p$上的$q$阶生成元，$h$是$g$的循环群中的一个数，待签名消息为$m$，每个成员随机选择$z_i$和$x_i$，计算：</p>
+<p>$$y_i=g^{z_i}\bmod p$$</p>
+<p>成员$P_i$私钥为$z_i$，组公钥$y$计算如下：</p>
+<p>$$y=\prod_{i=1}^ny_i\bmod p$$</p>
+<p>$P_i(i=1,2,…,n)$选取一个$t-1$次多项式：$f_i(x)=z_i+a_{i,1}x+a_{i,2}x^2+…+a_{i,t-1}x^{t-1}$，计算影子份额$f_i(x_j)\bmod q$发送给$P_j$，并计算验证信息：</p>
+<p>$$y_{i,j}=g^{f_i(x_j)}\bmod p$$</p>
+<h3 id="产生部分签名"><a href="#产生部分签名" class="headerlink" title="产生部分签名"></a>产生部分签名</h3><p>设参与签名的成员$P_1,P_2,…P_t$。成员$P_i(i=1,2,…,t)$选择一个随机数$k_i\in[1,q-1]$，计算$r_i=g^{k_i}\bmod p$并将其广播给所有成员。</p>
+<p>收到其他成员广播的$r_i$后，$P_i$计算</p>
+<p>$$r=\prod_{i=1}^tr_i\bmod p$$</p>
+<p>通过自己的私钥$z_i$、$k_i$、份额$f_j(x_i)(j=t+1,t+2,…,n)$计算：</p>
+<p>$$s_i=z_i+\lbrace\sum_{j=t+1}^nf_j(x_i)(\prod_{k=1,k\neq i}^t\frac{-x_k}{x_k-x_j})\rbrace m-k_i r\bmod q$$</p>
+<p>将部分签名$(r_i,s_i)$发送给签名合成者。</p>
+<p>合成者收到$\lbrace r_i,s_i\rbrace$后，通过下式验证其有效性：</p>
+<p>$$\lbrace y_i(\prod_{j=t+1}^ny_{j,i})^{\prod_{k=1,k\neq i}^t\frac{-x_k}{x_i-x_k}}\rbrace^m=r_i^r g^{s_j}\bmod p$$</p>
+<p>若验证式成立，则收到的部分签名$\lbrace r_i,s_i\rbrace$有效。</p>
+<h3 id="产生组签名"><a href="#产生组签名" class="headerlink" title="产生组签名"></a>产生组签名</h3><p>合成者确认接收到$t$个正确的部分签名后，计算：</p>
+<p>$$s=\sum_{i=1}^ts_i\bmod q$$</p>
+<p>将$\lbrace r,s\rbrace$作为消息$m$的组签名。</p>
+<h3 id="验证签名"><a href="#验证签名" class="headerlink" title="验证签名"></a>验证签名</h3><p>验证者收到组签名后，验证其有效性：</p>
+<p>$$y^m=r^r g^s \bmod p$$</p>
+
       
     </div>
     
@@ -463,341 +483,59 @@ $$b=g^a\bmod p$$
     
 
     
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Glory
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/" title="秘密共享及门限签名">http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Glory">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/05/06/破解-PS4-第一部分/" itemprop="url">破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-06T10:56:54+08:00">
-                2019-05-06 10:56:54
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-06T16:05:20+08:00">
-                2019-05-06 16:05:20
-              </time>
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/硬件分析/" itemprop="url" rel="index">
-                    <span itemprop="name">硬件分析</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/密码学/" rel="tag"># 密码学</a>
           
-
+            <a href="/tags/数字签名/" rel="tag"># 数字签名</a>
           
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p><em>原文标题 Hacking the PS4, part 1 Introduction to PS4’s security, and userland ROP (日期未知)</em></p>
-<p>作者：<a href="https://github.com/CTurt" target="_blank" rel="noopener">CTurt</a></p>
-<p>由于目前很长时间没有关于 PS4 破解的重大公告，我想解释一下 PS4 破解已经走了多远，以及阻止它进一步发展的原因。</p>
-<p>我将解释一些通用于所有现代系统的安全概念，以及我在 PS4 上运行 ROP 测试所做的发现。</p>
-<p>本系列文章的目标是展示完整的漏洞利用链，从访问 Internet 浏览器的网页，到最终在 PS4 上实现内核代码执行。</p>
-<p>如果您对漏洞挖掘不是特别熟悉，那么您应该先阅读我的关于<a href="http://cturt.github.io/DS-exploit-finding.html" target="_blank" rel="noopener">通过保存文件中的栈粉碎漏洞来破解 DS 游戏</a>的文章。</p>
-<p>您可以在此下载我的<a href="https://github.com/CTurt/PS4-playground" target="_blank" rel="noopener">完整设置</a>以自行运行这些测试；它目前仅适用于固件 1.76。如果您正在使用较旧的固件并希望更新到 1.76，则可以下载 <a href="http://www.psdevwiki.com/ps4/1.760.000" target="_blank" rel="noopener">1.76 PUP</a> 文件并<a href="https://www.playstation.com/en-us/support/system-updates/ps4/" target="_blank" rel="noopener">通过 USB 更新</a>。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/05/06/破解-PS4-第一部分/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/06/破解-PS4-第一部分/" rel="next" title="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">
+                <i class="fa fa-chevron-left"></i> 破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/04/30/VBA-Stomping简介/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Glory">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/30/VBA-Stomping简介/" itemprop="url">VBA Stomping 简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T10:17:09+08:00">
-                2019-04-30 10:17:09
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-06T10:57:16+08:00">
-                2019-05-06 10:57:16
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/安全技术/" itemprop="url" rel="index">
-                    <span itemprop="name">安全技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p><em>原文标题 VBA Stomping — Advanced Maldoc Techniques (Oct 6, 2018)</em></p>
-<p>作者：Kirk Sayre <a href="https://twitter.com/bigmacjpg" target="_blank" rel="noopener">@bigmacjpg</a>，Harold Ogden <a href="https://twitter.com/haroldogden" target="_blank" rel="noopener">@haroldogden</a> 和 Carrie Roberts <a href="https://twitter.com/OrOneEqualsOne" target="_blank" rel="noopener">@OrOneEqualsOne</a></p>
-<p>VBA Stomping 是一种可以绕过反病毒检测恶意文档生成技术，它最初由 Vesselin Bontchev 博士引起我们的注意（见<a href="https://github.com/bontchev/pcodedmp" target="_blank" rel="noopener">此处</a>）。VBA stomping 是指销毁 Microsoft Office 文档中的 VBA 源代码，只留下文档文件中称为 p-code 的宏代码的编译版本。在这种情况下，仅基于VBA源代码的恶意文档检测会失败。在这篇博文中，我们将详细演示 VBA stomping 并介绍一些其他技术。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/30/VBA-Stomping简介/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -807,170 +545,11 @@ $$b=g^a\bmod p$$
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/04/29/AFL及其相关拓展项目总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Glory">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/29/AFL及其相关拓展项目总结/" itemprop="url">AFL 及其相关拓展项目总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-29T14:44:42+08:00">
-                2019-04-29 14:44:42
-              </time>
-            
-
-            
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-06T10:57:13+08:00">
-                2019-05-06 10:57:13
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞挖掘/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞挖掘</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><em>原文标题 Zoo AFL (Apr 24, 2019)</em></p>
-<p>作者：<a href="https://habr.com/en/users/d1g1/" target="_blank" rel="noopener">@d1g1</a></p>
-<p>本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/29/AFL及其相关拓展项目总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -978,6 +557,10 @@ $$b=g^a\bmod p$$
 
 
           
+
+  
+
+
 
         </div>
         
@@ -998,8 +581,17 @@ $$b=g^a\bmod p$$
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1082,6 +674,22 @@ $$b=g^a\bmod p$$
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elgamal签名算法"><span class="nav-number">1.</span> <span class="nav-text">Elgamal签名算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化"><span class="nav-number">1.0.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#签名"><span class="nav-number">1.0.2.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">1.0.3.</span> <span class="nav-text">验证</span></a></li></ol></li></ol><li class="nav-item nav-level-1"><a class="nav-link" href="#Harn的门限签名方案"><span class="nav-number">2.</span> <span class="nav-text">Harn的门限签名方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化-1"><span class="nav-number">2.0.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产生部分签名"><span class="nav-number">2.0.2.</span> <span class="nav-text">产生部分签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产生组签名"><span class="nav-number">2.0.3.</span> <span class="nav-text">产生组签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证签名"><span class="nav-number">2.0.4.</span> <span class="nav-text">验证签名</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1224,6 +832,10 @@ $$b=g^a\bmod p$$
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
