@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -173,7 +173,7 @@
 
 
 
-  <title>我的博客</title>
+  <title>我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -192,7 +192,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -380,8 +380,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-14T19:47:11+08:00">
-                2019-05-14 19:47:11
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-14T19:59:50+08:00">
+                2019-05-14 19:59:50
               </time>
             
           </span>
@@ -437,13 +437,7 @@
 
       
         
-          
-          
-Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：
-$$b=g^a\bmod p$$
-是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。
-初始化Alice随机选
-          ...
+          <p>Elgamal签名算法 $\rightarrow$ Harn的门限签名方案</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/05/14/秘密共享及门限签名/#more" rel="contents">
@@ -1598,6 +1592,28 @@ $$b=g^a\bmod p$$
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

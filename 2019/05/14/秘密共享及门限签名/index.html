@@ -7,7 +7,7 @@
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <meta name="theme-color" content="#222">
@@ -131,18 +131,18 @@
 
 
 
-<meta name="description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
+<meta name="description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
 <meta name="keywords" content="密码学,数字签名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="秘密共享及门限签名">
 <meta property="og:url" content="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
+<meta property="og:description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-14T11:47:11.008Z">
+<meta property="og:updated_time" content="2019-05-14T11:59:50.151Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="秘密共享及门限签名">
-<meta name="twitter:description" content="Elgamal签名算法依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算： $$b=g^a\bmod p$$ 是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。 初始化Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算： $$">
+<meta name="twitter:description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
 
 
 
@@ -178,7 +178,7 @@
 
 
 
-  <title>秘密共享及门限签名 | 我的博客</title>
+  <title>秘密共享及门限签名 | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -197,7 +197,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-14T19:47:11+08:00">
-                2019-05-14 19:47:11
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-14T19:59:50+08:00">
+                2019-05-14 19:59:50
               </time>
             
           </span>
@@ -438,7 +438,8 @@
       
 
       
-        <a id="more"></a>
+        <p>Elgamal签名算法 $\rightarrow$ Harn的门限签名方案</p>
+<a id="more"></a>
 <h1 id="Elgamal签名算法"><a href="#Elgamal签名算法" class="headerlink" title="Elgamal签名算法"></a>Elgamal签名算法</h1><p>依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：</p>
 <p>$$b=g^a\bmod p$$</p>
 <p>是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。</p>
@@ -1210,6 +1211,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 
