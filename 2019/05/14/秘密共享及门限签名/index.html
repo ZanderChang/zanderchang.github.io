@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 Asmuth-Bloom 法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-15T05:03:27.498Z">
+<meta property="og:updated_time" content="2019-05-15T05:14:45.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="秘密共享及门限签名">
 <meta name="twitter:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 Asmuth-Bloom 法">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T13:03:27+08:00">
-                2019-05-15 13:03:27
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T13:14:45+08:00">
+                2019-05-15 13:14:45
               </time>
             
           </span>
@@ -483,7 +483,7 @@
 <p>$$Z_i=Z\bmod d_i,i=1,2,…n$$</p>
 <p>并将$(Z_i,d_i)$作为秘密份额发给成员$P_i,(i=1,2,…,n)$。</p>
 <h2 id="秘密恢复"><a href="#秘密恢复" class="headerlink" title="秘密恢复"></a>秘密恢复</h2><p>选取$t$个成员$\lbrace P_1,P_2,…,P_t\rbrace$参与秘密的恢复，通过交换秘密份额，任意成员$P_i$可以建立同余方程组：</p>
-<p>$$<br>\left{<br>\begin{array}{c}<br>Z_1=Z\bmod d_1 \<br>Z_2=Z\bmod d_2 \<br>\vdots \<br>Z_t=Z\bmod d_t<br>\end{array}<br>\right.<br>$$</p>
+<p>$$<br>\begin{cases}<br>Z_1=Z\bmod d_1 \<br>Z_2=Z\bmod d_2 \<br>\vdots \<br>Z_t=Z\bmod d_t<br>\end{cases}<br>$$</p>
 <p>由$CRT$可知该方程组有唯一解：</p>
 <p>$$Z=\sum_{i=1}^t\frac{D}{d_i}\cdot e_i\cdot Z_i\bmod D,i=1,2,..,t$$</p>
 <p>其中：</p>
