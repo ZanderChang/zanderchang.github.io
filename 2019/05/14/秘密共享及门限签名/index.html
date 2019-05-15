@@ -131,18 +131,18 @@
 
 
 
-<meta name="description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
+<meta name="description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 Asmuth-Bloom 法">
 <meta name="keywords" content="密码学,数字签名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="秘密共享及门限签名">
 <meta property="og:url" content="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
+<meta property="og:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 Asmuth-Bloom 法">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-14T12:05:41.350Z">
+<meta property="og:updated_time" content="2019-05-15T05:03:27.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="秘密共享及门限签名">
-<meta name="twitter:description" content="Elgamal签名算法 $\rightarrow$ Harn的门限签名方案">
+<meta name="twitter:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 Asmuth-Bloom 法">
 
 
 
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-14T20:05:41+08:00">
-                2019-05-14 20:05:41
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T13:03:27+08:00">
+                2019-05-15 13:03:27
               </time>
             
           </span>
@@ -438,9 +438,10 @@
       
 
       
-        <p>Elgamal签名算法 $\rightarrow$ Harn的门限签名方案</p>
+        <p>Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案</p>
+<p>Asmuth-Bloom 法</p>
 <a id="more"></a>
-<h1 id="Elgamal签名算法"><a href="#Elgamal签名算法" class="headerlink" title="Elgamal签名算法"></a>Elgamal签名算法</h1><p>依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：</p>
+<h1 id="Elgamal-签名算法"><a href="#Elgamal-签名算法" class="headerlink" title="Elgamal 签名算法"></a>Elgamal 签名算法</h1><p>依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：</p>
 <p>$$b=g^a\bmod p$$</p>
 <p>是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。</p>
 <h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算：</p>
@@ -452,7 +453,7 @@
 <h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>Bob收到$(r,s)$，利用Alice的公钥$y$验证等式：</p>
 <p>$$g^m\equiv y^rr^s\bmod p$$</p>
 <p>若等式成立则签名有效。</p>
-<h1 id="Harn的门限签名方案"><a href="#Harn的门限签名方案" class="headerlink" title="Harn的门限签名方案"></a>Harn的门限签名方案</h1><h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>假设有$n$个成员$P_1,P_2,…P_n$，$t$为门限值，$p$、$q$为大素数，$q|(p-1)$，$g$为有限域$Z_p$上的$q$阶生成元，$h$是$g$的循环群中的一个数，待签名消息为$m$，每个成员随机选择$z_i$和$x_i$，计算：</p>
+<h1 id="Harn-的门限签名方案"><a href="#Harn-的门限签名方案" class="headerlink" title="Harn 的门限签名方案"></a>Harn 的门限签名方案</h1><h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>假设有$n$个成员$P_1,P_2,…P_n$，$t$为门限值，$p$、$q$为大素数，$q|(p-1)$，$g$为有限域$Z_p$上的$q$阶生成元，$h$是$g$的循环群中的一个数，待签名消息为$m$，每个成员随机选择$z_i$和$x_i$，计算：</p>
 <p>$$y_i=g^{z_i}\bmod p$$</p>
 <p>成员$P_i$私钥为$z_i$，组公钥$y$计算如下：</p>
 <p>$$y=\prod_{i=1}^ny_i\bmod p$$</p>
@@ -472,6 +473,23 @@
 <p>将$\lbrace r,s\rbrace$作为消息$m$的组签名。</p>
 <h2 id="验证签名"><a href="#验证签名" class="headerlink" title="验证签名"></a>验证签名</h2><p>验证者收到组签名后，验证其有效性：</p>
 <p>$$y^m=r^r g^s \bmod p$$</p>
+<h1 id="Asmuth-Bloom-法"><a href="#Asmuth-Bloom-法" class="headerlink" title="Asmuth-Bloom 法"></a>Asmuth-Bloom 法</h1><h2 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h2><p>假设$S$为共享秘密，$DCA$为秘密分发者，有$n$个成员$P_1,P_2,…,P_n$，$t$为恢复秘密的门限值。$DC$选择大素数$q$和严格递增的序列$d=\lbrace d_1,d_2,…,d_n\rbrace$，$d$满足如下条件：</p>
+<p>$$d_1&lt;d_2&lt;…&lt;d_n$$</p>
+<p>$$(d_i,d_j)=1,(i\neq j)$$</p>
+<p>$$(d_i,q)=1,(i=1,2,…,n)$$</p>
+<p>$$\prod_{i=1}^td_i&gt;q\prod_{i=1}^{t-1}d_{n-i+1}$$</p>
+<h2 id="秘密分发"><a href="#秘密分发" class="headerlink" title="秘密分发"></a>秘密分发</h2><p>令$M=\prod_{i=1}^td_i$，选择满足式$0\leq A\leq \frac{M}{q}-1$的整数$A$，$DC$计算：</p>
+<p>$$Z=S+Aq$$</p>
+<p>$$Z_i=Z\bmod d_i,i=1,2,…n$$</p>
+<p>并将$(Z_i,d_i)$作为秘密份额发给成员$P_i,(i=1,2,…,n)$。</p>
+<h2 id="秘密恢复"><a href="#秘密恢复" class="headerlink" title="秘密恢复"></a>秘密恢复</h2><p>选取$t$个成员$\lbrace P_1,P_2,…,P_t\rbrace$参与秘密的恢复，通过交换秘密份额，任意成员$P_i$可以建立同余方程组：</p>
+<p>$$<br>\left{<br>\begin{array}{c}<br>Z_1=Z\bmod d_1 \<br>Z_2=Z\bmod d_2 \<br>\vdots \<br>Z_t=Z\bmod d_t<br>\end{array}<br>\right.<br>$$</p>
+<p>由$CRT$可知该方程组有唯一解：</p>
+<p>$$Z=\sum_{i=1}^t\frac{D}{d_i}\cdot e_i\cdot Z_i\bmod D,i=1,2,..,t$$</p>
+<p>其中：</p>
+<p>$$D=\prod_{i=1}^td_i$$</p>
+<p>$$\frac{D}{d_i}\cdot e_i \equiv 1\bmod d_i,i=1,2,…,t$$</p>
+<p>可求出共享秘密$S=Z\bmod q$。</p>
 
       
     </div>
@@ -685,7 +703,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elgamal签名算法"><span class="nav-number">1.</span> <span class="nav-text">Elgamal签名算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#签名"><span class="nav-number">1.2.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">1.3.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Harn的门限签名方案"><span class="nav-number">2.</span> <span class="nav-text">Harn的门限签名方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-1"><span class="nav-number">2.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生部分签名"><span class="nav-number">2.2.</span> <span class="nav-text">产生部分签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生组签名"><span class="nav-number">2.3.</span> <span class="nav-text">产生组签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证签名"><span class="nav-number">2.4.</span> <span class="nav-text">验证签名</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elgamal-签名算法"><span class="nav-number">1.</span> <span class="nav-text">Elgamal 签名算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#签名"><span class="nav-number">1.2.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">1.3.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Harn-的门限签名方案"><span class="nav-number">2.</span> <span class="nav-text">Harn 的门限签名方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-1"><span class="nav-number">2.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生部分签名"><span class="nav-number">2.2.</span> <span class="nav-text">产生部分签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生组签名"><span class="nav-number">2.3.</span> <span class="nav-text">产生组签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证签名"><span class="nav-number">2.4.</span> <span class="nav-text">验证签名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Asmuth-Bloom-法"><span class="nav-number">3.</span> <span class="nav-text">Asmuth-Bloom 法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-2"><span class="nav-number">3.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密分发"><span class="nav-number">3.2.</span> <span class="nav-text">秘密分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密恢复"><span class="nav-number">3.3.</span> <span class="nav-text">秘密恢复</span></a></li></ol></li></ol></div>
             
 
           </div>
