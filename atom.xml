@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zanderchang.github.io/"/>
-  <updated>2019-05-15T13:44:13.272Z</updated>
+  <updated>2019-05-24T13:04:34.045Z</updated>
   <id>http://zanderchang.github.io/</id>
   
   <author>
@@ -15,6 +15,34 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>AI 算法中的数学公式</title>
+    <link href="http://zanderchang.github.io/2019/05/24/AI%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"/>
+    <id>http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/</id>
+    <published>2019-05-24T12:22:41.000Z</published>
+    <updated>2019-05-24T13:04:34.045Z</updated>
+    
+    <content type="html"><![CDATA[<a id="more"></a><h2 id="DDPG"><a href="#DDPG" class="headerlink" title="DDPG"></a><a href="https://arxiv.org/pdf/1509.02971.pdf" target="_blank" rel="noopener">DDPG</a></h2><p>$$<br>\begin{aligned}<br>\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \<br>&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]<br>\end{aligned}<br>$$</p><p>在<a href="https://stackedit.io/editor" target="_blank" rel="noopener">这里</a>将Markdown的公式转换为MathML代码（Word）<a href="https://blog.csdn.net/bendanban/article/details/52823171" target="_blank" rel="noopener">参考</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;DDPG&quot;&gt;&lt;a href=&quot;#DDPG&quot; class=&quot;headerlink&quot; title=&quot;DDPG&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://arxiv.org/pdf/1509.02971.pdf&quot; target=&quot;_
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://zanderchang.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="数学原理" scheme="http://zanderchang.github.io/tags/%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%86/"/>
+    
+      <category term="机器学习" scheme="http://zanderchang.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+  </entry>
   
   <entry>
     <title>秘密共享及门限签名</title>
