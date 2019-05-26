@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[AI 算法中的数学公式]]></title>
     <url>%2F2019%2F05%2F24%2FAI%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%2F</url>
-    <content type="text"><![CDATA[DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]\end{aligned}$$ 在这里将Markdown的公式转换为MathML代码（Word）参考]]></content>
+    <content type="text"><![CDATA[DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]\end{aligned}$$ GEN$$g=&lt;V,E,\phi&gt;$$ $$\forall v\in V,v\rightarrow x_v\rightarrow \mu_v$$ $$N_v$$ $$\mu_v=F(x_v,\sum_{j\in N_v}\mu_j)$$ $$\mu_v^{(t)}=tanh(W_1x_v+\sigma(\sum_{j\in N_v}\mu_j^{(t-1)}))$$ $$\sigma(x)=P_1ReLU(P_2\cdots ReLU(P_n(x)))$$ $$\mu_g=W_2\sum_{v\in V}\mu_v^T$$ $$Z=W_3\mu_g$$ $$Q=Softmax(Z)$$ 在这里将Markdown的公式转换为MathML代码（Word）参考]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
