@@ -131,18 +131,18 @@
 
 
 
-<meta name="description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\n">
+<meta name="description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\">
 <meta name="keywords" content="数学原理,机器学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="AI 算法中的数学公式">
 <meta property="og:url" content="http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\n">
+<meta property="og:description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-26T12:47:01.233Z">
+<meta property="og:updated_time" content="2019-05-31T07:32:09.493Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AI 算法中的数学公式">
-<meta name="twitter:description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\n">
+<meta name="twitter:description" content="DDPG$$\begin{aligned}\nabla_{\theta^\mu}J&amp;amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\&amp;amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\">
 
 
 
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-26T20:47:01+08:00">
-                2019-05-26 20:47:01
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-31T15:32:09+08:00">
+                2019-05-31 15:32:09
               </time>
             
           </span>
@@ -439,16 +439,20 @@
 
       
         <a id="more"></a>
-<h2 id="DDPG"><a href="#DDPG" class="headerlink" title="DDPG"></a><a href="https://arxiv.org/pdf/1509.02971.pdf" target="_blank" rel="noopener">DDPG</a></h2><p>$$<br>\begin{aligned}<br>\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \<br>&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]<br>\end{aligned}<br>$$</p>
+<h2 id="DDPG"><a href="#DDPG" class="headerlink" title="DDPG"></a><a href="https://arxiv.org/pdf/1509.02971.pdf" target="_blank" rel="noopener">DDPG</a></h2><p>$$<br>\begin{aligned}<br>\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\<br>&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]<br>\end{aligned}<br>$$</p>
 <h2 id="GEN"><a href="#GEN" class="headerlink" title="GEN"></a>GEN</h2><p>$$g=&lt;V,E,\phi&gt;$$</p>
 <p>$$\forall v\in V,v\rightarrow x_v\rightarrow \mu_v$$</p>
 <p>$$N_v$$</p>
 <p>$$\mu_v=F(x_v,\sum_{j\in N_v}\mu_j)$$</p>
+<p>$$P=\lbrace P_1,P_2,\cdots,P_n\rbrace$$</p>
+<p>$$ReLU(\cdot)=max\lbrace 0,\cdot\rbrace$$</p>
 <p>$$\mu_v^{(t)}=tanh(W_1x_v+\sigma(\sum_{j\in N_v}\mu_j^{(t-1)}))$$</p>
 <p>$$\sigma(x)=P_1ReLU(P_2\cdots ReLU(P_n(x)))$$</p>
 <p>$$\mu_g=W_2\sum_{v\in V}\mu_v^T$$</p>
 <p>$$Z=W_3\mu_g$$</p>
+<p>$$Q=\lbrace p,1-p\rbrace,p\in[0,1]$$</p>
 <p>$$Q=Softmax(Z)$$</p>
+<p>$$\min_{W_1,W_2,W_3,…,P_1,P_2,…,P_n}\sum_{i=1}^m(H(Q,l))$$</p>
 <p>在<a href="https://stackedit.io/editor" target="_blank" rel="noopener">这里</a>将Markdown的公式转换为MathML代码（Word）<a href="https://blog.csdn.net/bendanban/article/details/52823171" target="_blank" rel="noopener">参考</a></p>
 
       
