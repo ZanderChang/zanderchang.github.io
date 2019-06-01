@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zanderchang.github.io/"/>
-  <updated>2019-05-31T07:32:09.493Z</updated>
+  <updated>2019-06-01T03:45:47.338Z</updated>
   <id>http://zanderchang.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://zanderchang.github.io/2019/05/24/AI%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/"/>
     <id>http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/</id>
     <published>2019-05-24T12:22:41.000Z</published>
-    <updated>2019-05-31T07:32:09.493Z</updated>
+    <updated>2019-06-01T03:45:47.338Z</updated>
     
     <content type="html"><![CDATA[<a id="more"></a><h2 id="DDPG"><a href="#DDPG" class="headerlink" title="DDPG"></a><a href="https://arxiv.org/pdf/1509.02971.pdf" target="_blank" rel="noopener">DDPG</a></h2><p>$$<br>\begin{aligned}<br>\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\<br>&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]<br>\end{aligned}<br>$$</p><h2 id="GEN"><a href="#GEN" class="headerlink" title="GEN"></a>GEN</h2><p>$$g=&lt;V,E,\phi&gt;$$</p><p>$$\forall v\in V,v\rightarrow x_v\rightarrow \mu_v$$</p><p>$$N_v$$</p><p>$$\mu_v=F(x_v,\sum_{j\in N_v}\mu_j)$$</p><p>$$P=\lbrace P_1,P_2,\cdots,P_n\rbrace$$</p><p>$$ReLU(\cdot)=max\lbrace 0,\cdot\rbrace$$</p><p>$$\mu_v^{(t)}=tanh(W_1x_v+\sigma(\sum_{j\in N_v}\mu_j^{(t-1)}))$$</p><p>$$\sigma(x)=P_1ReLU(P_2\cdots ReLU(P_n(x)))$$</p><p>$$\mu_g=W_2\sum_{v\in V}\mu_v^T$$</p><p>$$Z=W_3\mu_g$$</p><p>$$Q=\lbrace p,1-p\rbrace,p\in[0,1]$$</p><p>$$Q=Softmax(Z)$$</p><p>$$\min_{W_1,W_2,W_3,…,P_1,P_2,…,P_n}\sum_{i=1}^m(H(Q,l))$$</p><p>在<a href="https://stackedit.io/editor" target="_blank" rel="noopener">这里</a>将Markdown的公式转换为MathML代码（Word）<a href="https://blog.csdn.net/bendanban/article/details/52823171" target="_blank" rel="noopener">参考</a></p>]]></content>
     
