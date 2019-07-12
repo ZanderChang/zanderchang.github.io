@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-08T06:09:27.937Z">
+<meta property="og:updated_time" content="2019-07-12T11:12:54.220Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL 及其相关拓展项目总结">
 <meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-07-08T14:09:27+08:00">
-                2019-07-08 14:09:27
+              <time title="更新于" itemprop="dateModified" datetime="2019-07-12T19:12:54+08:00">
+                2019-07-12 19:12:54
               </time>
             
           </span>
@@ -617,6 +617,8 @@
 <li><a href="https://github.com/airbus-seclab/gustave" target="_blank" rel="noopener">GUSTAVE</a> - 一个嵌入式操作系统内核的 Fuzzer，基于 QEMU 和 AFL。</li>
 <li>使用 AFL 对嵌入式系统的 TEE 进行模糊测试。<a href="https://nullcon.net/website/archives/pdf/bangalore-2019/fuzzing-embedded-(trusted" target="_blank" rel="noopener">PDF</a>-operating-systems%20using-AFL.pdf) <a href="https://youtu.be/AZhxZlwZ160" target="_blank" rel="noopener">YOUTUBE</a></li>
 <li><a href="https://github.com/sslab-gatech/janus" target="_blank" rel="noopener">Janus</a> - 基于 AFL 和 Syzkaller 对 linux 的文件系统进行模糊测试， 支持 8 种文件系统 ext4、XFS、btrfs、F2FS、GFS2、HFS+、ReiserFS 和 vFAT；以及 34 个文件操作的系统调用。</li>
+<li>利用 AFL 模糊测试 <a href="https://github.com/fcambus/statzone" target="_blank" rel="noopener">statzone</a>。<a href="https://www.cambus.net/fuzzing-dns-zone-parsers/" target="_blank" rel="noopener">地址</a></li>
+<li>利用 AFL 模糊测试 Linux 内核。<a href="https://blog.cloudflare.com/a-gentle-introduction-to-linux-kernel-fuzzing/" target="_blank" rel="noopener">地址</a></li>
 </ul>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
 <p>感谢阅读，祝大家 Fuzz 顺利。</p>
