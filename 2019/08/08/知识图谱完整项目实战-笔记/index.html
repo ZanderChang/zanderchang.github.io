@@ -144,7 +144,9 @@
 <meta property="og:image" content="http://zanderchang.github.io/kg-notes/kg_design_flow.png">
 <meta property="og:image" content="http://zanderchang.github.io/kg-notes/django_flow.png">
 <meta property="og:image" content="http://zanderchang.github.io/kg-notes/general_ner_methods.png">
-<meta property="og:updated_time" content="2019-08-13T08:52:13.496Z">
+<meta property="og:image" content="http://zanderchang.github.io/kg-notes/KGE_train_methods.png">
+<meta property="og:image" content="http://zanderchang.github.io/kg-notes/RippleNet-framework.jpg">
+<meta property="og:updated_time" content="2019-08-13T13:21:47.815Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="知识图谱完整项目实战-笔记">
 <meta name="twitter:description" content="网易云课堂地址">
@@ -388,8 +390,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-08-13T16:52:13+08:00">
-                2019-08-13 16:52:13
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-13T21:21:47+08:00">
+                2019-08-13 21:21:47
               </time>
             
           </span>
@@ -456,6 +458,7 @@
 <li>关系查询（关系图）</li>
 </ul>
 <h2 id="项目开发环境安装部署"><a href="#项目开发环境安装部署" class="headerlink" title="项目开发环境安装部署"></a>项目开发环境安装部署</h2><p><img src="/kg-notes/env.png" alt="开发环境"></p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">neo4j-driver</span>==<span class="number">1.7</span>.<span class="number">4</span></span><br><span class="line"><span class="attr">py2neo</span>==<span class="number">4.3</span>.<span class="number">0</span></span><br></pre></td></tr></table></figure>
 <h2 id="项目业务需求分析"><a href="#项目业务需求分析" class="headerlink" title="项目业务需求分析"></a>项目业务需求分析</h2><ul>
 <li>基于搜索引擎的商业数据分析</li>
 </ul>
@@ -518,7 +521,8 @@
 </ul>
 <p><img src="/kg-notes/general_ner_methods.png" alt="通用命名实体识别方法"></p>
 <h3 id="基于词典的方法"><a href="#基于词典的方法" class="headerlink" title="基于词典的方法"></a>基于词典的方法</h3><ul>
-<li>词性标注<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n<span class="regexp">/名词 np/</span>人名 ns<span class="regexp">/地名 ni/</span>机构名 nz/其它专名</span><br><span class="line">m<span class="regexp">/数词 q/</span>量词 mq<span class="regexp">/数量词 t/</span>时间词 f<span class="regexp">/方位词 s/</span>处所词</span><br><span class="line">v<span class="regexp">/动词 a/</span>形容词 d<span class="regexp">/副词 h/</span>前接成分 k<span class="regexp">/后接成分 i/</span>习语 </span><br><span class="line">j<span class="regexp">/简称 r/</span>代词 c<span class="regexp">/连词 p/</span>介词 u<span class="regexp">/助词 y/</span>语气助词</span><br><span class="line">e<span class="regexp">/叹词 o/</span>拟声词 g<span class="regexp">/语素 w/</span>标点 x/其它</span><br></pre></td></tr></table></figure>
+<li>词性标注</li>
+<li><a href="http://thulac.thunlp.org/" target="_blank" rel="noopener">THULAC</a>：一个高效的中文词法分析工具包<figure class="highlight coffeescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">n<span class="regexp">/名词 np/</span>人名 ns<span class="regexp">/地名 ni/</span>机构名 nz/其它专名</span><br><span class="line">m<span class="regexp">/数词 q/</span>量词 mq<span class="regexp">/数量词 t/</span>时间词 f<span class="regexp">/方位词 s/</span>处所词</span><br><span class="line">v<span class="regexp">/动词 a/</span>形容词 d<span class="regexp">/副词 h/</span>前接成分 k<span class="regexp">/后接成分 i/</span>习语 </span><br><span class="line">j<span class="regexp">/简称 r/</span>代词 c<span class="regexp">/连词 p/</span>介词 u<span class="regexp">/助词 y/</span>语气助词</span><br><span class="line">e<span class="regexp">/叹词 o/</span>拟声词 g<span class="regexp">/语素 w/</span>标点 x/其它</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="开源框架CoreNLP"><a href="#开源框架CoreNLP" class="headerlink" title="开源框架CoreNLP"></a>开源框架CoreNLP</h3><ul>
@@ -582,6 +586,7 @@
 <th>算法</th>
 <th>优势</th>
 <th>案例</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -590,22 +595,38 @@
 <td>实体相似</td>
 <td>线索拓展</td>
 <td>同一价位</td>
+<td></td>
 </tr>
 <tr>
 <td>基于实体关系</td>
 <td>实体相关</td>
 <td>线索拓展</td>
 <td>同一品牌</td>
+<td></td>
 </tr>
 <tr>
 <td>基于特征向量</td>
 <td>水波算法</td>
 <td>线索拓展</td>
 <td>RippleNet</td>
+<td>依次训练、联合训练、交替训练</td>
 </tr>
 </tbody>
 </table>
-<h2 id="基于KGE的开源推荐系统框架"><a href="#基于KGE的开源推荐系统框架" class="headerlink" title="基于KGE的开源推荐系统框架"></a>基于KGE的开源推荐系统框架</h2><h2 id="RippleNet开源框架源码剖析"><a href="#RippleNet开源框架源码剖析" class="headerlink" title="RippleNet开源框架源码剖析"></a>RippleNet开源框架源码剖析</h2><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1>
+<p><img src="/kg-notes/KGE_train_methods.png" alt="知识图谱特征学习与推荐系统结合的三种方式"></p>
+<h2 id="基于KGE的开源推荐系统框架"><a href="#基于KGE的开源推荐系统框架" class="headerlink" title="基于KGE的开源推荐系统框架"></a>基于KGE的开源推荐系统框架</h2><p><a href="https://github.com/hwwang55/RippleNet" target="_blank" rel="noopener">RippleNet</a>基于KGE的联合训练推荐框架工作原理和实现机制</p>
+<p><img src="/kg-notes/RippleNet-framework.jpg" alt="RippleNet框架结构"></p>
+<ul>
+<li>绿色条状为输出，最后形成用户向量，并与物品向量计算相似度。</li>
+<li><code>Hop</code> 节点向出度方向跳跃一次，形成<code>Ripple</code>集合。</li>
+<li>对于给定的用户<code>u</code>和物品<code>v</code>，我们将历史相关实体集合<code>V</code>中的所有实体进行相似度计算，并利用计算得到的权重值对<code>V</code>中实体在知识图谱中对应的尾节点进行加权求和。求和得到的结果可以视为<code>v</code>在<code>u</code>的一跳相关实体中的一个响应。该过程可以重复在<code>u</code>的二跳、三跳相关实体中进行，如此<code>v</code>在知识图谱上便以<code>V</code>为中心逐层向外扩散。</li>
+<li><code>RippleNet</code>中没有对用户直接使用向量进行刻画，而是用用户点击过的物品向量集合作为其特征。</li>
+</ul>
+<h2 id="RippleNet开源框架源码剖析"><a href="#RippleNet开源框架源码剖析" class="headerlink" title="RippleNet开源框架源码剖析"></a>RippleNet开源框架源码剖析</h2><p><a href="https://github.com/hwwang55/RippleNet" target="_blank" rel="noopener">RippleNet</a></p>
+<ul>
+<li>tensorflow</li>
+</ul>
+
       
     </div>
     
@@ -816,7 +837,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础理论篇"><span class="nav-number">1.</span> <span class="nav-text">基础理论篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#完整项目案例运行演示"><span class="nav-number">1.1.</span> <span class="nav-text">完整项目案例运行演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目开发环境安装部署"><span class="nav-number">1.2.</span> <span class="nav-text">项目开发环境安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目业务需求分析"><span class="nav-number">1.3.</span> <span class="nav-text">项目业务需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目总体架构设计"><span class="nav-number">1.4.</span> <span class="nav-text">项目总体架构设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型设计篇"><span class="nav-number">2.</span> <span class="nav-text">模型设计篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱模型设计"><span class="nav-number">2.1.</span> <span class="nav-text">知识图谱模型设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱语义类型设计"><span class="nav-number">2.2.</span> <span class="nav-text">知识图谱语义类型设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱语义关系设计"><span class="nav-number">2.3.</span> <span class="nav-text">知识图谱语义关系设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#知识获取篇"><span class="nav-number">3.</span> <span class="nav-text">知识获取篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发环境安装部署"><span class="nav-number">3.1.</span> <span class="nav-text">开发环境安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车品牌数据获取"><span class="nav-number">3.2.</span> <span class="nav-text">汽车品牌数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车车系数据获取"><span class="nav-number">3.3.</span> <span class="nav-text">汽车车系数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车数据批量导入"><span class="nav-number">3.4.</span> <span class="nav-text">汽车数据批量导入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#品牌数据导入"><span class="nav-number">3.4.1.</span> <span class="nav-text">品牌数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#车系数据导入"><span class="nav-number">3.4.2.</span> <span class="nav-text">车系数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系数据导入"><span class="nav-number">3.4.3.</span> <span class="nav-text">关系数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">3.4.4.</span> <span class="nav-text">创建索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车车型数据获取"><span class="nav-number">3.5.</span> <span class="nav-text">汽车车型数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车配置数据获取"><span class="nav-number">3.6.</span> <span class="nav-text">汽车配置数据获取</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序设计篇"><span class="nav-number">4.</span> <span class="nav-text">程序设计篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#web前端框架设计"><span class="nav-number">4.1.</span> <span class="nav-text">web前端框架设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用领域命名实体识别"><span class="nav-number">4.2.</span> <span class="nav-text">通用领域命名实体识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于词典的方法"><span class="nav-number">4.2.1.</span> <span class="nav-text">基于词典的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源框架CoreNLP"><span class="nav-number">4.2.2.</span> <span class="nav-text">开源框架CoreNLP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直领域命名实体识别"><span class="nav-number">4.3.</span> <span class="nav-text">垂直领域命名实体识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体查询程序设计"><span class="nav-number">4.4.</span> <span class="nav-text">实体查询程序设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系查询程序设计"><span class="nav-number">4.5.</span> <span class="nav-text">关系查询程序设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱数据可视化"><span class="nav-number">4.6.</span> <span class="nav-text">知识图谱数据可视化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#知识图谱应用"><span class="nav-number">5.</span> <span class="nav-text">知识图谱应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统基本原理和实现机制"><span class="nav-number">5.1.</span> <span class="nav-text">推荐系统基本原理和实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐系统类型"><span class="nav-number">5.1.1.</span> <span class="nav-text">推荐系统类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱与推荐系统融合的模式"><span class="nav-number">5.2.</span> <span class="nav-text">知识图谱与推荐系统融合的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#融合方式"><span class="nav-number">5.2.1.</span> <span class="nav-text">融合方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于KGE的开源推荐系统框架"><span class="nav-number">5.3.</span> <span class="nav-text">基于KGE的开源推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RippleNet开源框架源码剖析"><span class="nav-number">5.4.</span> <span class="nav-text">RippleNet开源框架源码剖析</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础理论篇"><span class="nav-number">1.</span> <span class="nav-text">基础理论篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#完整项目案例运行演示"><span class="nav-number">1.1.</span> <span class="nav-text">完整项目案例运行演示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目开发环境安装部署"><span class="nav-number">1.2.</span> <span class="nav-text">项目开发环境安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目业务需求分析"><span class="nav-number">1.3.</span> <span class="nav-text">项目业务需求分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目总体架构设计"><span class="nav-number">1.4.</span> <span class="nav-text">项目总体架构设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模型设计篇"><span class="nav-number">2.</span> <span class="nav-text">模型设计篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱模型设计"><span class="nav-number">2.1.</span> <span class="nav-text">知识图谱模型设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱语义类型设计"><span class="nav-number">2.2.</span> <span class="nav-text">知识图谱语义类型设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱语义关系设计"><span class="nav-number">2.3.</span> <span class="nav-text">知识图谱语义关系设计</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#知识获取篇"><span class="nav-number">3.</span> <span class="nav-text">知识获取篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发环境安装部署"><span class="nav-number">3.1.</span> <span class="nav-text">开发环境安装部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车品牌数据获取"><span class="nav-number">3.2.</span> <span class="nav-text">汽车品牌数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车车系数据获取"><span class="nav-number">3.3.</span> <span class="nav-text">汽车车系数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车数据批量导入"><span class="nav-number">3.4.</span> <span class="nav-text">汽车数据批量导入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#品牌数据导入"><span class="nav-number">3.4.1.</span> <span class="nav-text">品牌数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#车系数据导入"><span class="nav-number">3.4.2.</span> <span class="nav-text">车系数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系数据导入"><span class="nav-number">3.4.3.</span> <span class="nav-text">关系数据导入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引"><span class="nav-number">3.4.4.</span> <span class="nav-text">创建索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车车型数据获取"><span class="nav-number">3.5.</span> <span class="nav-text">汽车车型数据获取</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#汽车配置数据获取"><span class="nav-number">3.6.</span> <span class="nav-text">汽车配置数据获取</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#程序设计篇"><span class="nav-number">4.</span> <span class="nav-text">程序设计篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#web前端框架设计"><span class="nav-number">4.1.</span> <span class="nav-text">web前端框架设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用领域命名实体识别"><span class="nav-number">4.2.</span> <span class="nav-text">通用领域命名实体识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于词典的方法"><span class="nav-number">4.2.1.</span> <span class="nav-text">基于词典的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开源框架CoreNLP"><span class="nav-number">4.2.2.</span> <span class="nav-text">开源框架CoreNLP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直领域命名实体识别"><span class="nav-number">4.3.</span> <span class="nav-text">垂直领域命名实体识别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体查询程序设计"><span class="nav-number">4.4.</span> <span class="nav-text">实体查询程序设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系查询程序设计"><span class="nav-number">4.5.</span> <span class="nav-text">关系查询程序设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱数据可视化"><span class="nav-number">4.6.</span> <span class="nav-text">知识图谱数据可视化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#知识图谱应用"><span class="nav-number">5.</span> <span class="nav-text">知识图谱应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐系统基本原理和实现机制"><span class="nav-number">5.1.</span> <span class="nav-text">推荐系统基本原理和实现机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#推荐系统类型"><span class="nav-number">5.1.1.</span> <span class="nav-text">推荐系统类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#知识图谱与推荐系统融合的模式"><span class="nav-number">5.2.</span> <span class="nav-text">知识图谱与推荐系统融合的模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#融合方式"><span class="nav-number">5.2.1.</span> <span class="nav-text">融合方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于KGE的开源推荐系统框架"><span class="nav-number">5.3.</span> <span class="nav-text">基于KGE的开源推荐系统框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RippleNet开源框架源码剖析"><span class="nav-number">5.4.</span> <span class="nav-text">RippleNet开源框架源码剖析</span></a></li></ol></li></ol></div>
             
 
           </div>
