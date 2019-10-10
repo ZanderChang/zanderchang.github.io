@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zanderchang.github.io/"/>
-  <updated>2019-10-07T14:26:21.177Z</updated>
+  <updated>2019-10-10T08:16:37.251Z</updated>
   <id>http://zanderchang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>安全软件相关名称搜集</title>
+    <link href="http://zanderchang.github.io/2019/10/10/%E5%AE%89%E5%85%A8%E8%BD%AF%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%90%8D%E7%A7%B0%E6%90%9C%E9%9B%86/"/>
+    <id>http://zanderchang.github.io/2019/10/10/安全软件相关名称搜集/</id>
+    <published>2019-10-10T08:06:32.000Z</published>
+    <updated>2019-10-10T08:16:37.251Z</updated>
+    
+    <content type="html"><![CDATA[<p>安全软件相关名称搜集，包括进程名等。</p><a id="more"></a><h1 id="进程名"><a href="#进程名" class="headerlink" title="进程名"></a>进程名</h1><table><thead><tr><th>A</th><th>B</th></tr></thead><tbody><tr><td>360tray.exe</td><td>360安全卫士</td></tr><tr><td>360sd.exe</td><td>360杀毒</td></tr><tr><td>a2guard.exe</td><td>a-squared杀毒</td></tr><tr><td>ad-watch.exe</td><td>Lavasoft杀毒</td></tr><tr><td>cleaner8.exe</td><td>The Cleaner杀毒</td></tr><tr><td>vba32lder.exe</td><td>vb32杀毒</td></tr><tr><td>MongoosaGUI.exe</td><td>Mongoosa杀毒</td></tr><tr><td>CorantiControlCenter32.exe</td><td>Coranti2012杀毒</td></tr><tr><td>F-PROT.EXE</td><td>F-PROT杀毒</td></tr><tr><td>CMCTrayIcon.exe</td><td>CMC杀毒</td></tr><tr><td>K7TSecurity.exe</td><td>K7杀毒</td></tr><tr><td>UnThreat.exe</td><td>UnThreat杀毒</td></tr><tr><td>CKSoftShiedAntivirus4.exe</td><td>Shield Antivirus杀毒</td></tr><tr><td>AVWatchService.exe</td><td>VIRUSfighter杀毒</td></tr><tr><td>ArcaTasksService.exe</td><td>ArcaVir杀毒</td></tr><tr><td>iptray.exe</td><td>Immunet杀毒</td></tr><tr><td>PSafeSysTray.exe</td><td>PSafe杀毒</td></tr><tr><td>nspupsvc.exe</td><td>nProtect杀毒</td></tr><tr><td>SpywareTerminatorShield.exe</td><td>SpywareTerminator杀毒</td></tr><tr><td>BKavService.exe</td><td>Bkav杀毒</td></tr><tr><td>MsMpEng.exe</td><td>Microsoft Security Essentials</td></tr><tr><td>SBAMSvc.exe</td><td>VIPRE</td></tr><tr><td>ccSvcHst.exe</td><td>Norton杀毒</td></tr><tr><td>QQ.exe</td><td>QQ</td></tr><tr><td>f-secure.exe</td><td>冰岛</td></tr><tr><td>avp.exe</td><td>卡巴斯基</td></tr><tr><td>KvMonXP.exe</td><td>江民杀毒</td></tr><tr><td>RavMonD.exe</td><td>瑞星杀毒</td></tr><tr><td>Mcshield.exe</td><td>麦咖啡</td></tr><tr><td>egui.exe</td><td>NOD32</td></tr><tr><td>kxetray.exe</td><td>金山毒霸</td></tr><tr><td>knsdtray.exe</td><td>可牛杀毒</td></tr><tr><td>TMBMSRV.exe</td><td>趋势杀毒</td></tr><tr><td>avcenter.exe</td><td>Avira(小红伞)</td></tr><tr><td>ashDisp.exe</td><td>Avast网络安全</td></tr><tr><td>rtvscan.exe</td><td>诺顿杀毒</td></tr><tr><td>ksafe.exe</td><td>金山卫士</td></tr><tr><td>QQPCRTP.exe</td><td>QQ电脑管家</td></tr><tr><td>Miner.exe</td><td>流量矿石</td></tr><tr><td>AYAgent.aye</td><td>韩国胶囊</td></tr><tr><td>patray.exe</td><td>安博士</td></tr><tr><td>V3Svc.exe</td><td>安博士V3</td></tr><tr><td>avgwdsvc.exe</td><td>AVG杀毒</td></tr><tr><td>ccSetMgr.exe</td><td>赛门铁克</td></tr><tr><td>QUHLPSVC.EXE</td><td>QUICK HEAL杀毒</td></tr><tr><td>mssecess.exe</td><td>微软杀毒</td></tr><tr><td>SavProgress.exe</td><td>Sophos杀毒</td></tr><tr><td>fsavgui.exe</td><td>F-Secure杀毒</td></tr><tr><td>vsserv.exe</td><td>比特梵德</td></tr><tr><td>remupd.exe</td><td>熊猫卫士</td></tr><tr><td>FortiTray.exe</td><td>飞塔</td></tr><tr><td>safedog.exe</td><td>安全狗</td></tr><tr><td>parmor.exe</td><td>木马克星</td></tr><tr><td>beikesan.exe</td><td>贝壳云安全</td></tr><tr><td>KSWebShield.exe</td><td>金山网盾</td></tr><tr><td>TrojanHunter.exe</td><td>木马猎手</td></tr><tr><td>GG.exe</td><td>巨盾网游安全盾</td></tr><tr><td>adam.exe</td><td>绿鹰安全精灵</td></tr><tr><td>AST.exe</td><td>超级巡警</td></tr><tr><td>ananwidget.exe</td><td>墨者安全专家</td></tr><tr><td>AVK.exe</td><td>GData</td></tr><tr><td>ccapp.exe</td><td>Symantec Norton</td></tr><tr><td>avg.exe</td><td>AVG Anti-Virus</td></tr><tr><td>spidernt.exe</td><td>Dr.web</td></tr><tr><td>Mcshield.exe</td><td>Mcafee</td></tr><tr><td>avgaurd.exe</td><td>Avira Antivir</td></tr><tr><td>F-PROT.exe</td><td>F-Prot AntiVirus</td></tr><tr><td>vsmon.exe</td><td>ZoneAlarm</td></tr><tr><td>avp.exee</td><td>Kaspersky</td></tr><tr><td>cpf.exe</td><td>Comodo</td></tr><tr><td>outpost.exe</td><td>Outpost Firewall</td></tr><tr><td>rfwmain.exe</td><td>瑞星防火墙</td></tr><tr><td>kpfwtray.exe</td><td>金山网镖</td></tr><tr><td>FYFireWall.exe</td><td>风云防火墙</td></tr><tr><td>MPMon.exe</td><td>微点主动防御</td></tr><tr><td>pfw.exe</td><td>天网防火墙</td></tr><tr><td>S.exe</td><td>在抓鸡</td></tr><tr><td>1433.exe</td><td>在扫1433</td></tr><tr><td>DUB.exe</td><td>在爆破</td></tr><tr><td>ServUDaemon.exe</td><td>发现S-U</td></tr><tr><td>BaiduSdSvc.exe</td><td>百度杀软</td></tr><tr><td>SafeDogGuardCenter.exe,safedogupdatecenter.exe,safedogguardcenter.exe,SafeDogSiteIIS.exe,SafeDogTray.exe,SafeDogServerUI.exe</td><td>安全狗</td></tr><tr><td>D_Safe_Manage.exe,d_manage.exe</td><td>D盾</td></tr><tr><td>yunsuo_agent_service.exe,yunsuo_agent_daemon.exe</td><td>云锁</td></tr><tr><td>HwsPanel.exe,hws_ui.exe,hws.exe,hwsd.exe</td><td>护卫神</td></tr><tr><td>HipsDaemon.exe,HipsTray.exe,wsctrl.exe,usysdiag.exe</td><td>火绒</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;安全软件相关名称搜集，包括进程名等。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="安全开发" scheme="http://zanderchang.github.io/categories/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="信息搜集" scheme="http://zanderchang.github.io/tags/%E4%BF%A1%E6%81%AF%E6%90%9C%E9%9B%86/"/>
+    
+  </entry>
   
   <entry>
     <title>Black Hat USA 2019 Briefings一览</title>
