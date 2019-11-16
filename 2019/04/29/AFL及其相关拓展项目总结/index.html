@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-04T13:35:29.184Z">
+<meta property="og:updated_time" content="2019-11-16T05:53:24.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL 及其相关拓展项目总结">
 <meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-11-04T21:35:29+08:00">
-                2019-11-04 21:35:29
+              <time title="更新于" itemprop="dateModified" datetime="2019-11-16T13:53:24+08:00">
+                2019-11-16 13:53:24
               </time>
             
           </span>
@@ -623,6 +623,7 @@
 <li>对 OP-TEE 的系统调用接口进行模糊测试。<a href="https://github.com/Riscure/optee_fuzzer" target="_blank" rel="noopener">地址</a></li>
 <li>利用 WinAFL 对二进制程序进行模糊测试，利用内存访问热图来精简输入种子大小。<a href="https://sec-consult.com/en/blog/2017/09/hack-the-hacker-fuzzing-mimikatz-on-windows-with-winafl-heatmaps-0day/" target="_blank" rel="noopener">地址</a></li>
 <li><a href="https://github.com/rohanpadhye/FuzzFactory" target="_blank" rel="noopener">FuzzFactory</a> - AFL 扩展, 使用 Waypoints 针对特定领域进行通用的以覆盖率位导向的模糊测试。<a href="https://www.youtube.com/watch?v=34A1jtgfgsU" target="_blank" rel="noopener">YOUTUBE</a> <a href="https://dl.acm.org/citation.cfm?doid=3366395.3360600" target="_blank" rel="noopener">Paper</a></li>
+<li><a href="https://www.petergoodman.me/docs/qpss-2019-slides.pdf" target="_blank" rel="noopener">PowerFL</a> - PowerFL = AFL + QEMU + VxWorks，使用 AFL 和 QEMU 对 PowerPC 和 Intel i386 VxWorks 进行 fuzz。</li>
 </ul>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
 <p>感谢阅读，祝大家 Fuzz 顺利。</p>
