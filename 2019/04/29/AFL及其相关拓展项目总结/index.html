@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-22T12:08:58.896Z">
+<meta property="og:updated_time" content="2019-12-29T11:20:54.624Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL 及其相关拓展项目总结">
 <meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-11-22T20:08:58+08:00">
-                2019-11-22 20:08:58
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-29T19:20:54+08:00">
+                2019-12-29 19:20:54
               </time>
             
           </span>
@@ -553,7 +553,7 @@
 <li><a href="https://github.com/wmliang/pe-afl" target="_blank" rel="noopener">pe-afl</a> — 对在 Windows 操作系统中没有源代码的 PE 文件进行模糊测试的改进。fuzzer 使用 IDA Pro 分析目标程序，并生成用于接下来静态插桩的信息。然后用 AFL 对插桩后的程序进行模糊测试。</li>
 <li><a href="https://github.com/arizvisa/afl-cygwin" target="_blank" rel="noopener">afl-cygwin</a> — 尝试使用 Cygwin 将经典 AFL 移植到Windows。然而它有很多错误且很慢，作者已经放弃了开发</li>
 <li><a href="https://github.com/mboehme/aflfast" target="_blank" rel="noopener">AFLFast</a>（使用 Power Schedule 扩展 AFL） — 最早的 AFL 分支之一。它增加了启发式功能，允许它在短时间内通过更多路径</li>
-<li><a href="https://github.com/carolemieux/afl-rb" target="_blank" rel="noopener">FairFuzz</a> — AFL 的扩展，针对难抵达的分支</li>
+<li><a href="https://github.com/carolemieux/afl-rb" target="_blank" rel="noopener">FairFuzz</a> — AFL 的扩展，针对难抵达的分支（利用Branch Mask）</li>
 <li><a href="https://github.com/aflgo/aflgo" target="_blank" rel="noopener">AFLGo</a> — AFL 的扩展，获取代码的某些部分而不是完整的程序覆盖，可用于测试补丁或新添加的代码片段</li>
 <li><a href="https://github.com/carolemieux/perffuzz" target="_blank" rel="noopener">PerfFuzz</a> — AFL 的扩展，用于查找可能显着减慢程序速度的测试用例</li>
 <li><a href="https://github.com/mboehme/pythia" target="_blank" rel="noopener">Pythia</a> — AFL 的扩展，预测找到新路径的难度</li>
@@ -766,7 +766,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -777,7 +777,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -788,7 +788,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
