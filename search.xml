@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[keras预定义激活函数]]></title>
+    <url>%2F2020%2F01%2F04%2Fkeras%E9%A2%84%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%2F</url>
+    <content type="text"><![CDATA[Available activations Activation function keras常见预定义激活函数公式定义 softmax$(0, 1)$ $$S_i=\frac{e^i}{\sum_je^j}$$ elu$(-1, +\infin)$ $$f(x)=\begin{cases}x &amp; x \geq 0 \\alpha(e^x-1) &amp; x &lt; 0\end{cases}$$ selu$(-\lambda\alpha, +\infin)$ 李宏毅课程：SELU 激活函数 $$f(x)=\lambda\begin{cases}x &amp; x \geq 0 \\alpha(e^x-1) &amp; x &lt; 0\end{cases}$$ $\alpha = 1.6732632423543772848170429916717$ $\lambda = 1.0507009873554804934193349852946$ softplus$(0, +\infin)$ $$f(x)=ln(1+e^x)$$ softsign$(-1, 1)$ $$f(x)=\frac{x}{1+|x|}$$ relu$[0, +\infin]$ $$f(x)=max(0,x)$$ tanh$[-1, 1]$ $$tanhx=\frac{sinhx}{coshx}=\frac{e^x-e^{-x}}{e^x+e^{-x}}$$ sigmoid$(0, 1)$ $$f(x)=\frac{1}{1+e^{-x}}$$ hard_sigmoid$[0 ,1]$ $$f(x)=\begin{cases}0 &amp; x &lt; -2.5 \0.2x+0.5 &amp; -2.5 \leq x \leq 2.5\1 &amp; x &gt; 2.5\end{cases}$$ linearInput tensor, unchanged.]]></content>
+      <categories>
+        <category>机器学习</category>
+      </categories>
+      <tags>
+        <tag>机器学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[模糊测试相关资料收集]]></title>
     <url>%2F2019%2F12%2F29%2F%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E6%94%B6%E9%9B%86%2F</url>
     <content type="text"><![CDATA[搜集一些模糊测试相关的资料，包括最初来源，可以用于论文引用。 Technical “whitepaper” for afl-fuzz AFL技术白皮书 Design statement Coverage measurements branch (edge) coverage provides considerably more insight into the execution path of the program than simple block coverage coarse branch-taken hit counts shared_mem[] 64 kB SHM Every byte : a hit for a particular (branch_src, branch_dst) tuple Detecting new behaviors Evolving the input queue Culling the corpus Trimming input files Fuzzing strategies Dictionaries De-duping crashes Investigating crashes The fork server copy-on-write Parallelization Binary-only instrumentation The afl-analyze tool]]></content>
