@@ -145,7 +145,7 @@
 <meta property="og:image" content="http://zanderchang.github.io/img/heist/4.png">
 <meta property="og:image" content="http://zanderchang.github.io/img/heist/5.png">
 <meta property="og:image" content="http://zanderchang.github.io/img/heist/6.png">
-<meta property="og:updated_time" content="2019-12-02T13:09:17.014Z">
+<meta property="og:updated_time" content="2020-01-13T02:07:49.751Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="hackthebox-Heist">
 <meta name="twitter:description" content="不同用户名可能对应相同的密码">
@@ -389,8 +389,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-02T21:09:17+08:00">
-                2019-12-02 21:09:17
+              <time title="更新于" itemprop="dateModified" datetime="2020-01-13T10:07:49+08:00">
+                2020-01-13 10:07:49
               </time>
             
           </span>
@@ -493,7 +493,7 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./Procdump64.exe -accepteula -ma 6276 firefox-6276.dmp</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>搜索内存得到新密码</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select-string firefox-6276.dmp -pattern <span class="string">"password"</span></span><br><span class="line">// login_username=admin@support.htb&amp;login_password=4dD!5&#125;x/re8]FBuZ&amp;login=</span><br></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select-string firefox-6276.dmp -pattern <span class="string">"password"</span> <span class="comment"># login_username=admin@support.htb&amp;login_password=4dD!5&#125;x/re8]FBuZ&amp;login=</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>使用<code>evil-winrm</code>以<code>Administrator</code>和新密码登录，获得<code>root.txt</code></p>
 </li>
@@ -627,7 +627,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

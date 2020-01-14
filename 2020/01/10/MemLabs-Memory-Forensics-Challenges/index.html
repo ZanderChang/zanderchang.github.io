@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="数学原理,机器学习,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -131,18 +131,21 @@
 
 
 
-<meta name="description" content="AI 算法中的一些数学公式">
-<meta name="keywords" content="数学原理,机器学习">
+<meta name="description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AI 算法中的数学公式">
-<meta property="og:url" content="http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/index.html">
+<meta property="og:title" content="MemLabs Memory Forensics Challenges">
+<meta property="og:url" content="http://zanderchang.github.io/2020/01/10/MemLabs-Memory-Forensics-Challenges/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="AI 算法中的一些数学公式">
+<meta property="og:description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-02T11:52:29.128Z">
+<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/Stage2.png">
+<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/flag2.png">
+<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/flag_.png">
+<meta property="og:updated_time" content="2020-01-14T08:50:11.514Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AI 算法中的数学公式">
-<meta name="twitter:description" content="AI 算法中的一些数学公式">
+<meta name="twitter:title" content="MemLabs Memory Forensics Challenges">
+<meta name="twitter:description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
+<meta name="twitter:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/Stage2.png">
 
 
 
@@ -172,13 +175,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/">
+  <link rel="canonical" href="http://zanderchang.github.io/2020/01/10/MemLabs-Memory-Forensics-Challenges/">
 
 
 
 
 
-  <title>AI 算法中的数学公式 | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>MemLabs Memory Forensics Challenges | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -337,7 +340,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/01/10/MemLabs-Memory-Forensics-Challenges/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Glory">
@@ -354,7 +357,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AI 算法中的数学公式</h1>
+          <h1 class="post-title" itemprop="name headline">MemLabs Memory Forensics Challenges</h1>
         
 
         <div class="post-meta">
@@ -366,8 +369,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-24T20:22:41+08:00">
-                2019-05-24 20:22:41
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-10T21:07:47+08:00">
+                2020-01-10 21:07:47
               </time>
             
 
@@ -382,34 +385,12 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-07-02T19:52:29+08:00">
-                2019-07-02 19:52:29
+              <time title="更新于" itemprop="dateModified" datetime="2020-01-14T16:50:11+08:00">
+                2020-01-14 16:50:11
               </time>
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/机器学习/" itemprop="url" rel="index">
-                    <span itemprop="name">机器学习</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -438,23 +419,32 @@
       
 
       
-        <p>AI 算法中的一些数学公式</p>
-<a id="more"></a>
-<h2 id="DDPG"><a href="#DDPG" class="headerlink" title="DDPG"></a><a href="https://arxiv.org/pdf/1509.02971.pdf" target="_blank" rel="noopener">DDPG</a></h2><p>$$<br>\begin{aligned}<br>\nabla_{\theta^\mu}J&amp;\approx\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{\theta^\mu}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t|\theta^\mu)}] \\<br>&amp;=\mathbb{E}_{s_t\backsim\rho^\beta}[\nabla_{a}Q(s,a|\theta^Q)|_{s=s_t,a=\mu(s_t)}\nabla_{\theta_\mu}\mu(s|\theta^\mu)|_{s=s_t}]<br>\end{aligned}<br>$$</p>
-<h2 id="GEN"><a href="#GEN" class="headerlink" title="GEN"></a>GEN</h2><p>$$g=&lt;V,E,\phi&gt;$$</p>
-<p>$$\forall v\in V,v\rightarrow x_v\rightarrow \mu_v$$</p>
-<p>$$N_v$$</p>
-<p>$$\mu_v=F(x_v,\sum_{j\in N_v}\mu_j)$$</p>
-<p>$$P=\lbrace P_1,P_2,\cdots,P_n\rbrace$$</p>
-<p>$$ReLU(\cdot)=max\lbrace 0,\cdot\rbrace$$</p>
-<p>$$\mu_v^{(t)}=tanh(W_1x_v+\sigma(\sum_{j\in N_v}\mu_j^{(t-1)}))$$</p>
-<p>$$\sigma(x)=P_1ReLU(P_2\cdots ReLU(P_n(x)))$$</p>
-<p>$$\mu_g=W_2\sum_{v\in V}\mu_v^T$$</p>
-<p>$$Z=W_3\mu_g$$</p>
-<p>$$Q=\lbrace p,1-p\rbrace,p\in[0,1]$$</p>
-<p>$$Q=Softmax(Z)$$</p>
-<p>$$\min_{W_1,W_2,W_3,…,P_1,P_2,…,P_n}\sum_{i=1}^m(H(Q,l))$$</p>
-<p>在<a href="https://stackedit.io/editor" target="_blank" rel="noopener">这里</a>将Markdown的公式转换为MathML代码（Word）<a href="https://blog.csdn.net/bendanban/article/details/52823171" target="_blank" rel="noopener">参考</a></p>
+        <p><a href="https://github.com/stuxnet999/MemLabs" target="_blank" rel="noopener">MemLabs</a></p>
+<p><a href="https://github.com/volatilityfoundation/volatility/wiki/Command-Reference" target="_blank" rel="noopener">volatility使用说明</a></p>
+<p>内存取证挑战，<code>Lab1~6</code><br><a id="more"></a></p>
+<h1 id="Lab-1-Beginner’s-Luck"><a href="#Lab-1-Beginner’s-Luck" class="headerlink" title="Lab 1 Beginner’s Luck"></a>Lab 1 Beginner’s Luck</h1><p>Easy<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab1.raw imageinfo <span class="comment"># 检测profile类型</span></span><br><span class="line">volatility -f MemoryDump_Lab1.raw --profile=Win7SP1x64 consoles <span class="comment"># 获取cmd的指令和结果（cmdscan只包括cmd指令）</span></span><br></pre></td></tr></table></figure></p>
+<p>得到cmd的缓存中有<code>St4G3$1</code>的运行结果<code>ZmxhZ3t0aDFzXzFzX3RoM18xc3Rfc3Q0ZzMhIX0</code>解码得到<code>flag{th1s_1s_th3_1st_st4g3!!}</code>。</p>
+<p>内存数据通过<code>DumpIt.exe</code>获取。</p>
+<h1 id="Lab-2-A-New-World"><a href="#Lab-2-A-New-World" class="headerlink" title="Lab 2 A New World"></a>Lab 2 A New World</h1><p>Easy<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab2.raw --profile=Win7SP1x64 envars <span class="comment"># 查看环境变量</span></span><br></pre></td></tr></table></figure></p>
+<p>存在<code>NEW_TMP</code>环境变量，值为<code>C:\Windows\ZmxhZ3t3M2xjMG0zX1QwXyRUNGczXyFfT2ZfTDRCXzJ9</code>，解码得到<code>flag{w3lc0m3_T0_$T4g3_!_Of_L4B_2}</code>。</p>
+<h1 id="Lab-3-The-Evil’s-Den"><a href="#Lab-3-The-Evil’s-Den" class="headerlink" title="Lab 3 The Evil’s Den"></a>Lab 3 The Evil’s Den</h1><p>InCTF 2018 Evil Crypter</p>
+<p>Easy - Medium<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab3.raw imageinfo <span class="comment"># Win7SP1x86</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 iehistory <span class="comment"># ie浏览器历史，在Desktop目录下有可疑文件suspision1.jpeg、evilscript.py.py和vip.txt</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 filescan <span class="comment"># 扫描文件，获取文件对应的Offset</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 dumpfiles -D ./files -Q 0x000000003e727e50 -n <span class="comment"># 提取vip.txt，其余文件同理</span></span><br></pre></td></tr></table></figure></p>
+<p>第一部分根据<code>evilscript.py.py</code>（先<code>xor(3)</code>后<code>base64</code>）和加密结果<code>vip.txt</code>可以逆向得到<code>inctf{0n3_h4lf</code>；根据<a href="https://github.com/stuxnet999/MemLabs/tree/master/Lab%203" target="_blank" rel="noopener">提示</a>使用<code>steghide extract -sf suspision1.jpeg</code>提取<code>suspision1.jpeg</code>中的隐藏信息，密码<code>inctf{0n3_h4lf</code>，得到第二部分<code>_1s_n0t_3n0ugh}</code>，即为<code>inctf{0n3_h4lf_1s_n0t_3n0ugh}</code>。</p>
+<h1 id="Lab-4-Obsession"><a href="#Lab-4-Obsession" class="headerlink" title="Lab 4 Obsession"></a>Lab 4 Obsession</h1><p><a href="https://blog.bi0s.in/2019/09/24/Forensics/InCTFi19-JustDoIt/" target="_blank" rel="noopener">Just Do It - InCTF Internationals 2019</a></p>
+<p>Medium<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab4.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab4.raw --profile=Win7SP1x64 iehistory <span class="comment"># 发现Important.txt但无法dumpfiles</span></span><br><span class="line">volatility -f MemoryDump_Lab4.raw --profile=Win7SP1x64 mftparser &gt; mftparse <span class="comment"># 利用MFT查看Important.txt</span></span><br></pre></td></tr></table></figure></p>
+<p><code>Important.txt</code>已被删除，无法通过<code>dumpfiles</code>获取。使用<code>mftparser</code>检查<code>NTFS</code>的主控文件表<code>MFT</code>的<code>$DATA</code>属性（每个<code>MFT</code>表项为1024字节），参考<a href="https://volatility-labs.blogspot.com/2012/10/omfw-2012-reconstructing-mbr-and-mft.html" target="_blank" rel="noopener">OMFW 2012: Reconstructing the MBR and MFT from Memory</a>。最后在<code>mftparse</code>中得到<code>inctf{1_is_n0t_EQu4l_7o_2_bUt_th1s_d0s3nt_m4ke_s3ns3}</code>。</p>
+<h1 id="Lab-5-Black-Tuesday"><a href="#Lab-5-Black-Tuesday" class="headerlink" title="Lab 5 Black Tuesday"></a>Lab 5 Black Tuesday</h1><p>Medium - Hard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab5.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 iehistory</span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 filescan <span class="comment"># SW1wb3J0YW50.rar</span></span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 dumpfiles -D ./files -Q 0x000000003eed56f0 -n</span><br></pre></td></tr></table></figure></p>
+<p>在<code>iehistory</code>中找到记录<code>C:/Windows/AppPatch/ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfNV9EMG4zXyEhfQ.bmp</code>，<code>base64</code>解密得到<code>flag{!!_w3LL_d0n3_St4g3-1_0f_L4B_5_D0n3_!!}</code>。在<code>filescan</code>中找到记录<code>\Device\HarddiskVolume2\Users\SmartNet\Documents\SW1wb3J0YW50.rar</code>，<code>dumpfiles</code>下来后使用上一<code>flag</code>作为密码解压，得到<code>Stage2.png</code>，得到第二个<code>flag</code>，为<code>flag{W1th_th1s_$taGe_2_1s_c0mPL3T3_!!}</code>。</p>
+<p><img src="../img/memlabs/Stage2.png" alt></p>
+<h1 id="Lab-6-The-Reckoning"><a href="#Lab-6-The-Reckoning" class="headerlink" title="Lab 6 The Reckoning"></a>Lab 6 The Reckoning</h1><p><a href="https://fireshellsecurity.team/inctf2019-notch-it-up/" target="_blank" rel="noopener">InCTF 2019 - Notch It Up</a></p>
+<p>Hard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 iehistory</span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 filescan <span class="comment"># flag.rar History</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 pstree <span class="comment"># WinRAR.exe 3716</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 envars -p 3716 <span class="comment"># RAR password easypeasyvirus</span></span><br></pre></td></tr></table></figure></p>
+<p>查看<code>WinRAR.exe</code>的环境变量发现密码，解密<code>flag.rar</code>得到<code>flag2.png</code>，为<code>aN_Am4zING_!_i_gU3Ss???_}</code>。</p>
+<p><img src="../img/memlabs/flag2.png" alt="Stage2.png"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 dumpfiles -D ./files -Q 0x000000005da5a610 -n <span class="comment"># History.vacb History.dat</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 screenshot -D ./screenshot</span><br></pre></td></tr></table></figure>
+<p>检查<code>Chrome</code>的<code>\User Data\Default\History</code>，获得<code>sqlite3</code>数据库文件<code>History.dat</code>，查找记录<code>sqlite3 History.dat &quot;select url from urls;&quot;</code>发现可疑网址<code>https://pastebin.com/RSGSi1hk</code>。</p>
+<p>里面有一Google文档的<a href="https://www.google.com/url?q=https://docs.google.com/document/d/1lptcksPt1l_w7Y29V4o6vkEnHToAPqiCkgNNZfS9rCk/edit?usp%3Dsharing&amp;sa=D&amp;source=hangouts&amp;ust=1566208765722000&amp;usg=AFQjCNHXd6Ck6F22MNQEsxdZo21JayPKug" target="_blank" rel="noopener">地址</a>，打开后为一大段拉丁语文字，中间有一个MEGA<a href="https://mega.nz/#!SrxQxYTQ" target="_blank" rel="noopener">链接</a>，但是存在密码保护。搜索整个内存<code>cat MemoryDump_Lab6.raw.strings | grep -i mega | grep -i key</code>，发现<code>THE KEY IS zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU</code>即为下载密钥，获得<code>flag_.png</code>，为另一半flag：<code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_</code>。<br>（也可以通过<code>screenshot</code>获取浏览器标题然后再搜索）</p>
+<p><img src="../img/memlabs/flag_.png" alt="flag_.png"></p>
+<p><code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_aN_Am4zINg_!_i_gU3Ss???_}</code></p>
 
       
     </div>
@@ -475,7 +465,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/" title="AI 算法中的数学公式">http://zanderchang.github.io/2019/05/24/AI算法中的数学公式/</a>
+    <a href="http://zanderchang.github.io/2020/01/10/MemLabs-Memory-Forensics-Challenges/" title="MemLabs Memory Forensics Challenges">http://zanderchang.github.io/2020/01/10/MemLabs-Memory-Forensics-Challenges/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -488,14 +478,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/数学原理/" rel="tag"># 数学原理</a>
-          
-            <a href="/tags/机器学习/" rel="tag"># 机器学习</a>
-          
-        </div>
-      
 
       
       
@@ -505,8 +487,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/14/秘密共享及门限签名/" rel="next" title="秘密共享及门限签名">
-                <i class="fa fa-chevron-left"></i> 秘密共享及门限签名
+              <a href="/2020/01/10/SysinternalsSuite工具使用总结/" rel="next" title="SysinternalsSuite工具使用总结">
+                <i class="fa fa-chevron-left"></i> SysinternalsSuite工具使用总结
               </a>
             
           </div>
@@ -514,10 +496,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/08/知识图谱完整项目实战-笔记/" rel="prev" title="知识图谱完整项目实战-笔记">
-                知识图谱完整项目实战-笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -672,7 +650,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#DDPG"><span class="nav-number">1.</span> <span class="nav-text">DDPG</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GEN"><span class="nav-number">2.</span> <span class="nav-text">GEN</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-1-Beginner’s-Luck"><span class="nav-number">1.</span> <span class="nav-text">Lab 1 Beginner’s Luck</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-2-A-New-World"><span class="nav-number">2.</span> <span class="nav-text">Lab 2 A New World</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-3-The-Evil’s-Den"><span class="nav-number">3.</span> <span class="nav-text">Lab 3 The Evil’s Den</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-4-Obsession"><span class="nav-number">4.</span> <span class="nav-text">Lab 4 Obsession</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-5-Black-Tuesday"><span class="nav-number">5.</span> <span class="nav-text">Lab 5 Black Tuesday</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Lab-6-The-Reckoning"><span class="nav-number">6.</span> <span class="nav-text">Lab 6 The Reckoning</span></a></li></ol></div>
             
 
           </div>
@@ -1182,7 +1160,7 @@
         onPopupClose();
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1198,26 +1176,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
