@@ -138,14 +138,14 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/Stage2.png">
-<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/flag2.png">
-<meta property="og:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/flag_.png">
-<meta property="og:updated_time" content="2020-01-14T08:50:11.514Z">
+<meta property="og:image" content="http://zanderchang.github.io/img/memlabs/Stage2.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/memlabs/flag2.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/memlabs/flag_.png">
+<meta property="og:updated_time" content="2020-01-15T00:54:10.677Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MemLabs Memory Forensics Challenges">
 <meta name="twitter:description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
-<meta name="twitter:image" content="http://zanderchang.github.io/2020/01/10/img/memlabs/Stage2.png">
+<meta name="twitter:image" content="http://zanderchang.github.io/img/memlabs/Stage2.png">
 
 
 
@@ -385,8 +385,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-01-14T16:50:11+08:00">
-                2020-01-14 16:50:11
+              <time title="更新于" itemprop="dateModified" datetime="2020-01-15T08:54:10+08:00">
+                2020-01-15 08:54:10
               </time>
             
           </span>
@@ -429,21 +429,22 @@
 <p>存在<code>NEW_TMP</code>环境变量，值为<code>C:\Windows\ZmxhZ3t3M2xjMG0zX1QwXyRUNGczXyFfT2ZfTDRCXzJ9</code>，解码得到<code>flag{w3lc0m3_T0_$T4g3_!_Of_L4B_2}</code>。</p>
 <h1 id="Lab-3-The-Evil’s-Den"><a href="#Lab-3-The-Evil’s-Den" class="headerlink" title="Lab 3 The Evil’s Den"></a>Lab 3 The Evil’s Den</h1><p>InCTF 2018 Evil Crypter</p>
 <p>Easy - Medium<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab3.raw imageinfo <span class="comment"># Win7SP1x86</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 iehistory <span class="comment"># ie浏览器历史，在Desktop目录下有可疑文件suspision1.jpeg、evilscript.py.py和vip.txt</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 filescan <span class="comment"># 扫描文件，获取文件对应的Offset</span></span><br><span class="line">volatility -f MemoryDump_Lab3.raw --profile=Win7SP1x86 dumpfiles -D ./files -Q 0x000000003e727e50 -n <span class="comment"># 提取vip.txt，其余文件同理</span></span><br></pre></td></tr></table></figure></p>
-<p>第一部分根据<code>evilscript.py.py</code>（先<code>xor(3)</code>后<code>base64</code>）和加密结果<code>vip.txt</code>可以逆向得到<code>inctf{0n3_h4lf</code>；根据<a href="https://github.com/stuxnet999/MemLabs/tree/master/Lab%203" target="_blank" rel="noopener">提示</a>使用<code>steghide extract -sf suspision1.jpeg</code>提取<code>suspision1.jpeg</code>中的隐藏信息，密码<code>inctf{0n3_h4lf</code>，得到第二部分<code>_1s_n0t_3n0ugh}</code>，即为<code>inctf{0n3_h4lf_1s_n0t_3n0ugh}</code>。</p>
+<p>第一部分根据<code>evilscript.py.py</code>（先<code>xor(3)</code>后<code>base64</code>）和加密结果<code>vip.txt</code>可以逆向得到<code>inctf{0n3_h4lf</code>；根据<a href="https://github.com/stuxnet999/MemLabs/tree/master/Lab%203" target="_blank" rel="noopener">提示</a>使用<code>steghide extract -sf suspision1.jpeg</code>提取<code>suspision1.jpeg</code>中的隐藏信息，密码为<code>inctf{0n3_h4lf</code>，得到第二部分<code>_1s_n0t_3n0ugh}</code>，即为<code>inctf{0n3_h4lf_1s_n0t_3n0ugh}</code>。</p>
 <h1 id="Lab-4-Obsession"><a href="#Lab-4-Obsession" class="headerlink" title="Lab 4 Obsession"></a>Lab 4 Obsession</h1><p><a href="https://blog.bi0s.in/2019/09/24/Forensics/InCTFi19-JustDoIt/" target="_blank" rel="noopener">Just Do It - InCTF Internationals 2019</a></p>
 <p>Medium<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab4.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab4.raw --profile=Win7SP1x64 iehistory <span class="comment"># 发现Important.txt但无法dumpfiles</span></span><br><span class="line">volatility -f MemoryDump_Lab4.raw --profile=Win7SP1x64 mftparser &gt; mftparse <span class="comment"># 利用MFT查看Important.txt</span></span><br></pre></td></tr></table></figure></p>
 <p><code>Important.txt</code>已被删除，无法通过<code>dumpfiles</code>获取。使用<code>mftparser</code>检查<code>NTFS</code>的主控文件表<code>MFT</code>的<code>$DATA</code>属性（每个<code>MFT</code>表项为1024字节），参考<a href="https://volatility-labs.blogspot.com/2012/10/omfw-2012-reconstructing-mbr-and-mft.html" target="_blank" rel="noopener">OMFW 2012: Reconstructing the MBR and MFT from Memory</a>。最后在<code>mftparse</code>中得到<code>inctf{1_is_n0t_EQu4l_7o_2_bUt_th1s_d0s3nt_m4ke_s3ns3}</code>。</p>
 <h1 id="Lab-5-Black-Tuesday"><a href="#Lab-5-Black-Tuesday" class="headerlink" title="Lab 5 Black Tuesday"></a>Lab 5 Black Tuesday</h1><p>Medium - Hard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab5.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 iehistory</span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 filescan <span class="comment"># SW1wb3J0YW50.rar</span></span><br><span class="line">volatility -f MemoryDump_Lab5.raw --profile=Win7SP1x64 dumpfiles -D ./files -Q 0x000000003eed56f0 -n</span><br></pre></td></tr></table></figure></p>
 <p>在<code>iehistory</code>中找到记录<code>C:/Windows/AppPatch/ZmxhZ3shIV93M0xMX2QwbjNfU3Q0ZzMtMV8wZl9MNEJfNV9EMG4zXyEhfQ.bmp</code>，<code>base64</code>解密得到<code>flag{!!_w3LL_d0n3_St4g3-1_0f_L4B_5_D0n3_!!}</code>。在<code>filescan</code>中找到记录<code>\Device\HarddiskVolume2\Users\SmartNet\Documents\SW1wb3J0YW50.rar</code>，<code>dumpfiles</code>下来后使用上一<code>flag</code>作为密码解压，得到<code>Stage2.png</code>，得到第二个<code>flag</code>，为<code>flag{W1th_th1s_$taGe_2_1s_c0mPL3T3_!!}</code>。</p>
-<p><img src="../img/memlabs/Stage2.png" alt></p>
+<p><img src="/img/memlabs/Stage2.png" alt></p>
 <h1 id="Lab-6-The-Reckoning"><a href="#Lab-6-The-Reckoning" class="headerlink" title="Lab 6 The Reckoning"></a>Lab 6 The Reckoning</h1><p><a href="https://fireshellsecurity.team/inctf2019-notch-it-up/" target="_blank" rel="noopener">InCTF 2019 - Notch It Up</a></p>
 <p>Hard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 iehistory</span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 filescan <span class="comment"># flag.rar History</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 pstree <span class="comment"># WinRAR.exe 3716</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 envars -p 3716 <span class="comment"># RAR password easypeasyvirus</span></span><br></pre></td></tr></table></figure></p>
 <p>查看<code>WinRAR.exe</code>的环境变量发现密码，解密<code>flag.rar</code>得到<code>flag2.png</code>，为<code>aN_Am4zING_!_i_gU3Ss???_}</code>。</p>
-<p><img src="../img/memlabs/flag2.png" alt="Stage2.png"></p>
+<p><img src="/img/memlabs/flag2.png" alt="Stage2.png"></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 dumpfiles -D ./files -Q 0x000000005da5a610 -n <span class="comment"># History.vacb History.dat</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 screenshot -D ./screenshot</span><br></pre></td></tr></table></figure>
 <p>检查<code>Chrome</code>的<code>\User Data\Default\History</code>，获得<code>sqlite3</code>数据库文件<code>History.dat</code>，查找记录<code>sqlite3 History.dat &quot;select url from urls;&quot;</code>发现可疑网址<code>https://pastebin.com/RSGSi1hk</code>。</p>
-<p>里面有一Google文档的<a href="https://www.google.com/url?q=https://docs.google.com/document/d/1lptcksPt1l_w7Y29V4o6vkEnHToAPqiCkgNNZfS9rCk/edit?usp%3Dsharing&amp;sa=D&amp;source=hangouts&amp;ust=1566208765722000&amp;usg=AFQjCNHXd6Ck6F22MNQEsxdZo21JayPKug" target="_blank" rel="noopener">地址</a>，打开后为一大段拉丁语文字，中间有一个MEGA<a href="https://mega.nz/#!SrxQxYTQ" target="_blank" rel="noopener">链接</a>，但是存在密码保护。搜索整个内存<code>cat MemoryDump_Lab6.raw.strings | grep -i mega | grep -i key</code>，发现<code>THE KEY IS zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU</code>即为下载密钥，获得<code>flag_.png</code>，为另一半flag：<code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_</code>。<br>（也可以通过<code>screenshot</code>获取浏览器标题然后再搜索）</p>
-<p><img src="../img/memlabs/flag_.png" alt="flag_.png"></p>
+<p>里面有一Google文档的<a href="https://www.google.com/url?q=https://docs.google.com/document/d/1lptcksPt1l_w7Y29V4o6vkEnHToAPqiCkgNNZfS9rCk/edit?usp%3Dsharing&amp;sa=D&amp;source=hangouts&amp;ust=1566208765722000&amp;usg=AFQjCNHXd6Ck6F22MNQEsxdZo21JayPKug" target="_blank" rel="noopener">地址</a>，打开后为一大段拉丁语文字，中间有一个MEGA<a href="https://mega.nz/#!SrxQxYTQ" target="_blank" rel="noopener">链接</a>，但是存在密码保护。搜索整个内存<code>cat MemoryDump_Lab6.raw.strings | grep -i mega | grep -i key</code>，发现<code>THE KEY IS zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU</code>即为下载密钥，获得<code>flag_.png</code>，为另一半flag：<code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_</code>。</p>
+<p>（也可以通过<code>screenshot</code>获取浏览器标题然后再搜索）</p>
+<p><img src="/img/memlabs/flag_.png" alt="flag_.png"></p>
 <p><code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_aN_Am4zINg_!_i_gU3Ss???_}</code></p>
 
       
