@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zanderchang.github.io/"/>
-  <updated>2020-01-15T00:54:10.677Z</updated>
+  <updated>2020-02-06T09:47:46.827Z</updated>
   <id>http://zanderchang.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>环形链表公式推导（快慢指针）</title>
+    <link href="http://zanderchang.github.io/2020/02/06/%E7%8E%AF%E5%BD%A2%E9%93%BE%E8%A1%A8%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%AF%BC%EF%BC%88%E5%BF%AB%E6%85%A2%E6%8C%87%E9%92%88%EF%BC%89/"/>
+    <id>http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/</id>
+    <published>2020-02-06T04:32:04.000Z</published>
+    <updated>2020-02-06T09:47:46.827Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii" target="_blank" rel="noopener">LeetCode 142</a>的关于快慢指针通用情况的公式推导</p><a id="more"></a><p>假设环存在，设$s$为慢指针，每次走一步；$f$为快指针，每次走2步。设2者在环中距离入口处$b$相遇，且出发点与环入口距离为$a$，环长度为$l$，并记$c=l-b$，则二者相遇时有：<br>$$f=a+b+nl$$<br>$$s=a+b+ml$$<br>其中$n$、$m$为常数，表示快慢指针走过的圈数。由于快指针是慢指针2倍速度，则有：<br>$$f=2s$$<br>带入化解消去$b$得到：<br>$$(n-2m-1)l=a-c$$<br>即：<br>$$l|a-c$$<br>这样意味着慢指针从相遇点出发并经过$n-2m-1$圈后，与同时从起点出发的另一慢指针在环入口处相遇。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://leetcode-cn.com/problems/linked-list-cycle-ii&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;LeetCode 142&lt;/a&gt;的关于快慢指针通用情况的公式推导&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="LeetCode" scheme="http://zanderchang.github.io/categories/LeetCode/"/>
+    
+    
+      <category term="LeetCode" scheme="http://zanderchang.github.io/tags/LeetCode/"/>
+    
+  </entry>
   
   <entry>
     <title>MemLabs Memory Forensics Challenges</title>

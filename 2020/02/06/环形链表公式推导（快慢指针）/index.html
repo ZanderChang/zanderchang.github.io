@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="密码学,数字签名,">
+  <meta name="keywords" content="LeetCode,">
 
 
 
@@ -131,18 +131,18 @@
 
 
 
-<meta name="description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 RSA $\rightarrow$ Shoup 门限签名方案 Asmuth-Bloom 法 Karnin-Greene-Hellman 法 Shamir 门限法（拉格朗日插值法）">
-<meta name="keywords" content="密码学,数字签名">
+<meta name="description" content="LeetCode 142的关于快慢指针通用情况的公式推导">
+<meta name="keywords" content="LeetCode">
 <meta property="og:type" content="article">
-<meta property="og:title" content="秘密共享及门限签名">
-<meta property="og:url" content="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/index.html">
+<meta property="og:title" content="环形链表公式推导（快慢指针）">
+<meta property="og:url" content="http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/index.html">
 <meta property="og:site_name" content="我的博客">
-<meta property="og:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 RSA $\rightarrow$ Shoup 门限签名方案 Asmuth-Bloom 法 Karnin-Greene-Hellman 法 Shamir 门限法（拉格朗日插值法）">
+<meta property="og:description" content="LeetCode 142的关于快慢指针通用情况的公式推导">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-30T12:03:24.070Z">
+<meta property="og:updated_time" content="2020-02-06T09:47:46.827Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="秘密共享及门限签名">
-<meta name="twitter:description" content="Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案 RSA $\rightarrow$ Shoup 门限签名方案 Asmuth-Bloom 法 Karnin-Greene-Hellman 法 Shamir 门限法（拉格朗日插值法）">
+<meta name="twitter:title" content="环形链表公式推导（快慢指针）">
+<meta name="twitter:description" content="LeetCode 142的关于快慢指针通用情况的公式推导">
 
 
 
@@ -172,13 +172,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/">
+  <link rel="canonical" href="http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/">
 
 
 
 
 
-  <title>秘密共享及门限签名 | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>环形链表公式推导（快慢指针） | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -337,7 +337,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Glory">
@@ -354,7 +354,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">秘密共享及门限签名</h1>
+          <h1 class="post-title" itemprop="name headline">环形链表公式推导（快慢指针）</h1>
         
 
         <div class="post-meta">
@@ -366,8 +366,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-14T19:07:13+08:00">
-                2019-05-14 19:07:13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-06T12:32:04+08:00">
+                2020-02-06 12:32:04
               </time>
             
 
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-30T20:03:24+08:00">
-                2019-05-30 20:03:24
+              <time title="更新于" itemprop="dateModified" datetime="2020-02-06T17:47:46+08:00">
+                2020-02-06 17:47:46
               </time>
             
           </span>
@@ -401,8 +401,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/密码学基础/" itemprop="url" rel="index">
-                    <span itemprop="name">密码学基础</span>
+                  <a href="/categories/LeetCode/" itemprop="url" rel="index">
+                    <span itemprop="name">LeetCode</span>
                   </a>
                 </span>
 
@@ -438,103 +438,9 @@
       
 
       
-        <p>Elgamal 签名算法 $\rightarrow$ Harn 的门限签名方案</p>
-<p>RSA $\rightarrow$ Shoup 门限签名方案</p>
-<p>Asmuth-Bloom 法</p>
-<p>Karnin-Greene-Hellman 法</p>
-<p>Shamir 门限法（拉格朗日插值法）</p>
+        <p><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii" target="_blank" rel="noopener">LeetCode 142</a>的关于快慢指针通用情况的公式推导</p>
 <a id="more"></a>
-<h1 id="Elgamal-签名算法"><a href="#Elgamal-签名算法" class="headerlink" title="Elgamal 签名算法"></a>Elgamal 签名算法</h1><p>依赖有限域上的离散指数的难计算性，即设$g$为素数$p$的模循环群的原根，对任意的$a$，计算：</p>
-<p>$$b=g^a\bmod p$$</p>
-<p>是容易的（通过幂取模算法）。反过来，给定$b$计算满足上式的$a$是非常困难的，$a$称为以$g$为基$b$的离散对数。</p>
-<h2 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h2><p>Alice随机选择大素数$p$和$1$到$p$之间的整数$x$，找出有限域$Z_p$的一个生成元$g$，计算：</p>
-<p>$$y=g^x\bmod p$$</p>
-<p>则公钥为$y$，私钥为$x$。</p>
-<h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><p>设待签名消息为$m$，Alice随机选择整数$k$，满足$k&lt;p$，$gcd(k,p-1)=1$。计算：</p>
-<p>$$r=g^k\bmod p$$<br>$$s=(m-xr)k^{-1}\bmod p$$</p>
-<p>将$m$的签名$(r,s)$发送给Bob。</p>
-<h2 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h2><p>Bob收到$(r,s)$，利用Alice的公钥$y$验证等式：</p>
-<p>$$g^m\equiv y^rr^s\bmod p$$</p>
-<p>若等式成立则签名有效。</p>
-<h1 id="Harn-的门限签名方案"><a href="#Harn-的门限签名方案" class="headerlink" title="Harn 的门限签名方案"></a>Harn 的门限签名方案</h1><h2 id="初始化-1"><a href="#初始化-1" class="headerlink" title="初始化"></a>初始化</h2><p>假设有$n$个成员$P_1,P_2,\cdots,P_n$，$t$为门限值，$p$、$q$为大素数，$q|(p-1)$，$g$为有限域$Z_p$上的$q$阶生成元，$h$是$g$的循环群中的一个数，待签名消息为$m$，每个成员随机选择$z_i$和$x_i$，计算：</p>
-<p>$$y_i=g^{z_i}\bmod p$$</p>
-<p>成员$P_i$私钥为$z_i$，组公钥$y$计算如下：</p>
-<p>$$y=\prod_{i=1}^ny_i\bmod p$$</p>
-<p>$P_i(i=1,2,\cdots,n)$选取一个$t-1$次多项式：$f_i(x)=z_i+a_{i,1}x+a_{i,2}x^2+\cdots+a_{i,t-1}x^{t-1}$，计算影子份额$f_i(x_j)\bmod q$发送给$P_j$，并计算验证信息：</p>
-<p>$$y_{i,j}=g^{f_i(x_j)}\bmod p$$</p>
-<h2 id="产生部分签名"><a href="#产生部分签名" class="headerlink" title="产生部分签名"></a>产生部分签名</h2><p>设参与签名的成员$P_1,P_2,\cdots,P_t$。成员$P_i(i=1,2,\cdots,t)$选择一个随机数$k_i\in[1,q-1]$，计算$r_i=g^{k_i}\bmod p$并将其广播给所有成员。</p>
-<p>收到其他成员广播的$r_i$后，$P_i$计算</p>
-<p>$$r=\prod_{i=1}^tr_i\bmod p$$</p>
-<p>通过自己的私钥$z_i$、$k_i$、份额$f_j(x_i)(j=t+1,t+2,\cdots,n)$计算：</p>
-<p>$$s_i=z_i+\lbrace\sum_{j=t+1}^nf_j(x_i)(\prod_{k=1,k\neq i}^t\frac{-x_k}{x_k-x_j})\rbrace m-k_i r\bmod q$$</p>
-<p>将部分签名$(r_i,s_i)$发送给签名合成者。</p>
-<p>合成者收到$\lbrace r_i,s_i\rbrace$后，通过下式验证其有效性：</p>
-<p>$$\lbrace y_i(\prod_{j=t+1}^ny_{j,i})^{\prod_{k=1,k\neq i}^t\frac{-x_k}{x_i-x_k}}\rbrace^m=r_i^r g^{s_j}\bmod p$$</p>
-<p>若验证式成立，则收到的部分签名$\lbrace r_i,s_i\rbrace$有效。</p>
-<h2 id="产生组签名"><a href="#产生组签名" class="headerlink" title="产生组签名"></a>产生组签名</h2><p>合成者确认接收到$t$个正确的部分签名后，计算：</p>
-<p>$$s=\sum_{i=1}^ts_i\bmod q$$</p>
-<p>将$\lbrace r,s\rbrace$作为消息$m$的组签名。</p>
-<h2 id="验证签名"><a href="#验证签名" class="headerlink" title="验证签名"></a>验证签名</h2><p>验证者收到组签名后，验证其有效性：</p>
-<p>$$y^m=r^r g^s \bmod p$$</p>
-<h2 id="每个参与者拥有的数"><a href="#每个参与者拥有的数" class="headerlink" title="每个参与者拥有的数"></a>每个参与者拥有的数</h2><p>$$<br>P_1<br>\begin{cases}<br>z_1\stackrel{}{\longrightarrow} y_1\stackrel{}{\longrightarrow} y \</p>
-<p>f_1(x)\stackrel{x_j}{\longrightarrow} f_1(x_j){\longrightarrow} y_{1,j} \</p>
-<p>f_j(x_1) {\longrightarrow} y_{j,1} \</p>
-<p>k_1\stackrel{}{\longrightarrow} r_1 \stackrel{r_j}{\longrightarrow} r \</p>
-<p>\end{cases}<br>$$</p>
-<h1 id="Shoup-门限签名方案"><a href="#Shoup-门限签名方案" class="headerlink" title="Shoup 门限签名方案"></a>Shoup 门限签名方案</h1><p>RSA 体制中$p,q$为安全大素数，即存在大素数$p’,q’$使得$p=2p’+1$，$q=2q’+1$，记$m=p’q’$。</p>
-<h2 id="初始化-2"><a href="#初始化-2" class="headerlink" title="初始化"></a>初始化</h2><p>可信中心TC随机选取次数不超过$t-1$的多项式</p>
-<p>$$f(x)=\sum_{j=0}^{t-1}a_jx^j\in Z_m[x]$$</p>
-<p>其中$a_0=d$，$a_j\in Z_m(j=1,2,\cdots,n)$。</p>
-<p>TC计算$d_i$，并将其发送给成员$P_i$：</p>
-<p>$$d_i=f(i)\bmod m$$</p>
-<p>同时计算$\pi=n!$。</p>
-<p>TC公开$N$、$e$、$\pi$。</p>
-<h2 id="产生部分签名-1"><a href="#产生部分签名-1" class="headerlink" title="产生部分签名"></a>产生部分签名</h2><p>成员$P_i$计算消息摘要$x=H(M)$，然后计算：</p>
-<p>$$x_i=x^{2\pi d_i}\bmod N$$</p>
-<h2 id="产生组签名-1"><a href="#产生组签名-1" class="headerlink" title="产生组签名"></a>产生组签名</h2><p>若有$t$个成员$P_i(i\in B,|B|=t)$产生正确的部分签名$s_i(i\in B)$，则计算</p>
-<p>$$y=\prod_{i=1}^tx_i^{2\pi \lambda_{0,i}}\bmod N=x^{4\pi^2d}\bmod N$$</p>
-<p>令$e’=4\pi^2$，由欧几里得定理可知存在$a$，$b$使得$gcd(e,e’)=1$，即$ae+be’=1$，最终签名：</p>
-<p>$$s=y^bx^a\bmod N$$</p>
-<h2 id="验证签名-1"><a href="#验证签名-1" class="headerlink" title="验证签名"></a>验证签名</h2><p>验证门限签名$(M,s)$时，验证以下等式是否正确：</p>
-<p>$$s^e=H(M)\bmod N$$</p>
-<h1 id="Asmuth-Bloom-法"><a href="#Asmuth-Bloom-法" class="headerlink" title="Asmuth-Bloom 法"></a>Asmuth-Bloom 法</h1><h2 id="初始化-3"><a href="#初始化-3" class="headerlink" title="初始化"></a>初始化</h2><p>假设$S$为共享秘密，$DCA$为秘密分发者，有$n$个成员$P_1,P_2,\cdots,P_n$，$t$为恢复秘密的门限值。$DC$选择大素数$q$和严格递增的序列$d=\lbrace d_1,d_2,\cdots,d_n\rbrace$，$d$满足如下条件：</p>
-<p>$$d_1&lt;d_2&lt;\cdots&lt;d_n$$</p>
-<p>$$(d_i,d_j)=1,(i\neq j)$$</p>
-<p>$$(d_i,q)=1,(i=1,2,\cdots,n)$$</p>
-<p>$$\prod_{i=1}^td_i&gt;q\prod_{i=1}^{t-1}d_{n-i+1}$$</p>
-<h2 id="秘密分发"><a href="#秘密分发" class="headerlink" title="秘密分发"></a>秘密分发</h2><p>令$M=\prod_{i=1}^td_i$，选择满足式$0\leq A\leq \frac{M}{q}-1$的整数$A$，$DC$计算：</p>
-<p>$$Z=S+Aq$$</p>
-<p>$$Z_i=Z\bmod d_i,i=1,2,\cdots,n$$</p>
-<p>并将$(Z_i,d_i)$作为秘密份额发给成员$P_i,(i=1,2,\cdots,n)$。</p>
-<h2 id="秘密恢复"><a href="#秘密恢复" class="headerlink" title="秘密恢复"></a>秘密恢复</h2><p>选取$t$个成员$\lbrace P_1,P_2,\cdots,P_t\rbrace$参与秘密的恢复，通过交换秘密份额，任意成员$P_i$可以建立同余方程组：</p>
-<p>$$<br>\begin{cases}<br>Z_1=Z\bmod d_1 \\<br>Z_2=Z\bmod d_2 \\<br>\vdots \\<br>Z_t=Z\bmod d_t<br>\end{cases}<br>$$</p>
-<p>由$CRT$可知该方程组有唯一解：</p>
-<p>$$Z=\sum_{i=1}^t\frac{D}{d_i}\cdot e_i\cdot Z_i\bmod D,i=1,2,..,t$$</p>
-<p>其中：</p>
-<p>$$D=\prod_{i=1}^td_i$$</p>
-<p>$$\frac{D}{d_i}\cdot e_i \equiv 1\bmod d_i,i=1,2,\cdots,t$$</p>
-<p>可求出共享秘密$S=Z\bmod q$。</p>
-<h1 id="Karnin-Greene-Hellman-法"><a href="#Karnin-Greene-Hellman-法" class="headerlink" title="Karnin-Greene-Hellman 法"></a>Karnin-Greene-Hellman 法</h1><h2 id="产生主次密钥"><a href="#产生主次密钥" class="headerlink" title="产生主次密钥"></a>产生主次密钥</h2><p>(m,n)</p>
-<ol>
-<li>信任单位产生$n+1$个任意$n\times\frac{n}{m}$维矩阵，矩阵元素为$0$或$1$，分别为$\lbrace A_1,A_2,\cdots,A_n\rbrace$</li>
-<li>信任单位产生$1$个任意$1\times n$维矩阵$U$</li>
-<li>产生n个次密钥$V_i=U\times A_i$<br>，不可暴露，分别保存</li>
-<li>主密钥为$K=U\times A_0$</li>
-<li>公开矩阵$\lbrace A_1,A_2,\cdots,A_n\rbrace$</li>
-</ol>
-<h2 id="密钥恢复"><a href="#密钥恢复" class="headerlink" title="密钥恢复"></a>密钥恢复</h2><ol>
-<li>选取m组次密钥$\lbrace V_1,V_2,\cdots,V_m\rbrace$</li>
-<li>拼接矩阵$A=[A_1|A_2|\cdots|A_m]$</li>
-<li>计算逆矩阵$A^{-1}$</li>
-<li>计算$U=[V_1|V_2|\cdots|V_m]\times A^{-1}$</li>
-<li>计算$K=U\times A_0$</li>
-</ol>
-<h1 id="Shamir-门限法"><a href="#Shamir-门限法" class="headerlink" title="Shamir 门限法"></a>Shamir 门限法</h1><h2 id="秘密分发-1"><a href="#秘密分发-1" class="headerlink" title="秘密分发"></a>秘密分发</h2><p>任取$a_1,a_2,\cdots,a_{t-1}\in GF(q)$构造一个多项式：</p>
-<p>$$f(x)=(d+a_1x+a_2x^2+\cdots+a_{t-1}x^{t-1})modq$$</p>
-<p>其中$d$为密钥，计算$d_i=f(i)(i=1,2,\cdots,n)$，称$d_i$为部分密钥，将$d_i$分别通过安全的信道发送给每个分享者$P_i(=1,2,\cdots,n)$。</p>
-<h2 id="秘密恢复-1"><a href="#秘密恢复-1" class="headerlink" title="秘密恢复"></a>秘密恢复</h2><p>如果有$k$个共享者想恢复秘密信息$d$，他们分别拿出自己的$d_i$，然后利用Lagrange插值公式：</p>
-<p>$$h(x)=\sum_{i=1}^td_i\lambda_{x,i}$$</p>
-<p>其中$\lambda_{x,i}=\prod_{k=1,k\neq j}^t\frac{i-k}{j-k}$，由$d=f(0)=h(0)$得到秘密信息$d$。</p>
+<p>假设环存在，设$s$为慢指针，每次走一步；$f$为快指针，每次走2步。设2者在环中距离入口处$b$相遇，且出发点与环入口距离为$a$，环长度为$l$，并记$c=l-b$，则二者相遇时有：<br>$$f=a+b+nl$$<br>$$s=a+b+ml$$<br>其中$n$、$m$为常数，表示快慢指针走过的圈数。由于快指针是慢指针2倍速度，则有：<br>$$f=2s$$<br>带入化解消去$b$得到：<br>$$(n-2m-1)l=a-c$$<br>即：<br>$$l|a-c$$<br>这样意味着慢指针从相遇点出发并经过$n-2m-1$圈后，与同时从起点出发的另一慢指针在环入口处相遇。</p>
 
       
     </div>
@@ -555,7 +461,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/" title="秘密共享及门限签名">http://zanderchang.github.io/2019/05/14/秘密共享及门限签名/</a>
+    <a href="http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/" title="环形链表公式推导（快慢指针）">http://zanderchang.github.io/2020/02/06/环形链表公式推导（快慢指针）/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -570,9 +476,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/密码学/" rel="tag"># 密码学</a>
-          
-            <a href="/tags/数字签名/" rel="tag"># 数字签名</a>
+            <a href="/tags/LeetCode/" rel="tag"># LeetCode</a>
           
         </div>
       
@@ -585,8 +489,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/06/破解-PS4-第一部分/" rel="next" title="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">
-                <i class="fa fa-chevron-left"></i> 破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介
+              <a href="/2020/01/10/MemLabs-Memory-Forensics-Challenges/" rel="next" title="MemLabs Memory Forensics Challenges">
+                <i class="fa fa-chevron-left"></i> MemLabs Memory Forensics Challenges
               </a>
             
           </div>
@@ -594,10 +498,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/24/AI算法中的数学公式/" rel="prev" title="AI 算法中的数学公式">
-                AI 算法中的数学公式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -649,17 +549,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -742,22 +633,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Elgamal-签名算法"><span class="nav-number">1.</span> <span class="nav-text">Elgamal 签名算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-number">1.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#签名"><span class="nav-number">1.2.</span> <span class="nav-text">签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证"><span class="nav-number">1.3.</span> <span class="nav-text">验证</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Harn-的门限签名方案"><span class="nav-number">2.</span> <span class="nav-text">Harn 的门限签名方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-1"><span class="nav-number">2.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生部分签名"><span class="nav-number">2.2.</span> <span class="nav-text">产生部分签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生组签名"><span class="nav-number">2.3.</span> <span class="nav-text">产生组签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证签名"><span class="nav-number">2.4.</span> <span class="nav-text">验证签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#每个参与者拥有的数"><span class="nav-number">2.5.</span> <span class="nav-text">每个参与者拥有的数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shoup-门限签名方案"><span class="nav-number">3.</span> <span class="nav-text">Shoup 门限签名方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-2"><span class="nav-number">3.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生部分签名-1"><span class="nav-number">3.2.</span> <span class="nav-text">产生部分签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产生组签名-1"><span class="nav-number">3.3.</span> <span class="nav-text">产生组签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证签名-1"><span class="nav-number">3.4.</span> <span class="nav-text">验证签名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Asmuth-Bloom-法"><span class="nav-number">4.</span> <span class="nav-text">Asmuth-Bloom 法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化-3"><span class="nav-number">4.1.</span> <span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密分发"><span class="nav-number">4.2.</span> <span class="nav-text">秘密分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密恢复"><span class="nav-number">4.3.</span> <span class="nav-text">秘密恢复</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Karnin-Greene-Hellman-法"><span class="nav-number">5.</span> <span class="nav-text">Karnin-Greene-Hellman 法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#产生主次密钥"><span class="nav-number">5.1.</span> <span class="nav-text">产生主次密钥</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密钥恢复"><span class="nav-number">5.2.</span> <span class="nav-text">密钥恢复</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Shamir-门限法"><span class="nav-number">6.</span> <span class="nav-text">Shamir 门限法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密分发-1"><span class="nav-number">6.1.</span> <span class="nav-text">秘密分发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秘密恢复-1"><span class="nav-number">6.2.</span> <span class="nav-text">秘密恢复</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
