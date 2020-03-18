@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="包括机器学习和算法2部分 课程地址">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-05T04:11:31.941Z">
+<meta property="og:updated_time" content="2020-03-18T14:06:02.306Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="百面机器学习笔记">
 <meta name="twitter:description" content="包括机器学习和算法2部分 课程地址">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-05T12:11:31+08:00">
-                2020-03-05 12:11:31
+              <time title="更新于" itemprop="dateModified" datetime="2020-03-18T22:06:02+08:00">
+                2020-03-18 22:06:02
               </time>
             
           </span>
@@ -451,9 +451,31 @@
       
         <p>包括机器学习和算法2部分 <a href="https://ai.deepshare.net/detail/p_5e0d9c6c8355e_qVlliKCw/6" target="_blank" rel="noopener">课程地址</a></p>
 <a id="more"></a>
-<h1 id="Week-1"><a href="#Week-1" class="headerlink" title="Week 1"></a>Week 1</h1><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
-<li>逻辑回归</li>
-<li>决策树</li>
+<h1 id="Week-1"><a href="#Week-1" class="headerlink" title="Week 1"></a>Week 1</h1><h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><p>分类算法</p>
+<ul>
+<li>逻辑回归<ul>
+<li>极大似然估计<ul>
+<li>似然：通过样本猜测总体</li>
+</ul>
+</li>
+<li>梯度下降法推导</li>
+<li>逻辑回归推导<ul>
+<li>在线性回归外层套一个sigmoid</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>决策树<ul>
+<li>ID3 信息增益 仅离散属性</li>
+<li>C4.5 信息增益比 = 信息增益/划分前熵 连续值</li>
+<li>CART Gini指数（集合的不确定性） 仅二叉树</li>
+<li>剪枝（防止过拟合）<ul>
+<li>预剪枝</li>
+<li>后剪枝（剪掉叶结点较少的分支）</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h2><ul>
 <li>快速排序<ul>
@@ -501,8 +523,46 @@
 </li>
 </ul>
 <h1 id="Week-2"><a href="#Week-2" class="headerlink" title="Week 2"></a>Week 2</h1><h2 id="机器学习-1"><a href="#机器学习-1" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
-<li>SVM</li>
-<li>降维PCA和LDA</li>
+<li>SVM<ul>
+<li>线性可分</li>
+<li>超平面 最大间隔超平面（最近的样本点到平面的距离）</li>
+<li>支持向量（距离超平面最近的点）</li>
+<li>SVM的最优化问题</li>
+<li>对偶问题<ul>
+<li>构造拉格朗日函数</li>
+<li>$min(max(f)) = max(min(f))$（强对偶关系）</li>
+<li>KKT约束条件（强对偶性的充要条件）</li>
+<li>SMO（序列最小优化）算法求$\lambda^*$</li>
+</ul>
+</li>
+<li>软间隔（允许个别样本点出现在间隔带里）<ul>
+<li>松弛变量$\xi$</li>
+</ul>
+</li>
+<li>核函数（线性不可分）<ul>
+<li>非线性SVM（映射到更高维度）</li>
+<li>$k(x_i,x_j)=\phi(x_i)\phi(x_j)$减少映射的计算量</li>
+<li>常用核函数<ul>
+<li>线性核函数</li>
+<li>多项式核（不平稳，数据已归一化）</li>
+<li>RBF核（高斯核）$\gamma$（最常用）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>降维 PCA和LDA<ul>
+<li>PCA<ul>
+<li>最大化投影的方差</li>
+</ul>
+</li>
+<li>LDA（Linear Discriminant Analysis）有监督<ul>
+<li>最大化类间距离以及最小化类内距离</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 <h2 id="算法-1"><a href="#算法-1" class="headerlink" title="算法"></a>算法</h2><ul>
 <li>KMP算法<ul>
@@ -578,7 +638,11 @@
 </li>
 </ul>
 <h1 id="Week-3"><a href="#Week-3" class="headerlink" title="Week 3"></a>Week 3</h1><h2 id="机器学习-2"><a href="#机器学习-2" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
-<li>K-means</li>
+<li>K-means<ul>
+<li>EM（Expectation Maximum）算法</li>
+<li>收敛性证明</li>
+</ul>
+</li>
 </ul>
 <h2 id="算法-2"><a href="#算法-2" class="headerlink" title="算法"></a>算法</h2><ul>
 <li>虚拟头结点</li>
@@ -615,7 +679,43 @@
 </li>
 </ul>
 <h1 id="Week-4"><a href="#Week-4" class="headerlink" title="Week 4"></a>Week 4</h1><h2 id="机器学习-3"><a href="#机器学习-3" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
-<li>HMM</li>
+<li>HMM<ul>
+<li>概率模型<ul>
+<li>生成模型 联合概率分布</li>
+<li>判别模型 条件概率分布</li>
+</ul>
+</li>
+<li>基本假设<ul>
+<li>齐次马尔可夫假设</li>
+<li>观测独立性检测</li>
+</ul>
+</li>
+<li>基本问题<ul>
+<li>概率计算：计算观测值的概率<ul>
+<li>直接计算</li>
+<li>前向、后向算法（DP）</li>
+</ul>
+</li>
+<li>预测/解码：通过观测序列求状态序列<ul>
+<li>维特比算法（DP）</li>
+</ul>
+</li>
+<li>学习/训练：计算$\lambda$<ul>
+<li>有监督</li>
+<li>无监督：仅观测序列<ul>
+<li>Baum-Welch算法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实例<ul>
+<li><code>from hmmlearn import hmm</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 <li>CRF</li>
 </ul>
 <h2 id="算法-3"><a href="#算法-3" class="headerlink" title="算法"></a>算法</h2><ul>
@@ -751,9 +851,13 @@
 <li><p>[ ] 电话号码的字母组合（17）：<a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/</a></p>
 </li>
 </ul>
-<h1 id="Week-5"><a href="#Week-5" class="headerlink" title="Week 5"></a>Week 5</h1><h2 id="机器学习-4"><a href="#机器学习-4" class="headerlink" title="机器学习"></a>机器学习</h2><h3 id="前向神经网络"><a href="#前向神经网络" class="headerlink" title="前向神经网络"></a>前向神经网络</h3><h3 id="序列数据中常用的循环神经网络"><a href="#序列数据中常用的循环神经网络" class="headerlink" title="序列数据中常用的循环神经网络"></a>序列数据中常用的循环神经网络</h3><ul>
+<h1 id="Week-5"><a href="#Week-5" class="headerlink" title="Week 5"></a>Week 5</h1><h2 id="机器学习-4"><a href="#机器学习-4" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
+<li>前向神经网络</li>
+<li>序列数据中常用的循环神经网络<ul>
 <li>RNN</li>
 <li>GRU和LSTM</li>
+</ul>
+</li>
 </ul>
 <h2 id="算法-4"><a href="#算法-4" class="headerlink" title="算法"></a>算法</h2><ul>
 <li>递归<ul>
@@ -839,7 +943,14 @@
 <li><p>[ ] 分割整数（343）：<a href="https://leetcode-cn.com/problems/integer-break" target="_blank" rel="noopener">https://leetcode-cn.com/problems/integer-break</a></p>
 </li>
 </ul>
-<h1 id="Week-6"><a href="#Week-6" class="headerlink" title="Week 6"></a>Week 6</h1><h2 id="机器学习-5"><a href="#机器学习-5" class="headerlink" title="机器学习"></a>机器学习</h2><h3 id="集成学习"><a href="#集成学习" class="headerlink" title="集成学习"></a>集成学习</h3><h2 id="算法-5"><a href="#算法-5" class="headerlink" title="算法"></a>算法</h2><h3 id="题目-5"><a href="#题目-5" class="headerlink" title="题目"></a>题目</h3>
+<h1 id="Week-6"><a href="#Week-6" class="headerlink" title="Week 6"></a>Week 6</h1><h2 id="机器学习-5"><a href="#机器学习-5" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
+<li>集成学习</li>
+<li>XGBoost</li>
+</ul>
+<h2 id="算法-5"><a href="#算法-5" class="headerlink" title="算法"></a>算法</h2><ul>
+<li>贪心算法</li>
+</ul>
+
       
     </div>
     
@@ -1052,7 +1163,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-1"><span class="nav-number">1.</span> <span class="nav-text">Week 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习"><span class="nav-number">1.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">1.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">1.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-2"><span class="nav-number">2.</span> <span class="nav-text">Week 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-1"><span class="nav-number">2.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-1"><span class="nav-number">2.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-1"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-3"><span class="nav-number">3.</span> <span class="nav-text">Week 3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-2"><span class="nav-number">3.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-2"><span class="nav-number">3.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-2"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-2"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-4"><span class="nav-number">4.</span> <span class="nav-text">Week 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-3"><span class="nav-number">4.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-3"><span class="nav-number">4.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-3"><span class="nav-number">4.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-3"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-3"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-5"><span class="nav-number">5.</span> <span class="nav-text">Week 5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-4"><span class="nav-number">5.1.</span> <span class="nav-text">机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前向神经网络"><span class="nav-number">5.1.1.</span> <span class="nav-text">前向神经网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列数据中常用的循环神经网络"><span class="nav-number">5.1.2.</span> <span class="nav-text">序列数据中常用的循环神经网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-4"><span class="nav-number">5.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-4"><span class="nav-number">5.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-4"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-4"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-6"><span class="nav-number">6.</span> <span class="nav-text">Week 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-5"><span class="nav-number">6.1.</span> <span class="nav-text">机器学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成学习"><span class="nav-number">6.1.1.</span> <span class="nav-text">集成学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-5"><span class="nav-number">6.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-5"><span class="nav-number">6.2.1.</span> <span class="nav-text">题目</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-1"><span class="nav-number">1.</span> <span class="nav-text">Week 1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习"><span class="nav-number">1.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法"><span class="nav-number">1.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目"><span class="nav-number">1.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-2"><span class="nav-number">2.</span> <span class="nav-text">Week 2</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-1"><span class="nav-number">2.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-1"><span class="nav-number">2.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-1"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-1"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-3"><span class="nav-number">3.</span> <span class="nav-text">Week 3</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-2"><span class="nav-number">3.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-2"><span class="nav-number">3.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-2"><span class="nav-number">3.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-2"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-2"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-4"><span class="nav-number">4.</span> <span class="nav-text">Week 4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-3"><span class="nav-number">4.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-3"><span class="nav-number">4.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-3"><span class="nav-number">4.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-3"><span class="nav-number">4.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-3"><span class="nav-number">4.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-5"><span class="nav-number">5.</span> <span class="nav-text">Week 5</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-4"><span class="nav-number">5.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-4"><span class="nav-number">5.2.</span> <span class="nav-text">算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#题目-4"><span class="nav-number">5.2.1.</span> <span class="nav-text">题目</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题重点题型-4"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">算法刷题重点题型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#算法刷题课后作业-4"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">算法刷题课后作业</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Week-6"><span class="nav-number">6.</span> <span class="nav-text">Week 6</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器学习-5"><span class="nav-number">6.1.</span> <span class="nav-text">机器学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法-5"><span class="nav-number">6.2.</span> <span class="nav-text">算法</span></a></li></ol></li></ol></div>
             
 
           </div>
