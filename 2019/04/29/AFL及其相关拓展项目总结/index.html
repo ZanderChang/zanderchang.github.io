@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-28T10:10:18.014Z">
+<meta property="og:updated_time" content="2020-04-02T13:58:21.890Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL 及其相关拓展项目总结">
 <meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-03-28T18:10:18+08:00">
-                2020-03-28 18:10:18
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-02T21:58:21+08:00">
+                2020-04-02 21:58:21
               </time>
             
           </span>
@@ -618,6 +618,7 @@
 </ul>
 <h1 id="AFL-具体应用"><a href="#AFL-具体应用" class="headerlink" title="AFL 具体应用"></a>AFL 具体应用</h1><ul>
 <li><a href="https://github.com/airbus-seclab/gustave" target="_blank" rel="noopener">GUSTAVE</a> - 一个嵌入式操作系统内核的 Fuzzer，基于 QEMU 和 AFL。</li>
+<li><a href="https://github.com/ele7enxxh/android-afl" target="_blank" rel="noopener">android-afl</a> - 在 Android 上使用 AFL。<a href="https://paper.seebug.org/245/" target="_blank" rel="noopener">在Linux上使用AFL对Stagefright进行模糊测试</a></li>
 <li>使用 AFL 对嵌入式系统的 TEE 进行模糊测试。<a href="https://nullcon.net/website/archives/pdf/bangalore-2019/fuzzing-embedded-(trusted" target="_blank" rel="noopener">PDF</a>-operating-systems%20using-AFL.pdf) <a href="https://youtu.be/AZhxZlwZ160" target="_blank" rel="noopener">YOUTUBE</a></li>
 <li><a href="https://github.com/sslab-gatech/janus" target="_blank" rel="noopener">Janus</a> - 基于 AFL 和 Syzkaller 对 linux 的文件系统进行模糊测试， 支持 8 种文件系统 ext4、XFS、btrfs、F2FS、GFS2、HFS+、ReiserFS 和 vFAT；以及 34 个文件操作的系统调用。</li>
 <li>利用 AFL 模糊测试 <a href="https://github.com/fcambus/statzone" target="_blank" rel="noopener">statzone</a>。<a href="https://www.cambus.net/fuzzing-dns-zone-parsers/" target="_blank" rel="noopener">地址</a></li>
@@ -625,15 +626,18 @@
 <li><a href="https://github.com/zyw-200/FirmAFL" target="_blank" rel="noopener">FIRM-AFL</a> - 基于 AFL 实现的用于 IoT 固件灰盒模糊测试的工具。<a href="https://www.cs.ucr.edu/~heng/pubs/FirmAFL.pdf" target="_blank" rel="noopener">PDF</a></li>
 <li>对 OP-TEE 的系统调用接口进行模糊测试。<a href="https://github.com/Riscure/optee_fuzzer" target="_blank" rel="noopener">地址</a></li>
 <li>利用 WinAFL 对二进制程序进行模糊测试，利用内存访问热图来精简输入种子大小。<a href="https://sec-consult.com/en/blog/2017/09/hack-the-hacker-fuzzing-mimikatz-on-windows-with-winafl-heatmaps-0day/" target="_blank" rel="noopener">地址</a></li>
-<li><a href="https://github.com/rohanpadhye/FuzzFactory" target="_blank" rel="noopener">FuzzFactory</a> - AFL 扩展, 使用 Waypoints 针对特定领域进行通用的以覆盖率位导向的模糊测试。<a href="https://www.youtube.com/watch?v=34A1jtgfgsU" target="_blank" rel="noopener">YOUTUBE</a> <a href="https://dl.acm.org/citation.cfm?doid=3366395.3360600" target="_blank" rel="noopener">Paper</a></li>
+<li><a href="https://github.com/rohanpadhye/FuzzFactory" target="_blank" rel="noopener">FuzzFactory</a> - AFL 扩展，使用 Waypoints 针对特定领域进行通用的以覆盖率位导向的模糊测试。<a href="https://www.youtube.com/watch?v=34A1jtgfgsU" target="_blank" rel="noopener">YOUTUBE</a> <a href="https://dl.acm.org/citation.cfm?doid=3366395.3360600" target="_blank" rel="noopener">Paper</a></li>
 <li><a href="https://www.petergoodman.me/docs/qpss-2019-slides.pdf" target="_blank" rel="noopener">PowerFL</a> - PowerFL = AFL + QEMU + VxWorks，使用 AFL 和 QEMU 对 PowerPC 和 Intel i386 VxWorks 进行 fuzz。</li>
 <li><a href="https://github.com/andreafioraldi/frida-js-afl-instr" target="_blank" rel="noopener">frida-js-afl-instr</a> - 使用 <a href="https://github.com/vanhauser-thc/AFLplusplus" target="_blank" rel="noopener">AFL++</a> 和 Frida 进行 Linux 内存中的模糊测试。</li>
 <li><a href="https://github.com/bruce30262/libprotobuf-mutator_fuzzing_learning" target="_blank" rel="noopener">libprotobuf-mutator_fuzzing_learning</a> - 将 AFL++ 和 LibFuzzer 结合使用（通过protobuf）。</li>
 <li><a href="https://github.com/aflnet/aflnet" target="_blank" rel="noopener">AFLNet</a> - 面向网络协议的<strong>状态</strong>灰盒 Fuzzer，以 Server 和 Client 之间正常的协议通信数据（tcpdump 监听端口并用 Wireshark 做进一步处理）作为语料，不需要知道协议具体数据格式和语法。</li>
+<li><a href="https://www.secpulse.com/archives/71903.html" target="_blank" rel="noopener">fuzz实战之afl</a> - 利用 AFL fuzz 网络程序 libmodbus 库，利用 <a href="https://github.com/zardus/preeny" target="_blank" rel="noopener">preeny</a> 把从 socket 获取数据，转变为从 stdin 获取数据。</li>
 </ul>
 <h1 id="其它"><a href="#其它" class="headerlink" title="其它"></a>其它</h1><ul>
 <li><a href="https://paper.seebug.org/496/" target="_blank" rel="noopener">AFL(American Fuzzy Lop)实现细节与文件变异</a></li>
 <li><a href="https://bbs.pediy.com/thread-254705.htm" target="_blank" rel="noopener">AFL afl_fuzz.c 详细分析</a></li>
+<li><a href="https://paper.seebug.org/841/" target="_blank" rel="noopener">AFL 漏洞挖掘技术漫谈（一）：用 AFL 开始你的第一次 Fuzzing</a></li>
+<li><a href="https://paper.seebug.org/842/" target="_blank" rel="noopener">AFL 漏洞挖掘技术漫谈（二）：Fuzz 结果分析和代码覆盖率</a>：各种辅助分析的工具</li>
 </ul>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
 <p>感谢阅读，祝大家 Fuzz 顺利。</p>
