@@ -139,7 +139,7 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-02T13:58:21.890Z">
+<meta property="og:updated_time" content="2020-04-08T12:47:05.651Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AFL 及其相关拓展项目总结">
 <meta name="twitter:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
@@ -382,8 +382,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-02T21:58:21+08:00">
-                2020-04-02 21:58:21
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-08T20:47:05+08:00">
+                2020-04-08 20:47:05
               </time>
             
           </span>
@@ -637,7 +637,11 @@
 <li><a href="https://paper.seebug.org/496/" target="_blank" rel="noopener">AFL(American Fuzzy Lop)实现细节与文件变异</a></li>
 <li><a href="https://bbs.pediy.com/thread-254705.htm" target="_blank" rel="noopener">AFL afl_fuzz.c 详细分析</a></li>
 <li><a href="https://paper.seebug.org/841/" target="_blank" rel="noopener">AFL 漏洞挖掘技术漫谈（一）：用 AFL 开始你的第一次 Fuzzing</a></li>
-<li><a href="https://paper.seebug.org/842/" target="_blank" rel="noopener">AFL 漏洞挖掘技术漫谈（二）：Fuzz 结果分析和代码覆盖率</a>：各种辅助分析的工具</li>
+<li><a href="https://paper.seebug.org/842/" target="_blank" rel="noopener">AFL 漏洞挖掘技术漫谈（二）：Fuzz 结果分析和代码覆盖率</a>：各种辅助分析的工具<ul>
+<li><code>afl-cmin -i input_dir -o output_dir -- /path/to/tested/program [params] @@</code></li>
+</ul>
+</li>
+<li><a href="https://bbs.pediy.com/thread-257399.htm" target="_blank" rel="noopener">AFL学习笔记（上）</a>：持续更新中</li>
 </ul>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
 <p>感谢阅读，祝大家 Fuzz 顺利。</p>
