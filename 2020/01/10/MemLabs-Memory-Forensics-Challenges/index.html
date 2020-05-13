@@ -141,7 +141,7 @@
 <meta property="og:image" content="http://zanderchang.github.io/img/memlabs/Stage2.png">
 <meta property="og:image" content="http://zanderchang.github.io/img/memlabs/flag2.png">
 <meta property="og:image" content="http://zanderchang.github.io/img/memlabs/flag_.png">
-<meta property="og:updated_time" content="2020-01-15T00:54:10.677Z">
+<meta property="og:updated_time" content="2020-05-13T13:00:02.853Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MemLabs Memory Forensics Challenges">
 <meta name="twitter:description" content="MemLabs volatility使用说明 内存取证挑战，Lab1~6">
@@ -385,8 +385,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-01-15T08:54:10+08:00">
-                2020-01-15 08:54:10
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-13T21:00:02+08:00">
+                2020-05-13 21:00:02
               </time>
             
           </span>
@@ -439,7 +439,7 @@
 <h1 id="Lab-6-The-Reckoning"><a href="#Lab-6-The-Reckoning" class="headerlink" title="Lab 6 The Reckoning"></a>Lab 6 The Reckoning</h1><p><a href="https://fireshellsecurity.team/inctf2019-notch-it-up/" target="_blank" rel="noopener">InCTF 2019 - Notch It Up</a></p>
 <p>Hard<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw imageinfo <span class="comment"># Win7SP1x64</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 iehistory</span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 filescan <span class="comment"># flag.rar History</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 pstree <span class="comment"># WinRAR.exe 3716</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 envars -p 3716 <span class="comment"># RAR password easypeasyvirus</span></span><br></pre></td></tr></table></figure></p>
 <p>查看<code>WinRAR.exe</code>的环境变量发现密码，解密<code>flag.rar</code>得到<code>flag2.png</code>，为<code>aN_Am4zING_!_i_gU3Ss???_}</code>。</p>
-<p><img src="/img/memlabs/flag2.png" alt="Stage2.png"></p>
+<p><img src="/img/memlabs/flag2.png" alt="flag2.png"></p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 dumpfiles -D ./files -Q 0x000000005da5a610 -n <span class="comment"># History.vacb History.dat</span></span><br><span class="line">volatility -f MemoryDump_Lab6.raw --profile=Win7SP1x64 screenshot -D ./screenshot</span><br></pre></td></tr></table></figure>
 <p>检查<code>Chrome</code>的<code>\User Data\Default\History</code>，获得<code>sqlite3</code>数据库文件<code>History.dat</code>，查找记录<code>sqlite3 History.dat &quot;select url from urls;&quot;</code>发现可疑网址<code>https://pastebin.com/RSGSi1hk</code>。</p>
 <p>里面有一Google文档的<a href="https://www.google.com/url?q=https://docs.google.com/document/d/1lptcksPt1l_w7Y29V4o6vkEnHToAPqiCkgNNZfS9rCk/edit?usp%3Dsharing&amp;sa=D&amp;source=hangouts&amp;ust=1566208765722000&amp;usg=AFQjCNHXd6Ck6F22MNQEsxdZo21JayPKug" target="_blank" rel="noopener">地址</a>，打开后为一大段拉丁语文字，中间有一个MEGA<a href="https://mega.nz/#!SrxQxYTQ" target="_blank" rel="noopener">链接</a>，但是存在密码保护。搜索整个内存<code>cat MemoryDump_Lab6.raw.strings | grep -i mega | grep -i key</code>，发现<code>THE KEY IS zyWxCjCYYSEMA-hZe552qWVXiPwa5TecODbjnsscMIU</code>即为下载密钥，获得<code>flag_.png</code>，为另一半flag：<code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_</code>。</p>
@@ -577,7 +577,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

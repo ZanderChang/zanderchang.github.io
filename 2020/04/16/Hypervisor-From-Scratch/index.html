@@ -142,7 +142,10 @@
 <meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/08/vmm-life-cycle.png">
 <meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/09/VMXLifecycle.png">
 <meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/09/Init-VMCS.png">
-<meta property="og:updated_time" content="2020-04-16T14:10:33.037Z">
+<meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/08/ept-translation.png">
+<meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/10/EPTP.png">
+<meta property="og:image" content="https://rayanfam.com/wp-content/uploads/sites/2/2018/10/EPT-Layout.png">
+<meta property="og:updated_time" content="2020-05-12T01:27:23.996Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hypervisor From Scratch">
 <meta name="twitter:description" content="Hypervisor From Scratch 系列文章学习笔记 实验代码">
@@ -386,8 +389,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-16T22:10:33+08:00">
-                2020-04-16 22:10:33
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-12T09:27:23+08:00">
+                2020-05-12 09:27:23
               </time>
             
           </span>
@@ -655,7 +658,7 @@
 <table>
 <thead>
 <tr>
-<th>内核函数</th>
+<th>内核函数/宏</th>
 <th></th>
 </tr>
 </thead>
@@ -667,6 +670,10 @@
 <tr>
 <td>KeSetSystemAffinityThread</td>
 <td>将当前线程分配到某个逻辑处理器上</td>
+</tr>
+<tr>
+<td>KeRevertToUserAffinityThread</td>
+<td>恢复线程运行的处理器</td>
 </tr>
 <tr>
 <td>MmGetPhysicalAddress</td>
@@ -702,6 +709,11 @@
 </tr>
 <tr>
 <td>__vmx_off</td>
+<td></td>
+</tr>
+<tr>
+<td>PAGED_CODE</td>
+<td>确保调用线程运行在一个允许分页的足够低IRQL级别</td>
 </tr>
 </tbody>
 </table>
@@ -717,7 +729,184 @@
 </ul>
 </li>
 </ul>
-<h1 id="Address-Translation-Using-Extended-Page-Table-EPT"><a href="#Address-Translation-Using-Extended-Page-Table-EPT" class="headerlink" title="Address Translation Using Extended Page Table (EPT)"></a><a href="https://rayanfam.com/topics/hypervisor-from-scratch-part-4/" target="_blank" rel="noopener">Address Translation Using Extended Page Table (EPT)</a></h1>
+<h1 id="Part-4-使用EPT进行地址转换"><a href="#Part-4-使用EPT进行地址转换" class="headerlink" title="Part 4: 使用EPT进行地址转换"></a><a href="https://rayanfam.com/topics/hypervisor-from-scratch-part-4/" target="_blank" rel="noopener">Part 4: 使用EPT进行地址转换</a></h1><ul>
+<li><a href="https://connormcgarr.github.io/paging/" target="_blank" rel="noopener">Turning the Pages: Introduction to Memory Paging on Windows 10 x64</a><ul>
+<li>Windbg<ul>
+<li><code>!pte</code><ul>
+<li>PXE = PML4E</li>
+<li>PPE = PDPE</li>
+</ul>
+</li>
+<li><code>!vtop</code> 将虚拟地址转换为物理地址</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a href="https://www.triplefault.io/2017/07/introduction-to-ia-32e-hardware-paging.html" target="_blank" rel="noopener">Introduction to IA-32e hardware paging</a></p>
+<ul>
+<li>Intel 64位分页机制</li>
+<li>PG flag: CR0[bit 31]: 开启分页</li>
+<li>Physical Address Extension (PAE): CR4[bit 5]: 未设置则使用32bit分页</li>
+<li>Long Mode Enable (LME): Extended Feature Enable Register (IA32_EFER MSR)[bit 8]: 未设置则使用PAE 36bit分页，否则使用64bit的4层分页机制<ul>
+<li>Page Frame Number (PFN): the next paging structure in the hierarchy (0x1000 4 KB)</li>
+<li>4096bytes 512 entries(PFN)</li>
+<li><code>CR3</code>保存第一个页结构的物理地址</li>
+<li>虚拟地址<ul>
+<li>[bits 63-48] 保留</li>
+<li>[bits 47-39] a PML4 table (located in CR3) offset</li>
+<li>[bits 38-30] a Page Directory Pointer Table (PDPT) offset</li>
+<li>[bits 29-21] a Page Directory (PD) offset</li>
+<li>[bits 20-12] a Page Table (PT) offset</li>
+<li>[bits 11-00] 物理页中的偏移</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>使用Windbg具体分析</li>
+</ul>
+</li>
+<li><p>Second Level Address Translation (SLAT) or nested paging</p>
+<ul>
+<li>an extended layer in the paging mechanism</li>
+<li>hardware-based virtualization virtual addresses -&gt; physical memory</li>
+<li>实现<ul>
+<li>AMD: Rapid Virtualization Indexing (RVI)/Nested Page Tables (NPT)</li>
+<li>Intel: Extended Page Table (EPT)</li>
+<li>ARM: Stage-2 page-tables</li>
+</ul>
+</li>
+<li>两种方法<ul>
+<li>Shadow Page Tables (Software-assisted paging)</li>
+<li>Extended Page Tables (Hardware-assisted paging)<ul>
+<li>Page table maintained by guest OS generate the guest-physical address.</li>
+<li>Page table maintained by VMM map guest physical address to host physical address.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://rayanfam.com/wp-content/uploads/sites/2/2018/08/ept-translation.png" alt="EPT地址转换"></p>
+<p><img src="https://rayanfam.com/wp-content/uploads/sites/2/2018/10/EPTP.png" alt="EPTP结构"></p>
+<p><img src="https://rayanfam.com/wp-content/uploads/sites/2/2018/10/EPT-Layout.png" alt="EPT整体结构"></p>
+<p>MyHypervisorDriver添加了EPT的初始化代码，为64bit的4层地址转换的每个结构表申请内存空间。</p>
+<h1 id="Part-5-建立VMCS并在虚拟机中执行代码"><a href="#Part-5-建立VMCS并在虚拟机中执行代码" class="headerlink" title="Part 5: 建立VMCS并在虚拟机中执行代码"></a><a href="https://rayanfam.com/topics/hypervisor-from-scratch-part-5/" target="_blank" rel="noopener">Part 5: 建立VMCS并在虚拟机中执行代码</a></h1><table>
+<thead>
+<tr>
+<th>内核函数</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>__vmx_vmptrst</td>
+<td></td>
+</tr>
+<tr>
+<td>__vmx_vmclear</td>
+<td></td>
+</tr>
+<tr>
+<td>__vmx_vmptrld</td>
+<td></td>
+</tr>
+<tr>
+<td>__vmx_vmlaunch</td>
+<td></td>
+</tr>
+<tr>
+<td>__vmx_vmread</td>
+<td></td>
+</tr>
+<tr>
+<td>__vmx_vmwrite</td>
+<td>将数据写入VMCS的指定字段</td>
+</tr>
+<tr>
+<td>__vmx_vmresume</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>VMX Controls</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VM-Execution Controls</td>
+<td>Primary Processor-Based VM-Execution Controls<br>Secondary Processor-Based VM-Execution Controls</td>
+<td>设置VMCS</td>
+</tr>
+<tr>
+<td>VM-entry Control Bits</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>VM-exit Control Bits</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>PIN-Based Execution Control</td>
+<td></td>
+<td>governs the handling of asynchronous events</td>
+</tr>
+<tr>
+<td>Activity State</td>
+<td>0:Active 1:HLT 2:Shutdown 3:Wait-for-SIPI</td>
+<td></td>
+</tr>
+<tr>
+<td>Interruptibility State</td>
+<td>permit certain events to be blocked for a period of time</td>
+</tr>
+</tbody>
+</table>
+<p>MyHypervisorDriver通过<code>__vmx_vmwrite</code>设置<code>VMCS</code>的各项内容（非常复杂），并调用<code>LaunchVM</code>在第0号虚拟处理器上设置<code>VMCS</code>（设置<code>CPU_BASED_HLT_EXITING</code>即在<code>HLT</code>时调用<code>VM-Exit</code>，设置<code>HOST_RIP</code>指向<code>VMExitHandler</code>在处理<code>EXIT_REASON_HLT</code>中调用<code>VMXOFF</code>），最后调用<code>__vmx_vmlaunch</code>执行<code>HLT(\xF4)</code>，触发<code>VM-Exit</code>。</p>
+<h1 id="Part-6-虚拟化正在运行的系统"><a href="#Part-6-虚拟化正在运行的系统" class="headerlink" title="Part 6: 虚拟化正在运行的系统"></a><a href="https://rayanfam.com/topics/hypervisor-from-scratch-part-6/" target="_blank" rel="noopener">Part 6: 虚拟化正在运行的系统</a></h1><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU_BASED_VM_EXEC_CONTROL</td>
+<td>CPU_BASED_ACTIVATE_MSR_BITMAP</td>
+</tr>
+<tr>
+<td>SECONDARY_VM_EXEC_CONTROL</td>
+<td>CPU_BASED_CTL2_RDTSCP<br>CPU_BASED_CTL2_ENABLE_INVPCID<br>CPU_BASED_CTL2_ENABLE_XSAVE_XRSTORS</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://blogs.msdn.microsoft.com/doronh/2010/02/02/what-is-irql/" target="_blank" rel="noopener">IRQL</a>(Interrupt Request Level): a Windows-specific mechanism to manage interrupts or giving priority by their level so raising IRQL means your routine will execute with higher priority than normal Windows codes (PASSIVE LEVEL &amp; APC LEVEL).<br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">KIRQL OldIrql = KeRaiseIrqlToDpcLevel(); <span class="comment">// raises the IRQL to Dispatch Level so the Windows Scheduler can’t kick in to change the context</span></span><br><span class="line">KeLowerIrql(OldIrql);</span><br></pre></td></tr></table></figure></p>
+<p>CPUID is one the main instructions that cause the VM-Exit.</p>
+<table>
+<thead>
+<tr>
+<th>内核函数</th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>_cpuidex</td>
+<td>CPUID</td>
+<td>HYPERV_HYPERVISOR_PRESENT_BIT</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://rayanfam.com/topics/defeating-malware-anti-vm-techniques-cpuid-based-instructions/" target="_blank" rel="noopener">Defeating malware’s Anti-VM techniques (CPUID-Based Instructions)</a></p>
+
       
     </div>
     
@@ -774,6 +963,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/12/强化学习纲要笔记/" rel="prev" title="强化学习纲要笔记">
+                强化学习纲要笔记 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -850,7 +1043,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -928,7 +1121,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-1-基本概念和环境搭建"><span class="nav-number">1.</span> <span class="nav-text">Part 1: 基本概念和环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-2-开启VMX"><span class="nav-number">2.</span> <span class="nav-text">Part 2: 开启VMX</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-3-建立第一个虚拟机"><span class="nav-number">3.</span> <span class="nav-text">Part 3: 建立第一个虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Address-Translation-Using-Extended-Page-Table-EPT"><span class="nav-number">4.</span> <span class="nav-text">Address Translation Using Extended Page Table (EPT)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-1-基本概念和环境搭建"><span class="nav-number">1.</span> <span class="nav-text">Part 1: 基本概念和环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-2-开启VMX"><span class="nav-number">2.</span> <span class="nav-text">Part 2: 开启VMX</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-3-建立第一个虚拟机"><span class="nav-number">3.</span> <span class="nav-text">Part 3: 建立第一个虚拟机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-4-使用EPT进行地址转换"><span class="nav-number">4.</span> <span class="nav-text">Part 4: 使用EPT进行地址转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-5-建立VMCS并在虚拟机中执行代码"><span class="nav-number">5.</span> <span class="nav-text">Part 5: 建立VMCS并在虚拟机中执行代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Part-6-虚拟化正在运行的系统"><span class="nav-number">6.</span> <span class="nav-text">Part 6: 虚拟化正在运行的系统</span></a></li></ol></div>
             
 
           </div>
