@@ -139,10 +139,12 @@
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-13T02:26:03.514Z">
+<meta property="og:image" content="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b">
+<meta property="og:updated_time" content="2020-05-16T13:33:48.272Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习纲要笔记">
 <meta name="twitter:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
+<meta name="twitter:image" content="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b">
 
 
 
@@ -382,8 +384,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-13T10:26:03+08:00">
-                2020-05-13 10:26:03
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-16T21:33:48+08:00">
+                2020-05-16 21:33:48
               </time>
             
           </span>
@@ -557,7 +559,216 @@
 </ul>
 </li>
 </ul>
-<h1 id="价值函数的近似"><a href="#价值函数的近似" class="headerlink" title="价值函数的近似"></a>价值函数的近似</h1><h1 id="策略优化基础"><a href="#策略优化基础" class="headerlink" title="策略优化基础"></a>策略优化基础</h1><h1 id="策略优化进阶"><a href="#策略优化进阶" class="headerlink" title="策略优化进阶"></a>策略优化进阶</h1><h1 id="基于环境模型的RL方法"><a href="#基于环境模型的RL方法" class="headerlink" title="基于环境模型的RL方法"></a>基于环境模型的RL方法</h1><h1 id="模仿学习"><a href="#模仿学习" class="headerlink" title="模仿学习"></a>模仿学习</h1>
+<h1 id="价值函数的近似-VFA"><a href="#价值函数的近似-VFA" class="headerlink" title="价值函数的近似 VFA"></a>价值函数的近似 VFA</h1><ul>
+<li>函数近似（大规模问题）<ul>
+<li>线性叠加<strong>特征</strong><ul>
+<li>梯度下降</li>
+</ul>
+</li>
+<li>非线性<ul>
+<li>DNN</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>prediction<ul>
+<li>Oracle -&gt; $G_t$ / $TD_{target}$</li>
+<li>MC<ul>
+<li>unbiased but noisy</li>
+</ul>
+</li>
+<li>TD<ul>
+<li>biased</li>
+<li>semi-gradient</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>control<ul>
+<li>semi-gradient Sarsa for VFA Control</li>
+</ul>
+</li>
+<li>RL死亡三角 FA + bootstrap + off-policy</li>
+<li><p>Batch</p>
+</li>
+<li><p>DQN</p>
+<ul>
+<li>Experience Replay</li>
+<li>Fixed Target $w^-$<ul>
+<li>增加稳定性</li>
+<li>target延时更新</li>
+<li>猫（estimate）抓老鼠（target）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://deepmind.com/blog/article/Agent57-Outperforming-the-human-Atari-benchmark" target="_blank" rel="noopener">Agent57</a></p>
+<p><img src="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b" alt="DQN类方法的演进"></p>
+<h1 id="策略优化基础（难）"><a href="#策略优化基础（难）" class="headerlink" title="策略优化基础（难）"></a>策略优化基础（难）</h1><ul>
+<li>Policy-based RL<ul>
+<li>$\tau$为采样</li>
+<li>$\pi_\theta(s,a)$</li>
+<li>no value function</li>
+<li>优势<ul>
+<li>收敛性更好</li>
+<li>高维动作空间上更有效</li>
+<li>可以学习随机策略（输出为概率）<ul>
+<li>Rock-Paper-Scissors</li>
+<li>Aliased Gridworld</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>劣势<ul>
+<li>局部最优解</li>
+<li>高方差、测试结果不稳定</li>
+<li>sample效率低（on-policy）</li>
+</ul>
+</li>
+<li>极大化$J(\theta)$<ul>
+<li>可微分<ul>
+<li>梯度上升</li>
+<li>共轭梯度</li>
+<li>quasi-newton</li>
+</ul>
+</li>
+<li>不可微分 black-box Derivative-free<ul>
+<li>CEM</li>
+<li>Hill climbing</li>
+<li>Evolution alg</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Policy Example<ul>
+<li>Softmax</li>
+<li>Gaussian</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>MC Policy Gradient</p>
+<ul>
+<li>Score Function</li>
+<li>公式推导</li>
+</ul>
+</li>
+<li><p>减小PG方差</p>
+<ul>
+<li>Use temporal causality 时序因果关系<ul>
+<li>REINFORCE (1992)</li>
+</ul>
+</li>
+<li>Use a baseline $G_t-b_w(s_t)$<ul>
+<li>Vanilla PG (1999)</li>
+</ul>
+</li>
+<li>Use a Critic $G_t\rightarrow Q_w(s,a)$<ul>
+<li>AC PG<ul>
+<li>Advantage function (baseline $V$)<ul>
+<li>$A^\pi(s,a) = Q^\pi(s,a) - V^\pi(s)$</li>
+</ul>
+</li>
+<li>MC采样解决不可微分的问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>SOTA RL</p>
+<ul>
+<li>PG -&gt; TRPO(2015) -&gt; ACKTR(2017) -&gt; PPO(2017)</li>
+<li>Q-learning -&gt; DDPG(2014) -&gt; TD3(2018) -&gt; SAC(2018)</li>
+</ul>
+</li>
+</ul>
+<h1 id="策略优化进阶"><a href="#策略优化进阶" class="headerlink" title="策略优化进阶"></a>策略优化进阶</h1><ul>
+<li>PG<ul>
+<li>改进思路<ul>
+<li>训练更稳定<ul>
+<li>Trust Region<ul>
+<li>KL限制$\pi_\theta$和$\pi_{\theta_{old}}$差异</li>
+<li>限定区域（球体）并逐渐缩小</li>
+</ul>
+</li>
+<li>Natural PG<ul>
+<li>参数空间$\rightarrow$分布空间（policy输出）</li>
+<li>KL散度（策略更新前后差异较小）</li>
+<li>Fisher information matrix (FIM)</li>
+<li>二阶优化（比SGD更准确）</li>
+<li>策略优化和策略函数的参数化形式独立</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>提高sample效率 on-policy$\rightarrow$off-policy <ul>
+<li>TRPO中的重要性采样IS<ul>
+<li>$\pi_\theta/\pi_{\theta_{old}}$</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>TRPO (Trust Region Policy Optimization)<ul>
+<li>MM alg (EM)</li>
+<li>存在问题<ul>
+<li>计算量大</li>
+<li>需要样本多</li>
+<li>Conjugate Gradient (CG)本身较为复杂</li>
+<li>部分表现差于DQN</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ACKTR<ul>
+<li>提高TRPO的计算效率<ul>
+<li>K-FAC加速FIM求逆</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>PPO<ul>
+<li>TRPO的简化（将约束作为惩罚）应用广泛</li>
+<li>一阶优化（SGD）</li>
+<li>with clipping（简单易实现）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Q-learning<ul>
+<li>DDPG<ul>
+<li>将DQN扩展到连续动作空间</li>
+</ul>
+</li>
+<li>Twin Delayed DDPG (TD3)<ul>
+<li>DDPG有时会过大估计Q值</li>
+<li>改进<ul>
+<li>Clipped Double-Q Learning<ul>
+<li>2个Q函数取较小值</li>
+</ul>
+</li>
+<li>Delayed Policy Update</li>
+<li>Target Policy Smoothing<ul>
+<li>noise + clip</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>官方代码非常值得学习</li>
+</ul>
+</li>
+<li>Soft Actor-Critic (SAC)<ul>
+<li><strong>Entropy</strong>-regularized RL</li>
+<li>Reparameterization Trick</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="基于环境模型的RL方法"><a href="#基于环境模型的RL方法" class="headerlink" title="基于环境模型的RL方法"></a>基于环境模型的RL方法</h1><h1 id="模仿学习"><a href="#模仿学习" class="headerlink" title="模仿学习"></a>模仿学习</h1>
       
     </div>
     
@@ -768,7 +979,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习"><span class="nav-number">8.</span> <span class="nav-text">模仿学习</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习"><span class="nav-number">8.</span> <span class="nav-text">模仿学习</span></a></li></ol></div>
             
 
           </div>
