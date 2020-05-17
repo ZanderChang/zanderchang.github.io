@@ -123,6 +123,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
 
@@ -140,7 +142,7 @@
 <meta property="og:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b">
-<meta property="og:updated_time" content="2020-05-16T13:33:48.272Z">
+<meta property="og:updated_time" content="2020-05-17T04:14:12.627Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习纲要笔记">
 <meta name="twitter:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
@@ -384,8 +386,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-16T21:33:48+08:00">
-                2020-05-16 21:33:48
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-17T12:14:12+08:00">
+                2020-05-17 12:14:12
               </time>
             
           </span>
@@ -768,7 +770,87 @@
 </ul>
 </li>
 </ul>
-<h1 id="基于环境模型的RL方法"><a href="#基于环境模型的RL方法" class="headerlink" title="基于环境模型的RL方法"></a>基于环境模型的RL方法</h1><h1 id="模仿学习"><a href="#模仿学习" class="headerlink" title="模仿学习"></a>模仿学习</h1>
+<h1 id="基于环境模型的RL方法"><a href="#基于环境模型的RL方法" class="headerlink" title="基于环境模型的RL方法"></a>基于环境模型的RL方法</h1><ul>
+<li>简介<ul>
+<li>学习环境模型</li>
+<li>Plan</li>
+<li>sample效率高（现实应用中非常重要）</li>
+<li>难以收敛、2个误差</li>
+</ul>
+</li>
+<li>Model-based value optimization<ul>
+<li>model -&gt; simulated trajectoried -&gt; values -&gt; policy</li>
+<li>Model<ul>
+<li>Table Lookup 计数</li>
+</ul>
+</li>
+<li>Dyna(1991)<ul>
+<li>用少量真实轨迹估计模型</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Model-based policy optimization<ul>
+<li>model -&gt; policy</li>
+<li>Optimal Control<ul>
+<li>LQR/iLQR</li>
+</ul>
+</li>
+<li>MPC</li>
+</ul>
+</li>
+<li>案例 Robotic Object Manipulation<ul>
+<li>PILCO(2011)</li>
+<li>(2015)</li>
+</ul>
+</li>
+</ul>
+<h1 id="模仿学习IL"><a href="#模仿学习IL" class="headerlink" title="模仿学习IL"></a>模仿学习IL</h1><ul>
+<li>简介<ul>
+<li>policy network的监督学习</li>
+</ul>
+</li>
+<li>Behavioral cloning (BC)<ul>
+<li>off-course situation中表现差</li>
+</ul>
+</li>
+<li>DAgger: Dataset Aggregation<ul>
+<li>使数据分布尽可能一致</li>
+<li>人工标记 -&gt; 其它算法来标记</li>
+</ul>
+</li>
+<li>Inverse RL (IRL)<ul>
+<li>$R_\theta(s,a)$</li>
+<li>Guided Cost Learning (2016)</li>
+</ul>
+</li>
+<li>GAIL: Generative Adversarial IL (2016)<ul>
+<li>类比GAN的思想生成轨迹</li>
+</ul>
+</li>
+<li>进一步改进<ul>
+<li>Multimodal/Non-Markovian behavior</li>
+<li>多峰高斯输出</li>
+</ul>
+</li>
+<li>结合IL和RL<ul>
+<li>Pretrain &amp; Finetune</li>
+<li>Off-policy</li>
+<li>IL as an auxiliary loss function</li>
+</ul>
+</li>
+<li>案例<ul>
+<li>BC 自动驾驶、无人机</li>
+<li>IL LSTM (2018)</li>
+<li>Motion Imitation (2018)<ul>
+<li>PPO</li>
+<li>去掉MoCap数据</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
       
     </div>
     
@@ -979,7 +1061,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习"><span class="nav-number">8.</span> <span class="nav-text">模仿学习</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习IL"><span class="nav-number">8.</span> <span class="nav-text">模仿学习IL</span></a></li></ol></div>
             
 
           </div>
