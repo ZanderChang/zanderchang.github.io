@@ -123,8 +123,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
 
@@ -142,7 +140,7 @@
 <meta property="og:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b">
-<meta property="og:updated_time" content="2020-05-17T04:14:12.627Z">
+<meta property="og:updated_time" content="2020-05-18T01:56:26.126Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习纲要笔记">
 <meta name="twitter:description" content="周博磊老师的强化学习纲要课程 课程地址 课程资料">
@@ -386,8 +384,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-17T12:14:12+08:00">
-                2020-05-17 12:14:12
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-18T09:56:26+08:00">
+                2020-05-18 09:56:26
               </time>
             
           </span>
@@ -850,6 +848,64 @@
 </ul>
 </li>
 </ul>
+<h1 id="RL分布式系统"><a href="#RL分布式系统" class="headerlink" title="RL分布式系统"></a>RL分布式系统</h1><ul>
+<li>分布式ML<ul>
+<li>分布式操作系统 MIT EECS 6.824</li>
+<li>Consistency, Fault tolerance, Communication</li>
+<li>Model/Data parallelism</li>
+<li>Sync/Async Update</li>
+<li>Hogwild(2011)<ul>
+<li>Lock-free async SGD</li>
+</ul>
+</li>
+<li>Jeff Dean<ul>
+<li>MapReduce(2004)</li>
+<li>DisBelief(2012)</li>
+</ul>
+</li>
+<li>AlexNet(2012)</li>
+</ul>
+</li>
+<li>分布式RL<ul>
+<li>DQN(2013)</li>
+<li>GORILA(2015)</li>
+<li>A3C(2016)<ul>
+<li>async</li>
+<li>CPU多线程actor</li>
+</ul>
+</li>
+<li>A2C(2017)<ul>
+<li>sync</li>
+<li>GPU</li>
+</ul>
+</li>
+<li>Ape-X(2018)<ul>
+<li>Distributed DQN/DDPG</li>
+</ul>
+</li>
+<li>IMPALA(2018)<ul>
+<li>actor只产生experience而不是gradient</li>
+<li>IS</li>
+</ul>
+</li>
+<li>RLLib(2018)<ul>
+<li>将不同算法模块化 reuse</li>
+</ul>
+</li>
+<li>Evolution Strategies(2017)</li>
+</ul>
+</li>
+<li>案例<ul>
+<li>AlphaGo</li>
+<li>OpenAI Five</li>
+<li>AlphaStar<ul>
+<li>PPO</li>
+<li>Rapid训练框架</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -1061,7 +1117,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习IL"><span class="nav-number">8.</span> <span class="nav-text">模仿学习IL</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP/MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习IL"><span class="nav-number">8.</span> <span class="nav-text">模仿学习IL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RL分布式系统"><span class="nav-number">9.</span> <span class="nav-text">RL分布式系统</span></a></li></ol></div>
             
 
           </div>
