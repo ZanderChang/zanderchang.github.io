@@ -4,6 +4,9 @@
     <title><![CDATA[Gym.spaces总结]]></title>
     <url>%2F2020%2F06%2F03%2FGym-spaces%E6%80%BB%E7%BB%93%2F</url>
     <content type="text"><![CDATA[源码 Box Dict Discrete MultiBinary MultiDiscrete Tuple 连续空间 Space字典 离散空间${ 0, 1, \dots, n-1 }$ 多维01空间 多维离散空间（游戏控制器） Space元组 示例 Box(low=-1.0, high=2.0, shape=(3, 4), dtype=np.float32) Discrete(2) MultiBinary(5) MultiDiscrete([ 5, 2, 2 ]) Tuple((spaces.Discrete(2), spaces.Discrete(3))) sample [0,1,0,1,0] (0, 2) 123456789101112131415161718192021# spaces.Dictself.nested_observation_space = spaces.Dict(&#123; 'sensors': spaces.Dict(&#123; 'position': spaces.Box(low=-100, high=100, shape=(3,)), 'velocity': spaces.Box(low=-1, high=1, shape=(3,)), 'front_cam': spaces.Tuple(( spaces.Box(low=0, high=1, shape=(10, 10, 3)), spaces.Box(low=0, high=1, shape=(10, 10, 3)) )), 'rear_cam': spaces.Box(low=0, high=1, shape=(10, 10, 3)), &#125;), 'ext_controller': spaces.MultiDiscrete((5, 2, 2)), 'inner_state':spaces.Dict(&#123; 'charge': spaces.Discrete(100), 'system_checks': spaces.MultiBinary(10), 'job_status': spaces.Dict(&#123; 'task': spaces.Discrete(5), 'progress': spaces.Box(low=0, high=100, shape=()), &#125;) &#125;)&#125;)]]></content>
+      <tags>
+        <tag>gym</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[强化学习纲要笔记]]></title>
