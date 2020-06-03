@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zanderchang.github.io/"/>
-  <updated>2020-05-18T01:56:26.126Z</updated>
+  <updated>2020-06-03T04:18:22.065Z</updated>
   <id>http://zanderchang.github.io/</id>
   
   <author>
@@ -15,6 +15,24 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Gym.spaces总结</title>
+    <link href="http://zanderchang.github.io/2020/06/03/Gym-spaces%E6%80%BB%E7%BB%93/"/>
+    <id>http://zanderchang.github.io/2020/06/03/Gym-spaces总结/</id>
+    <published>2020-06-03T03:32:19.000Z</published>
+    <updated>2020-06-03T04:18:22.065Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/openai/gym/tree/master/gym/spaces" target="_blank" rel="noopener">源码</a></p><a id="more"></a><table><thead><tr><th></th><th>Box</th><th>Dict</th><th>Discrete</th><th>MultiBinary</th><th>MultiDiscrete</th><th>Tuple</th></tr></thead><tbody><tr><td></td><td>连续空间</td><td>Space字典</td><td>离散空间${ 0, 1, \dots, n-1 }$</td><td>多维01空间</td><td>多维离散空间（游戏控制器）</td><td>Space元组</td></tr><tr><td>示例</td><td><code>Box(low=-1.0, high=2.0, shape=(3, 4), dtype=np.float32)</code></td><td></td><td><code>Discrete(2)</code></td><td><code>MultiBinary(5)</code></td><td><code>MultiDiscrete([ 5, 2, 2 ])</code></td><td><code>Tuple((spaces.Discrete(2), spaces.Discrete(3)))</code></td></tr><tr><td>sample</td><td></td><td></td><td></td><td>[0,1,0,1,0]</td><td></td><td>(0, 2)</td></tr></tbody></table><figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># spaces.Dict</span></span><br><span class="line">self.nested_observation_space = spaces.Dict(&#123;</span><br><span class="line">    <span class="string">'sensors'</span>:  spaces.Dict(&#123;</span><br><span class="line">        <span class="string">'position'</span>: spaces.Box(low=<span class="number">-100</span>, high=<span class="number">100</span>, shape=(<span class="number">3</span>,)),</span><br><span class="line">        <span class="string">'velocity'</span>: spaces.Box(low=<span class="number">-1</span>, high=<span class="number">1</span>, shape=(<span class="number">3</span>,)),</span><br><span class="line">        <span class="string">'front_cam'</span>: spaces.Tuple((</span><br><span class="line">            spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>)),</span><br><span class="line">            spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>))</span><br><span class="line">        )),</span><br><span class="line">        <span class="string">'rear_cam'</span>: spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>)),</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="string">'ext_controller'</span>: spaces.MultiDiscrete((<span class="number">5</span>, <span class="number">2</span>, <span class="number">2</span>)),</span><br><span class="line">    <span class="string">'inner_state'</span>:spaces.Dict(&#123;</span><br><span class="line">        <span class="string">'charge'</span>: spaces.Discrete(<span class="number">100</span>),</span><br><span class="line">        <span class="string">'system_checks'</span>: spaces.MultiBinary(<span class="number">10</span>),</span><br><span class="line">        <span class="string">'job_status'</span>: spaces.Dict(&#123;</span><br><span class="line">            <span class="string">'task'</span>: spaces.Discrete(<span class="number">5</span>),</span><br><span class="line">            <span class="string">'progress'</span>: spaces.Box(low=<span class="number">0</span>, high=<span class="number">100</span>, shape=()),</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;https://github.com/openai/gym/tree/master/gym/spaces&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;源码&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>强化学习纲要笔记</title>

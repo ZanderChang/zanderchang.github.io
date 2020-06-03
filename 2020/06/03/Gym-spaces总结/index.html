@@ -131,13 +131,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的博客">
-<meta property="og:url" content="http://zanderchang.github.io/page/3/index.html">
+<meta name="description" content="源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gym.spaces总结">
+<meta property="og:url" content="http://zanderchang.github.io/2020/06/03/Gym-spaces总结/index.html">
 <meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="源码">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-06-03T04:18:22.065Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="我的博客">
+<meta name="twitter:title" content="Gym.spaces总结">
+<meta name="twitter:description" content="源码">
 
 
 
@@ -167,13 +171,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/page/3/">
+  <link rel="canonical" href="http://zanderchang.github.io/2020/06/03/Gym-spaces总结/">
 
 
 
 
 
-  <title>我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>Gym.spaces总结 | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -192,8 +196,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
-  page-home">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -318,9 +321,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -333,7 +336,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/04/30/VBA-Stomping简介/">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/06/03/Gym-spaces总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Glory">
@@ -350,9 +353,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/30/VBA-Stomping简介/" itemprop="url">VBA Stomping 简介</a></h1>
+          <h1 class="post-title" itemprop="name headline">Gym.spaces总结</h1>
         
 
         <div class="post-meta">
@@ -364,8 +365,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-30T10:17:09+08:00">
-                2019-04-30 10:17:09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-03T11:32:19+08:00">
+                2020-06-03 11:32:19
               </time>
             
 
@@ -380,34 +381,12 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-06T10:57:16+08:00">
-                2019-05-06 10:57:16
+              <time title="更新于" itemprop="dateModified" datetime="2020-06-03T12:18:22+08:00">
+                2020-06-03 12:18:22
               </time>
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/安全技术/" itemprop="url" rel="index">
-                    <span itemprop="name">安全技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -436,18 +415,51 @@
       
 
       
-        
-          <p><em>原文标题 VBA Stomping — Advanced Maldoc Techniques (Oct 6, 2018)</em></p>
-<p>作者：Kirk Sayre <a href="https://twitter.com/bigmacjpg" target="_blank" rel="noopener">@bigmacjpg</a>，Harold Ogden <a href="https://twitter.com/haroldogden" target="_blank" rel="noopener">@haroldogden</a> 和 Carrie Roberts <a href="https://twitter.com/OrOneEqualsOne" target="_blank" rel="noopener">@OrOneEqualsOne</a></p>
-<p>VBA Stomping 是一种可以绕过反病毒检测恶意文档生成技术，它最初由 Vesselin Bontchev 博士引起我们的注意（见<a href="https://github.com/bontchev/pcodedmp" target="_blank" rel="noopener">此处</a>）。VBA stomping 是指销毁 Microsoft Office 文档中的 VBA 源代码，只留下文档文件中称为 p-code 的宏代码的编译版本。在这种情况下，仅基于VBA源代码的恶意文档检测会失败。在这篇博文中，我们将详细演示 VBA stomping 并介绍一些其他技术。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/30/VBA-Stomping简介/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <p><a href="https://github.com/openai/gym/tree/master/gym/spaces" target="_blank" rel="noopener">源码</a></p>
+<a id="more"></a>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Box</th>
+<th>Dict</th>
+<th>Discrete</th>
+<th>MultiBinary</th>
+<th>MultiDiscrete</th>
+<th>Tuple</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>连续空间</td>
+<td>Space字典</td>
+<td>离散空间${ 0, 1, \dots, n-1 }$</td>
+<td>多维01空间</td>
+<td>多维离散空间（游戏控制器）</td>
+<td>Space元组</td>
+</tr>
+<tr>
+<td>示例</td>
+<td><code>Box(low=-1.0, high=2.0, shape=(3, 4), dtype=np.float32)</code></td>
+<td></td>
+<td><code>Discrete(2)</code></td>
+<td><code>MultiBinary(5)</code></td>
+<td><code>MultiDiscrete([ 5, 2, 2 ])</code></td>
+<td><code>Tuple((spaces.Discrete(2), spaces.Discrete(3)))</code></td>
+</tr>
+<tr>
+<td>sample</td>
+<td></td>
+<td></td>
+<td></td>
+<td>[0,1,0,1,0]</td>
+<td></td>
+<td>(0, 2)</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># spaces.Dict</span></span><br><span class="line">self.nested_observation_space = spaces.Dict(&#123;</span><br><span class="line">    <span class="string">'sensors'</span>:  spaces.Dict(&#123;</span><br><span class="line">        <span class="string">'position'</span>: spaces.Box(low=<span class="number">-100</span>, high=<span class="number">100</span>, shape=(<span class="number">3</span>,)),</span><br><span class="line">        <span class="string">'velocity'</span>: spaces.Box(low=<span class="number">-1</span>, high=<span class="number">1</span>, shape=(<span class="number">3</span>,)),</span><br><span class="line">        <span class="string">'front_cam'</span>: spaces.Tuple((</span><br><span class="line">            spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>)),</span><br><span class="line">            spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>))</span><br><span class="line">        )),</span><br><span class="line">        <span class="string">'rear_cam'</span>: spaces.Box(low=<span class="number">0</span>, high=<span class="number">1</span>, shape=(<span class="number">10</span>, <span class="number">10</span>, <span class="number">3</span>)),</span><br><span class="line">    &#125;),</span><br><span class="line">    <span class="string">'ext_controller'</span>: spaces.MultiDiscrete((<span class="number">5</span>, <span class="number">2</span>, <span class="number">2</span>)),</span><br><span class="line">    <span class="string">'inner_state'</span>:spaces.Dict(&#123;</span><br><span class="line">        <span class="string">'charge'</span>: spaces.Discrete(<span class="number">100</span>),</span><br><span class="line">        <span class="string">'system_checks'</span>: spaces.MultiBinary(<span class="number">10</span>),</span><br><span class="line">        <span class="string">'job_status'</span>: spaces.Dict(&#123;</span><br><span class="line">            <span class="string">'task'</span>: spaces.Discrete(<span class="number">5</span>),</span><br><span class="line">            <span class="string">'progress'</span>: spaces.Box(low=<span class="number">0</span>, high=<span class="number">100</span>, shape=()),</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -459,177 +471,51 @@
     
 
     
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Glory
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://zanderchang.github.io/2020/06/03/Gym-spaces总结/" title="Gym.spaces总结">http://zanderchang.github.io/2020/06/03/Gym-spaces总结/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
 
     <footer class="post-footer">
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/04/29/AFL及其相关拓展项目总结/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Glory">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="我的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/29/AFL及其相关拓展项目总结/" itemprop="url">AFL 及其相关拓展项目总结</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-29T14:44:42+08:00">
-                2019-04-29 14:44:42
-              </time>
+              <a href="/2020/05/12/强化学习纲要笔记/" rel="next" title="强化学习纲要笔记">
+                <i class="fa fa-chevron-left"></i> 强化学习纲要笔记
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-divider">|</span>
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-check-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">更新于&#58;</span>
-              
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-26T13:10:10+08:00">
-                2020-05-26 13:10:10
-              </time>
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/漏洞挖掘/" itemprop="url" rel="index">
-                    <span itemprop="name">漏洞挖掘</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <p><em>原文标题 Zoo AFL (Apr 24, 2019)</em></p>
-<p>作者：<a href="https://habr.com/en/users/d1g1/" target="_blank" rel="noopener">@d1g1</a></p>
-<p>本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/04/29/AFL及其相关拓展项目总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -639,14 +525,11 @@
   </article>
 
 
-    
-  </section>
 
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
-  </nav>
-
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -654,6 +537,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -900,6 +787,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
@@ -1258,7 +1149,7 @@
         onPopupClose();
       }
     });
-  </script>
+  </script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 
 
@@ -1274,26 +1165,6 @@
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
