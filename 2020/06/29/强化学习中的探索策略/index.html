@@ -118,7 +118,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="强化学习," />
 
 
 
@@ -133,11 +133,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="我的博客">
-<meta property="og:url" content="http://zanderchang.github.io/archives/2019/11/index.html">
+<meta name="description" content="Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020) 作者：Lilian Weng">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习中的探索策略">
+<meta property="og:url" content="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/index.html">
 <meta property="og:site_name" content="我的博客">
+<meta property="og:description" content="Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020) 作者：Lilian Weng">
+<meta property="article:published_time" content="2020-06-29T02:52:07.000Z">
+<meta property="article:modified_time" content="2020-07-05T02:46:37.142Z">
 <meta property="article:author" content="Glory">
+<meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
 
 
@@ -168,13 +173,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/archives/2019/11/"/>
+  <link rel="canonical" href="http://zanderchang.github.io/2020/06/29/强化学习中的探索策略/"/>
 
 
 
 
 
-  <title>归档 | 我的博客</title>
+  <title>强化学习中的探索策略 | 我的博客</title>
   
 
 
@@ -193,7 +198,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-archive">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -321,111 +326,254 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
-
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        嗯..! 目前共计 24 篇日志。 继续努力。
-      </span>
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2019">2019</h1>
-          </div>
-        
-        
-
-        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Glory">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="我的博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/11/03/hackthebox-Heist/" itemprop="url">
-              
-                <span itemprop="name">hackthebox-Heist</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">强化学习中的探索策略</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-03T20:19:09+08:00"
-              content="2019-11-03 20:19:09" >
-          11-03
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-29T10:52:07+08:00">
+                2020-06-29 10:52:07
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-07-05T10:46:37+08:00">
+                2020-07-05 10:46:37
+              </time>
+            
+          </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">强化学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2019/11/03/hackthebox-Haystack/" itemprop="url">
-              
-                <span itemprop="name">hackthebox-Haystack</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2019-11-03T19:40:25+08:00"
-              content="2019-11-03 19:40:25" >
-          11-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <p><em>Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020)</em></p>
+<p>作者：<a href="https://lilianweng.github.io/lil-log/" target="_blank" rel="noopener">Lilian Weng</a></p>
+<a id="more"></a>
+<h1 id="Classic-Exploration-Strategies"><a href="#Classic-Exploration-Strategies" class="headerlink" title="Classic Exploration Strategies"></a>Classic Exploration Strategies</h1><p>传统探索策略</p>
+<ul>
+<li>适用于MAB或表格型RL<ul>
+<li>$\epsilon$-greedy</li>
+<li>UCB</li>
+<li>Boltzmann(softmax) exploration</li>
+<li>Thompson sampling</li>
+</ul>
+</li>
+<li>适用于DRL<ul>
+<li>Entropy loss term</li>
+<li>Noise-based Exploration 在各种地方添加噪声<ul>
+<li><a href="https://arxiv.org/abs/1706.10295" target="_blank" rel="noopener">Noisy Networks for Exploration</a>(2017)<ul>
+<li>NoisyNet在NN权重上基于GD引入扰动</li>
+</ul>
+</li>
+<li><a href="https://arxiv.org/abs/1706.01905" target="_blank" rel="noopener">Parameter Space Noise for Exploration</a>(2017)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Key-Exploration-Problems"><a href="#Key-Exploration-Problems" class="headerlink" title="Key Exploration Problems"></a>Key Exploration Problems</h1><h2 id="The-Hard-Exploration-Problem"><a href="#The-Hard-Exploration-Problem" class="headerlink" title="The Hard-Exploration Problem"></a>The Hard-Exploration Problem</h2><p>奖励少或者奖励有欺骗性</p>
+<h2 id="The-Noisy-TV-Problem"><a href="#The-Noisy-TV-Problem" class="headerlink" title="The Noisy-TV Problem"></a>The Noisy-TV Problem</h2><p>Agent被TV中虚假的不同状态吸引注意力而不去探索真实状态</p>
+<h1 id="Intrinsic-Rewards-as-Exploration-Bonuses"><a href="#Intrinsic-Rewards-as-Exploration-Bonuses" class="headerlink" title="Intrinsic Rewards as Exploration Bonuses"></a>Intrinsic Rewards as Exploration Bonuses</h1><p>利用内在奖励解决Hard-Exploration问题</p>
+<h2 id="Count-based-Exploration"><a href="#Count-based-Exploration" class="headerlink" title="Count-based Exploration"></a>Count-based Exploration</h2><p>基于计数评估状态的新颖程度</p>
+<h3 id="Counting-by-Density-Model"><a href="#Counting-by-Density-Model" class="headerlink" title="Counting by Density Model"></a>Counting by Density Model</h3><ul>
+<li>Density model(2016)<h3 id="Counting-after-Hashing"><a href="#Counting-after-Hashing" class="headerlink" title="Counting after Hashing"></a>Counting after Hashing</h3>将高维状态空间用hash（LSH、SimHash）进行映射<h2 id="Prediction-based-Exploration"><a href="#Prediction-based-Exploration" class="headerlink" title="Prediction-based Exploration"></a>Prediction-based Exploration</h2>基于预测来评估模型对环境的熟悉程度<h3 id="Forward-Dynamics"><a href="#Forward-Dynamics" class="headerlink" title="Forward Dynamics"></a>Forward Dynamics</h3></li>
+<li>IAC(2007)</li>
+<li>ICM(2017)</li>
+<li>VIME(2017)<h3 id="Random-Networks"><a href="#Random-Networks" class="headerlink" title="Random Networks"></a>Random Networks</h3>预测任务与环境无关时选择随机任务来辅助探索</li>
+<li>DORA(2018)</li>
+<li>RND(2018)<ul>
+<li>Random Network Distillation<h3 id="Physical-Properties"><a href="#Physical-Properties" class="headerlink" title="Physical Properties"></a>Physical Properties</h3>发现物理环境中隐藏的属性来鼓励探索</li>
+</ul>
+</li>
+</ul>
+<h1 id="Memory-based-Exploration"><a href="#Memory-based-Exploration" class="headerlink" title="Memory-based Exploration"></a>Memory-based Exploration</h1><p>引入外部存储解决上述基于奖励的探索方法存在的问题</p>
+<h2 id="Episodic-Memory"><a href="#Episodic-Memory" class="headerlink" title="Episodic Memory"></a>Episodic Memory</h2><ul>
+<li>NGU(2020)<ul>
+<li>Never Give Up</li>
+<li>Agent57(2020)<h2 id="Direct-Exploration"><a href="#Direct-Exploration" class="headerlink" title="Direct Exploration"></a>Direct Exploration</h2></li>
+</ul>
+</li>
+<li>Go-Explore(2019)</li>
+<li>DTSIL(2019)</li>
+<li>policy-based Go-Explore(2020)<h2 id="Q-Value-Exploration"><a href="#Q-Value-Exploration" class="headerlink" title="Q-Value Exploration"></a>Q-Value Exploration</h2></li>
+<li>Bootstrapped DQN(2016)<h2 id="Varitional-Options"><a href="#Varitional-Options" class="headerlink" title="Varitional Options"></a>Varitional Options</h2></li>
+<li>VIC(2017)</li>
+<li>VALOR(2018)</li>
+<li>DIAYN(2018)</li>
+</ul>
+<p><a href="https://lilianweng.github.io/lil-log/2020/06/07/exploration-strategies-in-deep-reinforcement-learning.html" target="_blank" rel="noopener">原文地址</a></p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Glory
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/" title="强化学习中的探索策略">http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/25/%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E7%9B%B8%E5%85%B3-Angr/" rel="next" title="符号执行相关-Angr">
+                <i class="fa fa-chevron-left"></i> 符号执行相关-Angr
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -433,6 +581,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -453,8 +605,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -537,6 +698,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Classic-Exploration-Strategies"><span class="nav-number">1.</span> <span class="nav-text">Classic Exploration Strategies</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key-Exploration-Problems"><span class="nav-number">2.</span> <span class="nav-text">Key Exploration Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Hard-Exploration-Problem"><span class="nav-number">2.1.</span> <span class="nav-text">The Hard-Exploration Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Noisy-TV-Problem"><span class="nav-number">2.2.</span> <span class="nav-text">The Noisy-TV Problem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Intrinsic-Rewards-as-Exploration-Bonuses"><span class="nav-number">3.</span> <span class="nav-text">Intrinsic Rewards as Exploration Bonuses</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Count-based-Exploration"><span class="nav-number">3.1.</span> <span class="nav-text">Count-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Counting-by-Density-Model"><span class="nav-number">3.1.1.</span> <span class="nav-text">Counting by Density Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Counting-after-Hashing"><span class="nav-number">3.1.2.</span> <span class="nav-text">Counting after Hashing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prediction-based-Exploration"><span class="nav-number">3.2.</span> <span class="nav-text">Prediction-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Forward-Dynamics"><span class="nav-number">3.2.1.</span> <span class="nav-text">Forward Dynamics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Networks"><span class="nav-number">3.2.2.</span> <span class="nav-text">Random Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physical-Properties"><span class="nav-number">3.2.3.</span> <span class="nav-text">Physical Properties</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Memory-based-Exploration"><span class="nav-number">4.</span> <span class="nav-text">Memory-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Episodic-Memory"><span class="nav-number">4.1.</span> <span class="nav-text">Episodic Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Direct-Exploration"><span class="nav-number">4.2.</span> <span class="nav-text">Direct Exploration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Value-Exploration"><span class="nav-number">4.3.</span> <span class="nav-text">Q-Value Exploration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Varitional-Options"><span class="nav-number">4.4.</span> <span class="nav-text">Varitional Options</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -679,6 +856,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

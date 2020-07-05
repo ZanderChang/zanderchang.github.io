@@ -6,10 +6,10 @@
 
 
 <html class="theme-next mist use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -20,8 +20,8 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform">
-<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
 
 
 
@@ -40,7 +40,7 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
@@ -48,18 +48,10 @@
   
   
   
-  
-
-  
-    
-    
   
 
   
     
-      
-    
-
     
   
 
@@ -89,8 +81,16 @@
 
   
     
+      
     
-    <link href="//fonts.googleapis.com/css?family=" source han serif", dengxian:300,300italic,400,400italic,700,700italic|"source dengxian:300,300italic,400,400italic,700,700italic|monaco, consolas:300,300italic,400,400italic,700,700italic&subset="latin,latin-ext"" rel="stylesheet" type="text/css">
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Calibri, dengxian:300,300italic,400,400italic,700,700italic|Calibri, dengxian:300,300italic,400,400italic,700,700italic|Calibri, dengxian:300,300italic,400,400italic,700,700italic|Calibri, dengxian:300,300italic,400,400italic,700,700italic|Monaco, consolas:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -98,9 +98,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
@@ -118,13 +118,15 @@
 
 
 
-  <meta name="keywords" content="外文翻译,漏洞挖掘,PS4,硬件分析,">
+  <meta name="keywords" content="外文翻译,漏洞挖掘,PS4,硬件分析," />
 
 
 
 
+  
 
-  <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml">
+
+  <link rel="alternate" href="/atom.xml" title="我的博客" type="application/atom+xml" />
 
 
 
@@ -132,19 +134,21 @@
 
 
 <meta name="description" content="原文标题 Hacking the PS4, part 1 Introduction to PS4’s security, and userland ROP (日期未知) 作者：CTurt 由于目前很长时间没有关于 PS4 破解的重大公告，我想解释一下 PS4 破解已经走了多远，以及阻止它进一步发展的原因。 我将解释一些通用于所有现代系统的安全概念，以及我在 PS4 上运行 ROP 测试所做的发现。">
-<meta name="keywords" content="外文翻译,漏洞挖掘,PS4,硬件分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">
-<meta property="og:url" content="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/index.html">
+<meta property="og:url" content="http://zanderchang.github.io/2019/05/06/%E7%A0%B4%E8%A7%A3-PS4-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/index.html">
 <meta property="og:site_name" content="我的博客">
 <meta property="og:description" content="原文标题 Hacking the PS4, part 1 Introduction to PS4’s security, and userland ROP (日期未知) 作者：CTurt 由于目前很长时间没有关于 PS4 破解的重大公告，我想解释一下 PS4 破解已经走了多远，以及阻止它进一步发展的原因。 我将解释一些通用于所有现代系统的安全概念，以及我在 PS4 上运行 ROP 测试所做的发现。">
-<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://zanderchang.github.io/img/hacking-ps4-1/segfault.png">
 <meta property="og:image" content="http://zanderchang.github.io/img/hacking-ps4-1/browser.png">
-<meta property="og:updated_time" content="2019-05-06T08:05:20.419Z">
+<meta property="article:published_time" content="2019-05-06T02:56:54.000Z">
+<meta property="article:modified_time" content="2019-05-06T08:05:20.419Z">
+<meta property="article:author" content="Glory">
+<meta property="article:tag" content="外文翻译">
+<meta property="article:tag" content="漏洞挖掘">
+<meta property="article:tag" content="PS4">
+<meta property="article:tag" content="硬件分析">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">
-<meta name="twitter:description" content="原文标题 Hacking the PS4, part 1 Introduction to PS4’s security, and userland ROP (日期未知) 作者：CTurt 由于目前很长时间没有关于 PS4 破解的重大公告，我想解释一下 PS4 破解已经走了多远，以及阻止它进一步发展的原因。 我将解释一些通用于所有现代系统的安全概念，以及我在 PS4 上运行 ROP 测试所做的发现。">
 <meta name="twitter:image" content="http://zanderchang.github.io/img/hacking-ps4-1/segfault.png">
 
 
@@ -175,13 +179,13 @@
 
 
 
-  <link rel="canonical" href="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/">
+  <link rel="canonical" href="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/"/>
 
 
 
 
 
-  <title>破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介 | 我的博客</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介 | 我的博客</title>
   
 
 
@@ -191,7 +195,7 @@
 
 
 
-</head>
+<meta name="generator" content="Hexo 4.2.1"><!-- hexo-inject:begin --><!-- hexo-inject:end --></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
@@ -209,7 +213,7 @@
     
 
     <div class="custom-logo-site-title">
-      <a href="/" class="brand" rel="start">
+      <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">我的博客</span>
         <span class="logo-line-after"><i></i></span>
@@ -237,9 +241,9 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/%20" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             首页
           </a>
@@ -247,9 +251,9 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
+          <a href="/tags/%20" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             标签
           </a>
@@ -257,9 +261,9 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
+          <a href="/categories/%20" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
             分类
           </a>
@@ -267,9 +271,9 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
+          <a href="/archives/%20" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
             归档
           </a>
@@ -282,7 +286,7 @@
             <a href="javascript:;" class="popup-trigger">
           
             
-              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
             
             搜索
           </a>
@@ -303,7 +307,9 @@
       <i class="fa fa-times-circle"></i>
     </span>
     <div class="local-search-input-wrapper">
-      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
     </div>
   </div>
   <div id="local-search-result"></div>
@@ -340,11 +346,11 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/05/06/%E7%A0%B4%E8%A7%A3-PS4-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Glory">
-      <meta itemprop="description" content>
+      <meta itemprop="description" content="">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -392,7 +398,7 @@
           </span>
 
           
-            <span class="post-category">
+            <span class="post-category" >
             
               <span class="post-meta-divider">|</span>
             
@@ -404,7 +410,7 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/硬件分析/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%A1%AC%E4%BB%B6%E5%88%86%E6%9E%90/" itemprop="url" rel="index">
                     <span itemprop="name">硬件分析</span>
                   </a>
                 </span>
@@ -451,7 +457,7 @@
 <a id="more"></a>
 <h1 id="PS4-背景"><a href="#PS4-背景" class="headerlink" title="PS4 背景"></a>PS4 背景</h1><blockquote>
 <p>您可能知道 PS4 使用的是定制的 AMD x86-64 CPU（8核），即使此特定版本可能与已知标准稍有不同，目前仍有许多研究成果可用于此 CPU 架构。 例如，PFLA（Page Fault Liberation Army）在 29C3 大会期间发布了仅使用页错误和 x86 MMU 实现完整图灵机的概念证明，您可以在 YouTube 上查看他们的精彩视频。 如果您尝试在虚拟机中运行代码并希望在主机 CPU 上执行指令，也会很有趣。</p>
-<p>– <cite><a href="http://www.eurasia.nu/modules.php?name=News&amp;file=article&amp;sid=3251" target="_blank" rel="noopener">EurAsia 新闻 3251 号文章</a></cite></p>
+<p>— <cite><a href="http://www.eurasia.nu/modules.php?name=News&amp;file=article&amp;sid=3251" target="_blank" rel="noopener">EurAsia 新闻 3251 号文章</a></cite></p>
 </blockquote>
 <p>除了表现良好的 CPU 架构外，<a href="https://en.wikipedia.org/wiki/PlayStation_4_system_software" target="_blank" rel="noopener">PS4 中使用的大部分软件</a>都是<a href="http://www.scei.co.jp/ps4-license/" target="_blank" rel="noopener">开源</a>的。</p>
 <p>最值得注意的是，PS4 的 Orbis OS 基于 FreeBSD 9.0，就像 PS3 的操作系统一样（也有部分 NetBSD）；并包括各种许多其他开源软件，如 <a href="http://www.mono-project.com/docs/advanced/runtime/" target="_blank" rel="noopener">Mono VM</a> 和 <a href="https://www.webkit.org/" target="_blank" rel="noopener">WebKit</a>。</p>
@@ -525,7 +531,7 @@ ret
 <p>x86_64 instructions are similar to words in that they have variable lengths, and can mean something entirely different depending on where decoding starts.</p>
 <blockquote>
 <p>The x86_64 architecture is a variable-length CISC instruction set. Return-oriented programming on the x86_64 takes advantage of the fact that the instruction set is very “dense”, that is, any random sequence of bytes is likely to be interpretable as some valid set of x86_64 instructions.</p>
-<p>– <cite><a href="https://en.wikipedia.org/wiki/Return-oriented_programming" target="_blank" rel="noopener">Wikipedia</a></cite></p>
+<p>— <cite><a href="https://en.wikipedia.org/wiki/Return-oriented_programming" target="_blank" rel="noopener">Wikipedia</a></cite></p>
 </blockquote>
 <p> To demonstrate this, take a look at the end of this function from the WebKit module:</p>
 <pre><code>000000000052BE0D                 mov     eax, [rdx+8]
@@ -547,7 +553,7 @@ chain.add(chain.data);
 </code></pre><p>And trying to write to code, which is mapped as read and execute only:</p>
 <pre><code>setU8to(moduleBases[webkit], 0);
 </code></pre><p>If a general protection fault occurs, a message saying “There is not enough free system memory” will appear, and the page will fail to load:</p>
-<p><img src="/img/hacking-ps4-1/segfault.png" alt></p>
+<p><img src="/img/hacking-ps4-1/segfault.png" alt=""></p>
 <p>This message will also be displayed for other hard faults, such as division by 0, or execution of an invalid instruction or unimplemented system call, but most commonly it will be encountered by performing a segmentation fault.</p>
 <h1 id="ASLR"><a href="#ASLR" class="headerlink" title="ASLR"></a>ASLR</h1><p><a href="https://en.wikipedia.org/wiki/Address_space_layout_randomization" target="_blank" rel="noopener">Address Space Layout Randomization (ASLR)</a> is a security technique which causes the base addresses of modules to be different every time you start the PS4.</p>
 <p>It has been reported to me that <a href="https://www.youtube.com/watch?v=aEu208625XA" target="_blank" rel="noopener">very old firmwares (1.05) don’t have ASLR enabled</a>, but it was introduced sometime before firmware 1.70. Note that kernel ASLR is not enabled (for firmwares 1.76 and lower at least), which will be proved later in the article.</p>
@@ -665,15 +671,15 @@ if ((_thr_pid = getpid()) == 1) {
      * assumed to be running as root.
      */
     if (setsid() == -1)
-        PANIC(&quot;Can&apos;t set session ID&quot;);
+        PANIC(&quot;Can&#39;t set session ID&quot;);
     if (revoke(_PATH_CONSOLE) != 0)
-        PANIC(&quot;Can&apos;t revoke console&quot;);
+        PANIC(&quot;Can&#39;t revoke console&quot;);
     if ((fd = __sys_open(_PATH_CONSOLE, O_RDWR)) &amp;lt; 0)
-        PANIC(&quot;Can&apos;t open console&quot;);
+        PANIC(&quot;Can&#39;t open console&quot;);
     if (setlogin(&quot;root&quot;) == -1)
-        PANIC(&quot;Can&apos;t set login to root&quot;);
+        PANIC(&quot;Can&#39;t set login to root&quot;);
     if (_ioctl(fd, TIOCSCTTY, (char *) NULL) == -1)
-        PANIC(&quot;Can&apos;t set controlling terminal&quot;);
+        PANIC(&quot;Can&#39;t set controlling terminal&quot;);
 }
 </code></pre><p>The same function can be found at offset <code>0x215F0</code> from <code>libkernel.sprx</code>. This is how the above extract looks from within a libkernel dump:</p>
 <pre><code>call    getpid
@@ -777,7 +783,7 @@ chain.syscall(&quot;unknown&quot;, 538, chain.data, 0, 0, 0, 0, 0);
 <p>To test whether the first parameter is a path, we can break it up with multiple <code>/</code> characters to see if this allows for a longer string:</p>
 <pre><code>writeString(chain.data, &quot;aaaaaaaaaa/aaaaaaaaaa/aaaaaaaaaa&quot;);
 chain.syscall(&quot;unknown&quot;, 538, chain.data, 0, 0, 0, 0, 0);
-</code></pre><p>Since this also returns <code>0x3f</code>, we can assume that the first argument isn’t a path; it is a name for <em>something</em> that gets allocated a sequential identifier.</p>
+</code></pre><p>Since this also returns <code>0x3f</code>, we can assume that the first argument isn’t a path; it is a name for _something_ that gets allocated a sequential identifier.</p>
 <p>After analysing some more system calls, I found that the following all shared this exact same behaviour:</p>
 <ul>
 <li>533</li>
@@ -827,7 +833,7 @@ chain.execute(function() {
 });
 </code></pre><p>Running this without loading any additional modules will produce the following list:</p>
 <pre><code>0x0, 0x1, 0x2, 0xc, 0xe, 0xf, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x19, 0x1a, 0x1b, 0x1e, 0x37, 0x59
-</code></pre><p>But if we run it after loading module <code>0xb</code>, we will see an additional entry, <code>0x65</code>. Remember that module ID is <em>not</em> the same as loaded module handle.</p>
+</code></pre><p>But if we run it after loading module <code>0xb</code>, we will see an additional entry, <code>0x65</code>. Remember that module ID is _not_ the same as loaded module handle.</p>
 <p>We can now use another of Sony’s custom system calls, number <code>593</code>, which takes a module handle and a buffer, and fills the buffer with information about the loaded module, including its base address. Since the next available handle is always <code>0x65</code>, we can hardcode this value into our chain, rather than having to store the result from the module list.</p>
 <p>The buffer must start with the size of the struct that should be returned, otherwise error <code>0x16</code> will be returned, <code>&quot;Invalid argument&quot;</code>:</p>
 <pre><code>setU64to(moduleInfoAddress, 0x160);
@@ -905,7 +911,7 @@ chain.syscall(&quot;getdents&quot;, 272, undefined, chain.data + 0x10, 1028);
 00002c0: 0000 0000 0000 0000 0000 0000 0000 0000  ................
 </code></pre><p>You can read some of these devices, for example: reading <code>/dev/urandom</code> will fill the memory with random data.</p>
 <p>It is also possible to parse this memory to create a clean list of entries; look at <code>browser.html</code> in the repository for a complete file browser:</p>
-<p><img src="/img/hacking-ps4-1/browser.png" alt></p>
+<p><img src="/img/hacking-ps4-1/browser.png" alt=""></p>
 <p>Unfortunately, due to sandboxing we don’t have complete access to the file system. Trying to read files and directories that <a href="http://www.psdevwiki.com/ps4/Talk:Files_on_the_PS4" target="_blank" rel="noopener">do exist</a> but are restricted will give you error 2, <code>ENOENT</code>, <code>&quot;No such file or directory&quot;</code>.</p>
 <p>We do have access to a lot of interesting stuff though including encrypted save data, trophies, and account information. I will go over more of the filesystem in my next article.</p>
 <h2 id="Sandboxing"><a href="#Sandboxing" class="headerlink" title="Sandboxing"></a>Sandboxing</h2><p>As well as file related system calls failing for certain paths, there are other reasons for a system call to fail.</p>
@@ -961,7 +967,7 @@ if (error)
 </code></pre><p>Unfortunately 17 bytes is the most data we can get, since:</p>
 <blockquote>
 <p>Login names are limited to <code>MAXLOGNAME</code> (from <code>&amp;lt;sys/param.h&amp;gt;</code>) characters, currently 17 including null.</p>
-<p>– <cite><a href="https://www.freebsd.org/cgi/man.cgi?query=getlogin&amp;sektion=2" target="_blank" rel="noopener">FreeBSD Man Pages</a></cite></p>
+<p>— <cite><a href="https://www.freebsd.org/cgi/man.cgi?query=getlogin&amp;sektion=2" target="_blank" rel="noopener">FreeBSD Man Pages</a></cite></p>
 </blockquote>
 <p>After executing the chain, the return value was 0, which means that the system call worked! An excellent start. Now let’s take a look at the memory which we pointed to:</p>
 <p>Before executing the chain:</p>
@@ -975,7 +981,7 @@ if (error)
 </code></pre><p>So the browser is executed as root! That was unexpected.</p>
 <p>But more interestingly, the memory leaked looks like a pointer to something in the kernel, which is always the same each time the chain is run; this is evidence to support <a href="https://twitter.com/yifanlu/status/551498289284009984" target="_blank" rel="noopener">Yifanlu’s claims that the PS4 has no Kernel ASLR</a>!</p>
 <h2 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h2><p>From the information currently available, the PS4’s kernel seems to be very similar to the stock FreeBSD 9.0 kernel.</p>
-<p>Importantly, the differences that <em>are</em> present appear to be from standard <a href="https://www.freebsd.org/doc/handbook/kernelconfig-custom-kernel.html" target="_blank" rel="noopener">kernel configuration</a> changes (such as disabling SCTP sockets), rather than from modified code. Sony have also added several of their own custom system calls to the kernel, but apart from this, the rest of the kernel seems fairly untouched.</p>
+<p>Importantly, the differences that _are_ present appear to be from standard <a href="https://www.freebsd.org/doc/handbook/kernelconfig-custom-kernel.html" target="_blank" rel="noopener">kernel configuration</a> changes (such as disabling SCTP sockets), rather than from modified code. Sony have also added several of their own custom system calls to the kernel, but apart from this, the rest of the kernel seems fairly untouched.</p>
 <p>In this respect, I’m inclined to believe that the PS4 shares most of the same juicy vulnerabilities as FreeBSD 9.0’s kernel!</p>
 <p>Unfortunately, most kernel exploits cannot be triggered from the WebKit entry point that we currently have due to sandboxing constraints (likely to be just stock FreeBSD jails).</p>
 <p>And with FreeBSD 10 being out, it’s unlikely that anyone is stashing away any private exploits for FreeBSD 9, so unless a new one is suddenly released, we’re stuck with what is currently available.</p>
@@ -1002,7 +1008,7 @@ if (error)
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/" title="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">http://zanderchang.github.io/2019/05/06/破解-PS4-第一部分/</a>
+    <a href="http://zanderchang.github.io/2019/05/06/%E7%A0%B4%E8%A7%A3-PS4-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/" title="破解 PS4 - 第一部分：PS4 安全和用户态 ROP 简介">http://zanderchang.github.io/2019/05/06/%E7%A0%B4%E8%A7%A3-PS4-%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -1017,13 +1023,13 @@ if (error)
       
         <div class="post-tags">
           
-            <a href="/tags/外文翻译/" rel="tag"># 外文翻译</a>
+            <a href="/tags/%E5%A4%96%E6%96%87%E7%BF%BB%E8%AF%91/" rel="tag"># 外文翻译</a>
           
-            <a href="/tags/漏洞挖掘/" rel="tag"># 漏洞挖掘</a>
+            <a href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" rel="tag"># 漏洞挖掘</a>
           
             <a href="/tags/PS4/" rel="tag"># PS4</a>
           
-            <a href="/tags/硬件分析/" rel="tag"># 硬件分析</a>
+            <a href="/tags/%E7%A1%AC%E4%BB%B6%E5%88%86%E6%9E%90/" rel="tag"># 硬件分析</a>
           
         </div>
       
@@ -1036,7 +1042,7 @@ if (error)
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/30/VBA-Stomping简介/" rel="next" title="VBA Stomping 简介">
+              <a href="/2019/04/30/VBA-Stomping%E7%AE%80%E4%BB%8B/" rel="next" title="VBA Stomping 简介">
                 <i class="fa fa-chevron-left"></i> VBA Stomping 简介
               </a>
             
@@ -1046,7 +1052,7 @@ if (error)
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/05/14/秘密共享及门限签名/" rel="prev" title="秘密共享及门限签名">
+              <a href="/2019/05/14/%E7%A7%98%E5%AF%86%E5%85%B1%E4%BA%AB%E5%8F%8A%E9%97%A8%E9%99%90%E7%AD%BE%E5%90%8D/" rel="prev" title="秘密共享及门限签名">
                 秘密共享及门限签名 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -1123,9 +1129,9 @@ if (error)
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/">
+                <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
