@@ -3166,6 +3166,98 @@ x & x \geq 0 \\
 </ul>
 </li>
 </ul>
+<h1 id="番外-剖析星际争霸AI-AlphaStar"><a href="#番外-剖析星际争霸AI-AlphaStar" class="headerlink" title="番外 剖析星际争霸AI AlphaStar"></a>番外 剖析星际争霸AI AlphaStar</h1><p>Nature</p>
+<ul>
+<li>简介</li>
+<li>环境设计<ul>
+<li>状态 4<ul>
+<li>实体信息（链表向量）（不定长）</li>
+<li>地图信息（图像）</li>
+<li>玩家数据和游戏设计（标量）</li>
+</ul>
+</li>
+<li>动作 6 Autoregressive<ul>
+<li>层级解耦</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络结构<ul>
+<li>MLP Transformer ResNet（处理输入）</li>
+<li>Deep LSTM（core）</li>
+<li>指针网络</li>
+<li>串行输出</li>
+</ul>
+</li>
+<li>监督学习<ul>
+<li>解决网络初始化问题</li>
+</ul>
+</li>
+<li>强化学习<ul>
+<li>off-policy</li>
+<li>AC结构，基于IMPALA</li>
+<li>重要性采样</li>
+</ul>
+</li>
+<li>RL - V-trace<ul>
+<li>限制重要性采样系数，解决Off-policy</li>
+<li>来自IMPALA</li>
+</ul>
+</li>
+<li>RL - UPGO Upgoing Policy Update<ul>
+<li>解决优势估算的问题 $G_t^U$</li>
+<li>GAE来自PPO</li>
+</ul>
+</li>
+<li>RL - TD($\lambda$)<ul>
+<li>同时输入对手数据</li>
+</ul>
+</li>
+<li>模仿学习<ul>
+<li>注入人类信息，助力RL</li>
+<li>人类统计量$Z$来计算伪奖励函数（胜负奖励之外）75%概率置0<ul>
+<li>编辑距离 汉明距离（01不同）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>自学习 Self-play<ul>
+<li>策略循环问题<ul>
+<li>虚拟自学习 Fictitious Self-Play FSP 存档得到种群，从中<strong>均匀随机</strong>选择<ul>
+<li>对手太菜时浪费时间</li>
+</ul>
+</li>
+<li>Prioritized FSP</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>联盟训练 League Training（最大创新）探索policy空间<ul>
+<li>对手池 = 联盟<ul>
+<li>主智能体 3 50% 35% 15% 永不重置 主要对象</li>
+<li>联盟利用者 6 发现全局弱点</li>
+<li>主利用者 3 发现主智能体弱点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实验结果<ul>
+<li>消融实验 Ablation Study 比较各部分的重要性<ul>
+<li>人类数据极其重要</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>总结（成功经验）<ul>
+<li>高度复杂的神经网络融合了列表、图像、标量信息等输⼊</li>
+<li>通过Autoregressive的网络设计解耦了结构化的动作空间</li>
+<li>模仿学习和监督学习的成功运用（统计量量Z等）</li>
+<li>复杂的强化学习算法</li>
+<li>复杂的联盟训练策略</li>
+<li>大量计算资源（40d+）</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>强化学习</category>
@@ -4769,7 +4861,7 @@ if (error)
     <url>/2020/06/25/%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E7%9B%B8%E5%85%B3-Angr/</url>
     <content><![CDATA[<p>总结一下<code>angr</code>在静态分析、符号执行、fuzz和AEG（Automatic Exploit Generation，漏洞利用自动化）中的相关应用。</p>
 <a id="more"></a>
-<h1 id="Angr相关应用"><a href="#Angr相关应用" class="headerlink" title="Angr相关应用"></a>Angr相关应用</h1><h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>加载二进制文件并进行分析，相较于IDA（<code>Call</code>不为分割基本块的标准）、Clang等工具以函数为单位生成CFG图，Angr可以直接获取整个二进制文件的CFG图。</p>
+<h1 id="Angr相关应用"><a href="#Angr相关应用" class="headerlink" title="Angr相关应用"></a>Angr相关应用</h1><h2 id="静态分析"><a href="#静态分析" class="headerlink" title="静态分析"></a>静态分析</h2><p>加载二进制文件并进行分析，相较于IDA（<code>Call</code>不为分割基本块的标准）、Clang（）等工具以函数为单位生成CFG图，Angr可以直接获取整个二进制文件的CFG图。</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">binary = <span class="string">'/usr/bin/base64'</span></span><br><span class="line">p = angr.Project(binary, auto_load_libs=<span class="literal">False</span>)</span><br><span class="line">cfg = p.analyses.CFGFast() <span class="comment"># 首选</span></span><br><span class="line"><span class="comment"># main = p.loader.main_object.get_symbol("main")</span></span><br><span class="line"><span class="comment"># cfg = p.analyses.CFGEmulated(fail_fast=True, starts=[main.rebased_addr])</span></span><br><span class="line">p.entry</span><br></pre></td></tr></table></figure>
 <p>获取函数，<code>cfg.kb.functions</code>和<code>cfg.functions</code>功能一致。</p>
 <figure class="highlight py"><table><tr><td class="code"><pre><span class="line">cfg.kb.functions.items() <span class="comment"># 函数迭代器</span></span><br><span class="line">f = cfg.kb.functions.get(<span class="string">'main'</span>) <span class="comment"># 根据函数名取函数</span></span><br><span class="line">f = cfg.kb.functions.get_by_addr(<span class="number">0x402e10</span>)</span><br><span class="line"></span><br><span class="line">f.get_call_sites() <span class="comment"># 函数中所有以call结尾的block地址</span></span><br><span class="line">f.block_addrs <span class="comment"># 函数所有基本块地址</span></span><br><span class="line">f.size</span><br><span class="line">f.name</span><br></pre></td></tr></table></figure>

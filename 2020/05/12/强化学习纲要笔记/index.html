@@ -141,7 +141,7 @@
 <meta property="og:description" content="周博磊老师的强化学习纲要课程 10课时 课程地址 课程资料 May ReinForce Be With You !">
 <meta property="og:image" content="https://kstatic.googleusercontent.com/files/f6b5f285173d4449285a8e812b8385f45c03f7104e1c41370a73e0c8558ff82d6a69e60962dd91c4972c444fd73bc4f98a06b5487eff5a037a37bc42f97cef3b">
 <meta property="article:published_time" content="2020-05-12T01:35:49.000Z">
-<meta property="article:modified_time" content="2020-06-14T13:40:22.229Z">
+<meta property="article:modified_time" content="2020-07-05T14:11:00.743Z">
 <meta property="article:author" content="Glory">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
@@ -387,8 +387,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-06-14T21:40:22+08:00">
-                2020-06-14 21:40:22
+              <time title="更新于" itemprop="dateModified" datetime="2020-07-05T22:11:00+08:00">
+                2020-07-05 22:11:00
               </time>
             
           </span>
@@ -942,6 +942,98 @@
 </ul>
 </li>
 </ul>
+<h1 id="番外-剖析星际争霸AI-AlphaStar"><a href="#番外-剖析星际争霸AI-AlphaStar" class="headerlink" title="番外 剖析星际争霸AI AlphaStar"></a>番外 剖析星际争霸AI AlphaStar</h1><p>Nature</p>
+<ul>
+<li>简介</li>
+<li>环境设计<ul>
+<li>状态 4<ul>
+<li>实体信息（链表向量）（不定长）</li>
+<li>地图信息（图像）</li>
+<li>玩家数据和游戏设计（标量）</li>
+</ul>
+</li>
+<li>动作 6 Autoregressive<ul>
+<li>层级解耦</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>网络结构<ul>
+<li>MLP Transformer ResNet（处理输入）</li>
+<li>Deep LSTM（core）</li>
+<li>指针网络</li>
+<li>串行输出</li>
+</ul>
+</li>
+<li>监督学习<ul>
+<li>解决网络初始化问题</li>
+</ul>
+</li>
+<li>强化学习<ul>
+<li>off-policy</li>
+<li>AC结构，基于IMPALA</li>
+<li>重要性采样</li>
+</ul>
+</li>
+<li>RL - V-trace<ul>
+<li>限制重要性采样系数，解决Off-policy</li>
+<li>来自IMPALA</li>
+</ul>
+</li>
+<li>RL - UPGO Upgoing Policy Update<ul>
+<li>解决优势估算的问题 $G_t^U$</li>
+<li>GAE来自PPO</li>
+</ul>
+</li>
+<li>RL - TD($\lambda$)<ul>
+<li>同时输入对手数据</li>
+</ul>
+</li>
+<li>模仿学习<ul>
+<li>注入人类信息，助力RL</li>
+<li>人类统计量$Z$来计算伪奖励函数（胜负奖励之外）75%概率置0<ul>
+<li>编辑距离 汉明距离（01不同）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>自学习 Self-play<ul>
+<li>策略循环问题<ul>
+<li>虚拟自学习 Fictitious Self-Play FSP 存档得到种群，从中<strong>均匀随机</strong>选择<ul>
+<li>对手太菜时浪费时间</li>
+</ul>
+</li>
+<li>Prioritized FSP</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>联盟训练 League Training（最大创新）探索policy空间<ul>
+<li>对手池 = 联盟<ul>
+<li>主智能体 3 50% 35% 15% 永不重置 主要对象</li>
+<li>联盟利用者 6 发现全局弱点</li>
+<li>主利用者 3 发现主智能体弱点</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>实验结果<ul>
+<li>消融实验 Ablation Study 比较各部分的重要性<ul>
+<li>人类数据极其重要</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>总结（成功经验）<ul>
+<li>高度复杂的神经网络融合了列表、图像、标量信息等输⼊</li>
+<li>通过Autoregressive的网络设计解耦了结构化的动作空间</li>
+<li>模仿学习和监督学习的成功运用（统计量量Z等）</li>
+<li>复杂的强化学习算法</li>
+<li>复杂的联盟训练策略</li>
+<li>大量计算资源（40d+）</li>
+</ul>
+</li>
+</ul>
 
       
     </div>
@@ -1157,7 +1249,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP&#x2F;MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习IL"><span class="nav-number">8.</span> <span class="nav-text">模仿学习IL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RL分布式系统"><span class="nav-number">9.</span> <span class="nav-text">RL分布式系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完结篇"><span class="nav-number">10.</span> <span class="nav-text">完结篇</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概括与RL基础"><span class="nav-number">1.</span> <span class="nav-text">概括与RL基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#马尔可夫决策过程"><span class="nav-number">2.</span> <span class="nav-text">马尔可夫决策过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MP-MRP（小船随波逐流）"><span class="nav-number">2.1.</span> <span class="nav-text">MP&#x2F;MRP（小船随波逐流）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MDP（小船上有船夫）"><span class="nav-number">2.2.</span> <span class="nav-text">MDP（小船上有船夫）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#无模型的价值函数估计和控制"><span class="nav-number">3.</span> <span class="nav-text">无模型的价值函数估计和控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-prediction"><span class="nav-number">3.1.</span> <span class="nav-text">Model-free prediction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model-free-control"><span class="nav-number">3.2.</span> <span class="nav-text">Model-free control</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#价值函数的近似-VFA"><span class="nav-number">4.</span> <span class="nav-text">价值函数的近似 VFA</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化基础（难）"><span class="nav-number">5.</span> <span class="nav-text">策略优化基础（难）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#策略优化进阶"><span class="nav-number">6.</span> <span class="nav-text">策略优化进阶</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基于环境模型的RL方法"><span class="nav-number">7.</span> <span class="nav-text">基于环境模型的RL方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模仿学习IL"><span class="nav-number">8.</span> <span class="nav-text">模仿学习IL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RL分布式系统"><span class="nav-number">9.</span> <span class="nav-text">RL分布式系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完结篇"><span class="nav-number">10.</span> <span class="nav-text">完结篇</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#番外-剖析星际争霸AI-AlphaStar"><span class="nav-number">11.</span> <span class="nav-text">番外 剖析星际争霸AI AlphaStar</span></a></li></ol></div>
             
 
           </div>
