@@ -5143,4 +5143,23 @@ Z_t=Z\bmod d_t
         <tag>强化学习</tag>
       </tags>
   </entry>
+  <entry>
+    <title>functools.partial</title>
+    <url>/2020/09/21/functools-partial/</url>
+    <content><![CDATA[<p><code>functools.partial</code>类似装饰器，可以扩展函数的功能，将某些参数设定为固定值。</p>
+<a id="more"></a>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">类func = functools.partial(func, *args, **keywords)</span><br><span class="line"></span><br><span class="line"><span class="comment"># func: 需要被扩展的函数，返回的函数其实是一个类 func 的函数</span></span><br><span class="line"><span class="comment"># *args: 需要被固定的位置参数</span></span><br><span class="line"><span class="comment"># **kwargs: 需要被固定的关键字参数</span></span><br><span class="line"><span class="comment"># 如果在原来的函数 func 中关键字不存在，将会扩展，如果存在，则会覆盖</span></span><br></pre></td></tr></table></figure>
+<p>Example from <a href="https://github.com/WSP-LAB/Montage" target="_blank" rel="noopener">Montage</a></p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> multiprocessing <span class="keyword">import</span> Pool</span><br><span class="line">pool = Pool(conf.num_proc, init_worker) <span class="comment"># 进程池</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">exec_func</span><span class="params">(js_path, conf)</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">pool_map(pool, exec_func, js_list, conf=conf) <span class="comment"># exec_func依次调用js_list中的每个js，每次conf=conf</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">pool_map</span><span class="params">(pool, func, list, **args)</span>:</span></span><br><span class="line">  <span class="keyword">try</span>:</span><br><span class="line">    func = partial(func, **args) <span class="comment"># 固定关键字参数</span></span><br><span class="line">    <span class="keyword">return</span> pool.map(func, list) <span class="comment"># 进程池依次调用函数</span></span><br><span class="line">  <span class="keyword">except</span> KeyboardInterrupt:</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/47124891" target="_blank" rel="noopener">彻底明白 Python partial()</a></li>
+</ul>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
+  </entry>
 </search>
