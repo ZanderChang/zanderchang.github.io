@@ -1063,6 +1063,9 @@
 <p>（也可以通过<code>screenshot</code>获取浏览器标题然后再搜索）</p>
 <p><img src="/img/memlabs/flag_.png" alt="flag_.png"></p>
 <p><code>inctf{thi5_cH4LL3Ng3_!s_g0nn4_b3_?_aN_Am4zINg_!_i_gU3Ss???_}</code></p>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ul>
+<li><a href="https://www.hackingarticles.in/memory-forensics-using-volatility-framework/" target="_blank" rel="noopener">https://www.hackingarticles.in/memory-forensics-using-volatility-framework/</a></li>
+</ul>
 ]]></content>
   </entry>
   <entry>
@@ -1867,7 +1870,7 @@
 <tr>
 <td>44</td>
 <td>PsExec(64)</td>
-<td></td>
+<td>交互式执行远程系统上的进程 <a href="https://mp.weixin.qq.com/s/HOck5KYFGrVvCxrRCtrnHw" target="_blank" rel="noopener">参考</a></td>
 </tr>
 <tr>
 <td>45</td>
