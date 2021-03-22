@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zanderchang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="LibFuzzer是一个模糊测试引擎，是LLVM项目的一部分，在当前LLVM中默认被支持。目前llvm-project提供较为方便的编译方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LibFuzzer中的变异策略分析">
+<meta property="og:url" content="http://zanderchang.github.io/2019/12/11/libfuzzer%E4%B8%AD%E7%9A%84%E5%8F%98%E5%BC%82%E7%AD%96%E7%95%A5%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="zh2的博客">
+<meta property="og:description" content="LibFuzzer是一个模糊测试引擎，是LLVM项目的一部分，在当前LLVM中默认被支持。目前llvm-project提供较为方便的编译方法。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-12-11T06:36:01.000Z">
+<meta property="article:modified_time" content="2021-03-21T12:13:40.481Z">
+<meta property="article:author" content="zh2">
+<meta property="article:tag" content="LLVM">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zanderchang.github.io/2019/12/11/libfuzzer%E4%B8%AD%E7%9A%84%E5%8F%98%E5%BC%82%E7%AD%96%E7%95%A5%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>LibFuzzer中的变异策略分析 | zh2的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+<link rel="alternate" href="/atom.xml" title="zh2的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zh2的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/12/11/libfuzzer%E4%B8%AD%E7%9A%84%E5%8F%98%E5%BC%82%E7%AD%96%E7%95%A5%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zh2">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zh2的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LibFuzzer中的变异策略分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-11 14:36:01 14:36:01" itemprop="dateCreated datePublished" datetime="2019-12-11T14:36:01+08:00">2019-12-11 14:36:01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-21 20:13:40 20:13:40" itemprop="dateModified" datetime="2021-03-21T20:13:40+08:00">2021-03-21 20:13:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%A8%A1%E7%B3%8A%E6%B5%8B%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">模糊测试</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>LibFuzzer</code>是一个模糊测试引擎，是<code>LLVM</code>项目的一部分，在当前<code>LLVM</code>中默认被支持。目前<code>llvm-project</code>提供较为方便的编译方法。</p>
+<span id="more"></span>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p><code>LibFuzzer</code>是<code>LLVM</code>项目中<code>compiler-rt</code>的一部分，在<a target="_blank" rel="noopener" href="https://llvm.org/docs/LibFuzzer.html">这里</a>有其详细使用说明。其它使用说明包括Google的2篇文章<a target="_blank" rel="noopener" href="https://github.com/google/fuzzing/blob/master/tutorial/libFuzzerTutorial.md">libFuzzerTutorial</a>和<a target="_blank" rel="noopener" href="https://github.com/google/fuzzing/blob/master/docs/structure-aware-fuzzing.md">structure-aware-fuzzing</a>，中文翻译分别对应<a target="_blank" rel="noopener" href="https://www.4hou.com/technology/16554.html">这里</a>和<a target="_blank" rel="noopener" href="https://www.4hou.com/technology/16633.html">这里</a>。本文将分析<code>LibFuzzer</code>的变异策略，其关键代码位于<a target="_blank" rel="noopener" href="https://github.com/llvm/llvm-project/blob/master/compiler-rt/lib/fuzzer/FuzzerMutate.cpp">这里</a>。</p>
+<p>目前<code>LibFuzzer</code>位于<code>LLVM</code>项目中，因此其编译方法只需在创建<code>Makefile</code>的过程中指定<code>compiler-rt</code>即可：<code>cmake -G &quot;Unix Makefiles&quot; -DLLVM_ENABLE_PROJECTS=&quot;clang;clang-tools-extra;compiler-rt&quot;</code>。</p>
+<p>在代码开始处可以看到<code>Dispatcher</code>中其用到的所有变异策略，共有15种，下面依次进行分析。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">MutationDispatcher::MutationDispatcher(Random &amp;Rand,</span><br><span class="line">                                       <span class="keyword">const</span> FuzzingOptions &amp;Options)</span><br><span class="line">    : Rand(Rand), Options(Options) &#123;</span><br><span class="line">  DefaultMutators.insert(</span><br><span class="line">      DefaultMutators.begin(),</span><br><span class="line">      &#123;</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_EraseBytes, <span class="string">&quot;EraseBytes&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_InsertByte, <span class="string">&quot;InsertByte&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_InsertRepeatedBytes,</span><br><span class="line">           <span class="string">&quot;InsertRepeatedBytes&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_ChangeByte, <span class="string">&quot;ChangeByte&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_ChangeBit, <span class="string">&quot;ChangeBit&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_ShuffleBytes, <span class="string">&quot;ShuffleBytes&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_ChangeASCIIInteger, <span class="string">&quot;ChangeASCIIInt&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_ChangeBinaryInteger, <span class="string">&quot;ChangeBinInt&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_CopyPart, <span class="string">&quot;CopyPart&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_CrossOver, <span class="string">&quot;CrossOver&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_AddWordFromManualDictionary,</span><br><span class="line">           <span class="string">&quot;ManualDict&quot;</span>&#125;,</span><br><span class="line">          &#123;&amp;MutationDispatcher::Mutate_AddWordFromPersistentAutoDictionary,</span><br><span class="line">           <span class="string">&quot;PersAutoDict&quot;</span>&#125;,</span><br><span class="line">      &#125;);</span><br><span class="line">  <span class="keyword">if</span>(Options.UseCmp)</span><br><span class="line">    DefaultMutators.push_back(</span><br><span class="line">        &#123;&amp;MutationDispatcher::Mutate_AddWordFromTORC, <span class="string">&quot;CMP&quot;</span>&#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (EF-&gt;LLVMFuzzerCustomMutator)</span><br><span class="line">    Mutators.push_back(&#123;&amp;MutationDispatcher::Mutate_Custom, <span class="string">&quot;Custom&quot;</span>&#125;);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    Mutators = DefaultMutators;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (EF-&gt;LLVMFuzzerCustomCrossOver)</span><br><span class="line">    Mutators.push_back(</span><br><span class="line">        &#123;&amp;MutationDispatcher::Mutate_CustomCrossOver, <span class="string">&quot;CustomCrossOver&quot;</span>&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="EraseBytes"><a href="#EraseBytes" class="headerlink" title="EraseBytes"></a>EraseBytes</h2><p>随机删除<code>Data</code>中的<code>N</code>个数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_EraseBytes</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &lt;= <span class="number">1</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> N = Rand(Size / <span class="number">2</span>) + <span class="number">1</span>;</span><br><span class="line">  assert(N &lt; Size);</span><br><span class="line">  <span class="keyword">size_t</span> Idx = Rand(Size - N + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// Erase Data[Idx:Idx+N].</span></span><br><span class="line">  memmove(Data + Idx, Data + Idx + N, Size - Idx - N);</span><br><span class="line">  <span class="comment">// Printf(&quot;Erase: %zd %zd =&gt; %zd; Idx %zd\n&quot;, N, Size, Size - N, Idx);</span></span><br><span class="line">  <span class="keyword">return</span> Size - N;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="InsertByte"><a href="#InsertByte" class="headerlink" title="InsertByte"></a>InsertByte</h2><p>在<code>Data</code>的一个随机位置插入一个随机字符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_InsertByte</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt;= MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Idx = Rand(Size + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// Insert new value at Data[Idx].</span></span><br><span class="line">  memmove(Data + Idx + <span class="number">1</span>, Data + Idx, Size - Idx);</span><br><span class="line">  Data[Idx] = RandCh(Rand);</span><br><span class="line">  <span class="keyword">return</span> Size + <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="InsertRepeatedBytes"><a href="#InsertRepeatedBytes" class="headerlink" title="InsertRepeatedBytes"></a>InsertRepeatedBytes</h2><p>在<code>Data</code>中的一个随机位置处连续插入<code>N</code>（至少<code>3</code>个）个相同的随机字符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_InsertRepeatedBytes</span><span class="params">(<span class="keyword">uint8_t</span> *Data,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                      <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                      <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">size_t</span> kMinBytesToInsert = <span class="number">3</span>;</span><br><span class="line">  <span class="keyword">if</span> (Size + kMinBytesToInsert &gt;= MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> MaxBytesToInsert = <span class="built_in">std</span>::min(MaxSize - Size, (<span class="keyword">size_t</span>)<span class="number">128</span>);</span><br><span class="line">  <span class="keyword">size_t</span> N = Rand(MaxBytesToInsert - kMinBytesToInsert + <span class="number">1</span>) + kMinBytesToInsert;</span><br><span class="line">  assert(Size + N &lt;= MaxSize &amp;&amp; N);</span><br><span class="line">  <span class="keyword">size_t</span> Idx = Rand(Size + <span class="number">1</span>);</span><br><span class="line">  <span class="comment">// Insert new values at Data[Idx].</span></span><br><span class="line">  memmove(Data + Idx + N, Data + Idx, Size - Idx);</span><br><span class="line">  <span class="comment">// Give preference to 0x00 and 0xff.</span></span><br><span class="line">  <span class="keyword">uint8_t</span> Byte = Rand.RandBool() ? Rand(<span class="number">256</span>) : (Rand.RandBool() ? <span class="number">0</span> : <span class="number">255</span>);</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">size_t</span> i = <span class="number">0</span>; i &lt; N; i++)</span><br><span class="line">    Data[Idx + i] = Byte;</span><br><span class="line">  <span class="keyword">return</span> Size + N;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ChangeByte"><a href="#ChangeByte" class="headerlink" title="ChangeByte"></a>ChangeByte</h2><p>将<code>Data</code>中一个随机位置处的内容修改为一个随机字符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_ChangeByte</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                             <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Idx = Rand(Size);</span><br><span class="line">  Data[Idx] = RandCh(Rand);</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ChangeBit"><a href="#ChangeBit" class="headerlink" title="ChangeBit"></a>ChangeBit</h2><p>反转<code>Data</code>中一个随机位置处的数据的随机一位。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_ChangeBit</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Idx = Rand(Size);</span><br><span class="line">  Data[Idx] ^= <span class="number">1</span> &lt;&lt; Rand(<span class="number">8</span>);</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ShuffleBytes"><a href="#ShuffleBytes" class="headerlink" title="ShuffleBytes"></a>ShuffleBytes</h2><p>打乱<code>Data</code>中随机位置起<code>[1,8]</code>个随机数据的顺序，由<code>std::shuffle</code>实现。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_ShuffleBytes</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                               <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize || Size == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> ShuffleAmount =</span><br><span class="line">      Rand(<span class="built_in">std</span>::min(Size, (<span class="keyword">size_t</span>)<span class="number">8</span>)) + <span class="number">1</span>; <span class="comment">// [1,8] and &lt;= Size.</span></span><br><span class="line">  <span class="keyword">size_t</span> ShuffleStart = Rand(Size - ShuffleAmount);</span><br><span class="line">  assert(ShuffleStart + ShuffleAmount &lt;= Size);</span><br><span class="line">  <span class="built_in">std</span>::shuffle(Data + ShuffleStart, Data + ShuffleStart + ShuffleAmount, Rand);</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ChangeASCIIInt"><a href="#ChangeASCIIInt" class="headerlink" title="ChangeASCIIInt"></a>ChangeASCIIInt</h2><p>在<code>Data</code>中寻找一段连续数字数据<code>[B,E)</code>，然后手动计算其数值并随机做一次计算（自增1，自减1，除以2，乘2，取小于其平方的随机数），并将新数值手动解析为字符串放入<code>[B,E)</code>中，不足补<code>0</code>，超出截断。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_ChangeASCIIInteger</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                     <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> B = Rand(Size);</span><br><span class="line">  <span class="keyword">while</span> (B &lt; Size &amp;&amp; !<span class="built_in">isdigit</span>(Data[B])) B++;</span><br><span class="line">  <span class="keyword">if</span> (B == Size) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> E = B;</span><br><span class="line">  <span class="keyword">while</span> (E &lt; Size &amp;&amp; <span class="built_in">isdigit</span>(Data[E])) E++;</span><br><span class="line">  assert(B &lt; E);</span><br><span class="line">  <span class="comment">// now we have digits in [B, E).</span></span><br><span class="line">  <span class="comment">// strtol and friends don&#x27;t accept non-zero-teminated data, parse it manually.</span></span><br><span class="line">  <span class="keyword">uint64_t</span> Val = Data[B] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">size_t</span> i = B + <span class="number">1</span>; i &lt; E; i++)</span><br><span class="line">    Val = Val * <span class="number">10</span> + Data[i] - <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Mutate the integer value.</span></span><br><span class="line">  <span class="keyword">switch</span>(Rand(<span class="number">5</span>)) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>: Val++; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: Val--; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>: Val /= <span class="number">2</span>; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>: Val *= <span class="number">2</span>; <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">4</span>: Val = Rand(Val * Val); <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>: assert(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// Just replace the bytes with the new ones, don&#x27;t bother moving bytes.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">size_t</span> i = B; i &lt; E; i++) &#123;</span><br><span class="line">    <span class="keyword">size_t</span> Idx = E + B - i - <span class="number">1</span>;</span><br><span class="line">    assert(Idx &gt;= B &amp;&amp; Idx &lt; E);</span><br><span class="line">    Data[Idx] = (Val % <span class="number">10</span>) + <span class="string">&#x27;0&#x27;</span>;</span><br><span class="line">    Val /= <span class="number">10</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ChangeBinInt"><a href="#ChangeBinInt" class="headerlink" title="ChangeBinInt"></a>ChangeBinInt</h2><p>选<code>Data</code>中随机位置处的随机长度（8、4、2、1字节之一）数据，将<code>Size</code>（随机数据位于<code>Data</code>前<code>64</code>个位置中）或其自身的值随机变换后替换该处数据。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_ChangeBinaryInteger</span><span class="params">(<span class="keyword">uint8_t</span> *Data,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                      <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                      <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">switch</span> (Rand(<span class="number">4</span>)) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">return</span> ChangeBinaryInteger&lt;<span class="keyword">uint64_t</span>&gt;(Data, Size, Rand);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>: <span class="keyword">return</span> ChangeBinaryInteger&lt;<span class="keyword">uint32_t</span>&gt;(Data, Size, Rand);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>: <span class="keyword">return</span> ChangeBinaryInteger&lt;<span class="keyword">uint16_t</span>&gt;(Data, Size, Rand);</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>: <span class="keyword">return</span> ChangeBinaryInteger&lt;<span class="keyword">uint8_t</span>&gt;(Data, Size, Rand);</span><br><span class="line">    <span class="keyword">default</span>: assert(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">ChangeBinaryInteger</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size, Random &amp;Rand)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &lt; <span class="keyword">sizeof</span>(T)) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Off = Rand(Size - <span class="keyword">sizeof</span>(T) + <span class="number">1</span>);</span><br><span class="line">  assert(Off + <span class="keyword">sizeof</span>(T) &lt;= Size);</span><br><span class="line">  T Val;</span><br><span class="line">  <span class="keyword">if</span> (Off &lt; <span class="number">64</span> &amp;&amp; !Rand(<span class="number">4</span>)) &#123;</span><br><span class="line">    Val = Size;</span><br><span class="line">    <span class="keyword">if</span> (Rand.RandBool())</span><br><span class="line">      Val = Bswap(Val);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="built_in">memcpy</span>(&amp;Val, Data + Off, <span class="keyword">sizeof</span>(Val));</span><br><span class="line">    T Add = Rand(<span class="number">21</span>);</span><br><span class="line">    Add -= <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">if</span> (Rand.RandBool())</span><br><span class="line">      Val = Bswap(T(Bswap(Val) + Add)); <span class="comment">// Add assuming different endiannes.</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      Val = Val + Add;               <span class="comment">// Add assuming current endiannes.</span></span><br><span class="line">    <span class="keyword">if</span> (Add == <span class="number">0</span> || Rand.RandBool()) <span class="comment">// Maybe negate.</span></span><br><span class="line">      Val = -Val;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">memcpy</span>(Data + Off, &amp;Val, <span class="keyword">sizeof</span>(Val));</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// compiler-rt/lib/fuzzer/FuzzerBuiltins.h</span></span><br><span class="line"><span class="comment">// GNU</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">uint8_t</span>  <span class="title">Bswap</span><span class="params">(<span class="keyword">uint8_t</span> x)</span>  </span>&#123; <span class="keyword">return</span> x; &#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">uint16_t</span> <span class="title">Bswap</span><span class="params">(<span class="keyword">uint16_t</span> x)</span> </span>&#123; <span class="keyword">return</span> __builtin_bswap16(x); &#125; <span class="comment">// 按字节顺序翻转，0xaabb -&gt; 0xbbaa</span></span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">uint32_t</span> <span class="title">Bswap</span><span class="params">(<span class="keyword">uint32_t</span> x)</span> </span>&#123; <span class="keyword">return</span> __builtin_bswap32(x); &#125;</span><br><span class="line"><span class="function"><span class="keyword">inline</span> <span class="keyword">uint64_t</span> <span class="title">Bswap</span><span class="params">(<span class="keyword">uint64_t</span> x)</span> </span>&#123; <span class="keyword">return</span> __builtin_bswap64(x); &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CopyPart"><a href="#CopyPart" class="headerlink" title="CopyPart"></a>CopyPart</h2><p>随机选择<code>CopyPartOf</code>或<code>InsertPartOf</code>，<code>CopyPartOf</code>将<code>Data</code>中随机位置的随即长度的数据拷贝到该位置前的随机位置处进行覆写，<code>InsertPartOf</code>将<code>Data</code>中随机位置的随机长度的数据插入到随机位置中（<code>ToInsertPos</code>数据后移）。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Overwrites part of To[0,ToSize) with a part of From[0,FromSize).</span></span><br><span class="line"><span class="comment">// Returns ToSize.</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::CopyPartOf</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint8_t</span> *From, <span class="keyword">size_t</span> FromSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      <span class="keyword">uint8_t</span> *To, <span class="keyword">size_t</span> ToSize)</span> </span>&#123;</span><br><span class="line">  <span class="comment">// Copy From[FromBeg, FromBeg + CopySize) into To[ToBeg, ToBeg + CopySize).</span></span><br><span class="line">  <span class="keyword">size_t</span> ToBeg = Rand(ToSize);</span><br><span class="line">  <span class="keyword">size_t</span> CopySize = Rand(ToSize - ToBeg) + <span class="number">1</span>;</span><br><span class="line">  assert(ToBeg + CopySize &lt;= ToSize);</span><br><span class="line">  CopySize = <span class="built_in">std</span>::min(CopySize, FromSize);</span><br><span class="line">  <span class="keyword">size_t</span> FromBeg = Rand(FromSize - CopySize + <span class="number">1</span>);</span><br><span class="line">  assert(FromBeg + CopySize &lt;= FromSize);</span><br><span class="line">  memmove(To + ToBeg, From + FromBeg, CopySize);</span><br><span class="line">  <span class="keyword">return</span> ToSize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Inserts part of From[0,ToSize) into To.</span></span><br><span class="line"><span class="comment">// Returns new size of To on success or 0 on failure.</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::InsertPartOf</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint8_t</span> *From, <span class="keyword">size_t</span> FromSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                        <span class="keyword">uint8_t</span> *To, <span class="keyword">size_t</span> ToSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                        <span class="keyword">size_t</span> MaxToSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (ToSize &gt;= MaxToSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> AvailableSpace = MaxToSize - ToSize;</span><br><span class="line">  <span class="keyword">size_t</span> MaxCopySize = <span class="built_in">std</span>::min(AvailableSpace, FromSize);</span><br><span class="line">  <span class="keyword">size_t</span> CopySize = Rand(MaxCopySize) + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">size_t</span> FromBeg = Rand(FromSize - CopySize + <span class="number">1</span>);</span><br><span class="line">  assert(FromBeg + CopySize &lt;= FromSize);</span><br><span class="line">  <span class="keyword">size_t</span> ToInsertPos = Rand(ToSize + <span class="number">1</span>);</span><br><span class="line">  assert(ToInsertPos + CopySize &lt;= MaxToSize);</span><br><span class="line">  <span class="keyword">size_t</span> TailSize = ToSize - ToInsertPos;</span><br><span class="line">  <span class="keyword">if</span> (To == From) &#123;</span><br><span class="line">    MutateInPlaceHere.resize(MaxToSize);</span><br><span class="line">    <span class="built_in">memcpy</span>(MutateInPlaceHere.data(), From + FromBeg, CopySize);</span><br><span class="line">    memmove(To + ToInsertPos + CopySize, To + ToInsertPos, TailSize);</span><br><span class="line">    memmove(To + ToInsertPos, MutateInPlaceHere.data(), CopySize);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    memmove(To + ToInsertPos + CopySize, To + ToInsertPos, TailSize);</span><br><span class="line">    memmove(To + ToInsertPos, From + FromBeg, CopySize);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> ToSize + CopySize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_CopyPart</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                           <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize || Size == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="comment">// If Size == MaxSize, `InsertPartOf(...)` will</span></span><br><span class="line">  <span class="comment">// fail so there&#x27;s no point using it in this case.</span></span><br><span class="line">  <span class="keyword">if</span> (Size == MaxSize || Rand.RandBool())</span><br><span class="line">    <span class="keyword">return</span> CopyPartOf(Data, Size, Data, Size);</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    <span class="keyword">return</span> InsertPartOf(Data, Size, Data, Size, MaxSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CrossOver"><a href="#CrossOver" class="headerlink" title="CrossOver"></a>CrossOver</h2><p>从<code>CrossOver</code>、<code>InsertPartOf</code>和<code>CopyPartOf</code>中随机选择一种动作，其中<code>CrossOver</code>将<code>Data</code>和<code>CrossOverWith</code>中的数据以每次轮流取随机大小的块交叉排列组合在一起，<code>InsertPartOf</code>将<code>CrossOverWith</code>中随机位置处随机长度的数据插入到<code>Data</code>的随机位置处，<code>CopyPartOf</code>用<code>CrossOverWith</code>中随机位置处随机长度的数据对<code>Data</code>随机位置处的数据进行覆写。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_CrossOver</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                            <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (Size == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (!CrossOverWith) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">const</span> Unit &amp;O = *CrossOverWith;</span><br><span class="line">  <span class="keyword">if</span> (O.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  MutateInPlaceHere.resize(MaxSize);</span><br><span class="line">  <span class="keyword">auto</span> &amp;U = MutateInPlaceHere;</span><br><span class="line">  <span class="keyword">size_t</span> NewSize = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">switch</span>(Rand(<span class="number">3</span>)) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">0</span>:</span><br><span class="line">      NewSize = CrossOver(Data, Size, O.data(), O.size(), U.data(), U.size());</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">      NewSize = InsertPartOf(O.data(), O.size(), U.data(), U.size(), MaxSize);</span><br><span class="line">      <span class="keyword">if</span> (!NewSize)</span><br><span class="line">        NewSize = CopyPartOf(O.data(), O.size(), U.data(), U.size());</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">      NewSize = CopyPartOf(O.data(), O.size(), U.data(), U.size());</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>: assert(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  assert(NewSize &gt; <span class="number">0</span> &amp;&amp; <span class="string">&quot;CrossOver returned empty unit&quot;</span>);</span><br><span class="line">  assert(NewSize &lt;= MaxSize &amp;&amp; <span class="string">&quot;CrossOver returned overisized unit&quot;</span>);</span><br><span class="line">  <span class="built_in">memcpy</span>(Data, U.data(), NewSize);</span><br><span class="line">  <span class="keyword">return</span> NewSize;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// compiler-rt/lib/fuzzer/FuzzerLoop.cpp</span></span><br><span class="line"><span class="keyword">if</span> (Options.DoCrossOver)</span><br><span class="line">  MD.SetCrossOverWith(&amp;Corpus.ChooseUnitToMutate(MD.GetRand()).U);</span><br><span class="line"></span><br><span class="line"><span class="comment">// compiler-rt/lib/fuzzer/FuzzerMutate.h</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">SetCrossOverWith</span><span class="params">(<span class="keyword">const</span> Unit *U)</span> </span>&#123; CrossOverWith = U; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// llvm-project/compiler-rt/lib/fuzzer/FuzzerCrossOver.cpp</span></span><br><span class="line"><span class="comment">// Cross Data1 and Data2, store the result (up to MaxOutSize bytes) in Out.</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::CrossOver</span><span class="params">(<span class="keyword">const</span> <span class="keyword">uint8_t</span> *Data1, <span class="keyword">size_t</span> Size1,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">const</span> <span class="keyword">uint8_t</span> *Data2, <span class="keyword">size_t</span> Size2,</span></span></span><br><span class="line"><span class="function"><span class="params">                                     <span class="keyword">uint8_t</span> *Out, <span class="keyword">size_t</span> MaxOutSize)</span> </span>&#123;</span><br><span class="line">  assert(Size1 || Size2);</span><br><span class="line">  MaxOutSize = Rand(MaxOutSize) + <span class="number">1</span>;</span><br><span class="line">  <span class="keyword">size_t</span> OutPos = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Pos1 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> Pos2 = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">size_t</span> *InPos = &amp;Pos1;</span><br><span class="line">  <span class="keyword">size_t</span> InSize = Size1;</span><br><span class="line">  <span class="keyword">const</span> <span class="keyword">uint8_t</span> *Data = Data1;</span><br><span class="line">  <span class="keyword">bool</span> CurrentlyUsingFirstData = <span class="literal">true</span>;</span><br><span class="line">  <span class="keyword">while</span> (OutPos &lt; MaxOutSize &amp;&amp; (Pos1 &lt; Size1 || Pos2 &lt; Size2)) &#123;</span><br><span class="line">    <span class="comment">// Merge a part of Data into Out.</span></span><br><span class="line">    <span class="keyword">size_t</span> OutSizeLeft = MaxOutSize - OutPos;</span><br><span class="line">    <span class="keyword">if</span> (*InPos &lt; InSize) &#123;</span><br><span class="line">      <span class="keyword">size_t</span> InSizeLeft = InSize - *InPos;</span><br><span class="line">      <span class="keyword">size_t</span> MaxExtraSize = <span class="built_in">std</span>::min(OutSizeLeft, InSizeLeft);</span><br><span class="line">      <span class="keyword">size_t</span> ExtraSize = Rand(MaxExtraSize) + <span class="number">1</span>;</span><br><span class="line">      <span class="built_in">memcpy</span>(Out + OutPos, Data + *InPos, ExtraSize);</span><br><span class="line">      OutPos += ExtraSize;</span><br><span class="line">      (*InPos) += ExtraSize;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// Use the other input data on the next iteration.</span></span><br><span class="line">    InPos  = CurrentlyUsingFirstData ? &amp;Pos2 : &amp;Pos1;</span><br><span class="line">    InSize = CurrentlyUsingFirstData ? Size2 : Size1;</span><br><span class="line">    Data   = CurrentlyUsingFirstData ? Data2 : Data1;</span><br><span class="line">    CurrentlyUsingFirstData = !CurrentlyUsingFirstData;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> OutPos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ManualDict"><a href="#ManualDict" class="headerlink" title="ManualDict"></a>ManualDict</h2><p>在参数<code>-dict</code>指定的<code>ManualDictionary</code>中随机选择一个<code>Word</code>插入或覆写到<code>Data</code>的随机位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// compiler-rt/lib/fuzzer/FuzzerMutate.h</span></span><br><span class="line"><span class="comment">// Dictionary provided by the user via -dict=DICT_FILE.</span></span><br><span class="line">Dictionary ManualDictionary;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_AddWordFromManualDictionary</span><span class="params">(<span class="keyword">uint8_t</span> *Data,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                              <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                              <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> AddWordFromDictionary(ManualDictionary, Data, Size, MaxSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::AddWordFromDictionary</span><span class="params">(Dictionary &amp;D, <span class="keyword">uint8_t</span> *Data,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                 <span class="keyword">size_t</span> Size, <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (D.empty()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  DictionaryEntry &amp;DE = D[Rand(D.size())];</span><br><span class="line">  Size = ApplyDictionaryEntry(Data, Size, MaxSize, DE);</span><br><span class="line">  <span class="keyword">if</span> (!Size) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  DE.IncUseCount();</span><br><span class="line">  CurrentDictionaryEntrySequence.push_back(&amp;DE);</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::ApplyDictionaryEntry</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                <span class="keyword">size_t</span> MaxSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                DictionaryEntry &amp;DE)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> Word &amp;W = DE.GetW();</span><br><span class="line">  <span class="keyword">bool</span> UsePositionHint = DE.HasPositionHint() &amp;&amp;</span><br><span class="line">                         DE.GetPositionHint() + W.size() &lt; Size &amp;&amp;</span><br><span class="line">                         Rand.RandBool();</span><br><span class="line">  <span class="keyword">if</span> (Rand.RandBool()) &#123;  <span class="comment">// Insert W.</span></span><br><span class="line">    <span class="keyword">if</span> (Size + W.size() &gt; MaxSize) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">size_t</span> Idx = UsePositionHint ? DE.GetPositionHint() : Rand(Size + <span class="number">1</span>);</span><br><span class="line">    memmove(Data + Idx + W.size(), Data + Idx, Size - Idx);</span><br><span class="line">    <span class="built_in">memcpy</span>(Data + Idx, W.data(), W.size());</span><br><span class="line">    Size += W.size();</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;  <span class="comment">// Overwrite some bytes with W.</span></span><br><span class="line">    <span class="keyword">if</span> (W.size() &gt; Size) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">size_t</span> Idx = UsePositionHint ? DE.GetPositionHint() : Rand(Size - W.size());</span><br><span class="line">    <span class="built_in">memcpy</span>(Data + Idx, W.data(), W.size());</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="PersAutoDict"><a href="#PersAutoDict" class="headerlink" title="PersAutoDict"></a>PersAutoDict</h2><p>在<code>PersistentAutoDictionary</code>（运行过程中搜集有助于提升覆盖率的数据）中随机选择一个<code>Word</code>插入或覆写到<code>Data</code>的随机位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// compiler-rt/lib/fuzzer/FuzzerLoop.cpp</span></span><br><span class="line">Dictionary PersistentAutoDictionary;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_AddWordFromPersistentAutoDictionary</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size, <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> AddWordFromDictionary(PersistentAutoDictionary, Data, Size, MaxSize);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CMP"><a href="#CMP" class="headerlink" title="CMP"></a>CMP</h2><p><code>-fsanitize-coverage=trace-cmp (on by default as part of -fsanitize=fuzzer)</code></p>
+<p>在<code>TableOfRecentCompares(TORC)</code>（运行过程中记录执行过的比较操作）中随机选择一个<code>Word</code>插入或覆写到<code>Data</code>的随机位置。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_AddWordFromTORC</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    <span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size, <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  Word W;</span><br><span class="line">  DictionaryEntry DE;</span><br><span class="line">  <span class="keyword">switch</span> (Rand(<span class="number">4</span>)) &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">0</span>: &#123;</span><br><span class="line">    <span class="keyword">auto</span> X = TPC.TORC8.Get(Rand.Rand());</span><br><span class="line">    DE = MakeDictionaryEntryFromCMP(X.A, X.B, Data, Size);</span><br><span class="line">  &#125; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>: &#123;</span><br><span class="line">    <span class="keyword">auto</span> X = TPC.TORC4.Get(Rand.Rand());</span><br><span class="line">    <span class="keyword">if</span> ((X.A &gt;&gt; <span class="number">16</span>) == <span class="number">0</span> &amp;&amp; (X.B &gt;&gt; <span class="number">16</span>) == <span class="number">0</span> &amp;&amp; Rand.RandBool())</span><br><span class="line">      DE = MakeDictionaryEntryFromCMP((<span class="keyword">uint16_t</span>)X.A, (<span class="keyword">uint16_t</span>)X.B, Data, Size);</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">      DE = MakeDictionaryEntryFromCMP(X.A, X.B, Data, Size);</span><br><span class="line">  &#125; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>: &#123;</span><br><span class="line">    <span class="keyword">auto</span> X = TPC.TORCW.Get(Rand.Rand());</span><br><span class="line">    DE = MakeDictionaryEntryFromCMP(X.A, X.B, Data, Size);</span><br><span class="line">  &#125; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">3</span>: <span class="keyword">if</span> (Options.UseMemmem) &#123;</span><br><span class="line">    <span class="keyword">auto</span> X = TPC.MMT.Get(Rand.Rand());</span><br><span class="line">    DE = DictionaryEntry(X);</span><br><span class="line">  &#125; <span class="keyword">break</span>;</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    assert(<span class="number">0</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!DE.GetW().size()) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  Size = ApplyDictionaryEntry(Data, Size, MaxSize, DE);</span><br><span class="line">  <span class="keyword">if</span> (!Size) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  DictionaryEntry &amp;DERef =</span><br><span class="line">      CmpDictionaryEntriesDeque[CmpDictionaryEntriesDequeIdx++ %</span><br><span class="line">                                kCmpDictionaryEntriesDequeSize];</span><br><span class="line">  DERef = DE;</span><br><span class="line">  CurrentDictionaryEntrySequence.push_back(&amp;DERef);</span><br><span class="line">  <span class="keyword">return</span> Size;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Custom"><a href="#Custom" class="headerlink" title="Custom"></a>Custom</h2><p>调用用户自定义实现的数据变异方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 用户定义方法接口，和LLVMFuzzerTestOneInput位于同一cpp中</span></span><br><span class="line"><span class="comment">// extern &quot;C&quot; size_t LLVMFuzzerCustomMutator</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_Custom</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                         <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> EF-&gt;LLVMFuzzerCustomMutator(Data, Size, MaxSize, Rand.Rand());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="CustomCrossOver"><a href="#CustomCrossOver" class="headerlink" title="CustomCrossOver"></a>CustomCrossOver</h2><p>调用用户自定义实现的数据交叉方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::Mutate_CustomCrossOver</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                                  <span class="keyword">size_t</span> MaxSize)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (Size == <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">if</span> (!CrossOverWith) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">const</span> Unit &amp;Other = *CrossOverWith;</span><br><span class="line">  <span class="keyword">if</span> (Other.empty())</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  CustomCrossOverInPlaceHere.resize(MaxSize);</span><br><span class="line">  <span class="keyword">auto</span> &amp;U = CustomCrossOverInPlaceHere;</span><br><span class="line">  <span class="keyword">size_t</span> NewSize = EF-&gt;LLVMFuzzerCustomCrossOver(</span><br><span class="line">      Data, Size, Other.data(), Other.size(), U.data(), U.size(), Rand.Rand());</span><br><span class="line">  <span class="keyword">if</span> (!NewSize)</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  assert(NewSize &lt;= MaxSize &amp;&amp; <span class="string">&quot;CustomCrossOver returned overisized unit&quot;</span>);</span><br><span class="line">  <span class="built_in">memcpy</span>(Data, U.data(), NewSize);</span><br><span class="line">  <span class="keyword">return</span> NewSize;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="策略选择"><a href="#策略选择" class="headerlink" title="策略选择"></a>策略选择</h2><p><code>LibFuzzer</code>随机选择编译策略，其关键代码位于<code>515</code>行。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Mutates Data in place, returns new size.</span></span><br><span class="line"><span class="function"><span class="keyword">size_t</span> <span class="title">MutationDispatcher::MutateImpl</span><span class="params">(<span class="keyword">uint8_t</span> *Data, <span class="keyword">size_t</span> Size,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      <span class="keyword">size_t</span> MaxSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                                      Vector&lt;Mutator&gt; &amp;Mutators)</span> </span>&#123;</span><br><span class="line">  assert(MaxSize &gt; <span class="number">0</span>);</span><br><span class="line">  <span class="comment">// Some mutations may fail (e.g. can&#x27;t insert more bytes if Size == MaxSize),</span></span><br><span class="line">  <span class="comment">// in which case they will return 0.</span></span><br><span class="line">  <span class="comment">// Try several times before returning un-mutated data.</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">int</span> Iter = <span class="number">0</span>; Iter &lt; <span class="number">100</span>; Iter++) &#123;</span><br><span class="line">    <span class="keyword">auto</span> M = Mutators[Rand(Mutators.size())]; <span class="comment">// 这里</span></span><br><span class="line">    <span class="keyword">size_t</span> NewSize = (<span class="keyword">this</span>-&gt;*(M.Fn))(Data, Size, MaxSize);</span><br><span class="line">    <span class="keyword">if</span> (NewSize &amp;&amp; NewSize &lt;= MaxSize) &#123;</span><br><span class="line">      <span class="keyword">if</span> (Options.OnlyASCII)</span><br><span class="line">        ToASCII(Data, NewSize);</span><br><span class="line">      CurrentMutatorSequence.push_back(M);</span><br><span class="line">      <span class="keyword">return</span> NewSize;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  *Data = <span class="string">&#x27; &#x27;</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span>;   <span class="comment">// Fallback, should not happen frequently.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>随机选择编译策略的方法明显有所不足，因此有学者对此进行了改进，比如<a target="_blank" rel="noopener" href="https://arxiv.org/abs/1807.07490">FuzzerGym: A Competitive Framework for Fuzzing and Learning</a>，改论文采用强化学习（DQN）的方法来改进fuzz的效率，在此感谢Drozd教授的指导。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本文总结介绍了<code>LibFuzzer</code>的变异策略，有助于我们对其进行进一步的改进。</p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zh2
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zanderchang.github.io/2019/12/11/libfuzzer%E4%B8%AD%E7%9A%84%E5%8F%98%E5%BC%82%E7%AD%96%E7%95%A5%E5%88%86%E6%9E%90/" title="LibFuzzer中的变异策略分析">http://zanderchang.github.io/2019/12/11/libfuzzer中的变异策略分析/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LLVM/" rel="tag"># LLVM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/03/hackthebox-Heist/" rel="prev" title="hackthebox-Heist">
+      <i class="fa fa-chevron-left"></i> hackthebox-Heist
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/24/%E5%B8%B8%E8%A7%81%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6%E6%AF%94%E8%BE%83/" rel="next" title="常见强化学习框架比较">
+      常见强化学习框架比较 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EraseBytes"><span class="nav-number">2.</span> <span class="nav-text">EraseBytes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InsertByte"><span class="nav-number">3.</span> <span class="nav-text">InsertByte</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#InsertRepeatedBytes"><span class="nav-number">4.</span> <span class="nav-text">InsertRepeatedBytes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeByte"><span class="nav-number">5.</span> <span class="nav-text">ChangeByte</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeBit"><span class="nav-number">6.</span> <span class="nav-text">ChangeBit</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ShuffleBytes"><span class="nav-number">7.</span> <span class="nav-text">ShuffleBytes</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeASCIIInt"><span class="nav-number">8.</span> <span class="nav-text">ChangeASCIIInt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeBinInt"><span class="nav-number">9.</span> <span class="nav-text">ChangeBinInt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CopyPart"><span class="nav-number">10.</span> <span class="nav-text">CopyPart</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CrossOver"><span class="nav-number">11.</span> <span class="nav-text">CrossOver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ManualDict"><span class="nav-number">12.</span> <span class="nav-text">ManualDict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PersAutoDict"><span class="nav-number">13.</span> <span class="nav-text">PersAutoDict</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CMP"><span class="nav-number">14.</span> <span class="nav-text">CMP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom"><span class="nav-number">15.</span> <span class="nav-text">Custom</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CustomCrossOver"><span class="nav-number">16.</span> <span class="nav-text">CustomCrossOver</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E9%80%89%E6%8B%A9"><span class="nav-number">17.</span> <span class="nav-text">策略选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">18.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zh2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zh2</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zanderchang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="SysinternalsSuite一共有76款实用工具程序，部分程序有32和64位之分。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SysinternalsSuite工具使用总结">
+<meta property="og:url" content="http://zanderchang.github.io/2020/01/10/SysinternalsSuite%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="zh2的博客">
+<meta property="og:description" content="SysinternalsSuite一共有76款实用工具程序，部分程序有32和64位之分。">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-01-10T02:48:49.000Z">
+<meta property="article:modified_time" content="2021-03-21T12:13:40.480Z">
+<meta property="article:author" content="zh2">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zanderchang.github.io/2020/01/10/SysinternalsSuite%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>SysinternalsSuite工具使用总结 | zh2的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+<link rel="alternate" href="/atom.xml" title="zh2的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zh2的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/01/10/SysinternalsSuite%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zh2">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zh2的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SysinternalsSuite工具使用总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-01-10 10:48:49 10:48:49" itemprop="dateCreated datePublished" datetime="2020-01-10T10:48:49+08:00">2020-01-10 10:48:49</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-21 20:13:40 20:13:40" itemprop="dateModified" datetime="2021-03-21T20:13:40+08:00">2021-03-21 20:13:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/" itemprop="url" rel="index"><span itemprop="name">经验总结</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><code>SysinternalsSuite</code>一共有<code>76</code>款实用工具程序，部分程序有<code>32</code>和<code>64</code>位之分。</p>
+<span id="more"></span>
+<p><code>-accepteula</code>可以避免第一次运行时弹出的提示。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th></th>
+<th>名称</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>accesschk(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>AccessEnum</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>ADExplorer</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>ADInsight</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>adrestore</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>Autologon</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Autoruns(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>8</td>
+<td>autorunsc(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>9</td>
+<td>Bginfo(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cacheset</td>
+<td></td>
+</tr>
+<tr>
+<td>11</td>
+<td>Clockres(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td>Contig(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>13</td>
+<td>Coreinfo</td>
+<td>查看CPU信息，<code>-v</code>查看CPU对虚拟化的支持，需要管理员权限</td>
+</tr>
+<tr>
+<td>14</td>
+<td>ctrl2cap</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td>Dbgview</td>
+<td>查看<code>DbgPrint()</code>的输出，捕获kernel需要管理员权限</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Desktops</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td>disk2vhd</td>
+<td></td>
+</tr>
+<tr>
+<td>18</td>
+<td>diskext(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>19</td>
+<td>Diskmon</td>
+<td></td>
+</tr>
+<tr>
+<td>20</td>
+<td>DiskView</td>
+<td></td>
+</tr>
+<tr>
+<td>21</td>
+<td>du(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>22</td>
+<td>efsdump</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td>FindLinks(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>24</td>
+<td>handle(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td>hex2dec(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>26</td>
+<td>junction(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>27</td>
+<td>ldmdump</td>
+<td></td>
+</tr>
+<tr>
+<td>28</td>
+<td>Listdlls(64)</td>
+<td><code>Listdlls64.exe -v chrome</code> 列出已启动程序加载的DLL</td>
+</tr>
+<tr>
+<td>29</td>
+<td>livekd(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>30</td>
+<td>LoadOrd(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>31</td>
+<td>LoadOrdC(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td>logonsessions(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>33</td>
+<td>movefile(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td>notmyfault(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>35</td>
+<td>notmyfaultc(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>36</td>
+<td>ntfsinfo(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td>pagedfrg</td>
+<td></td>
+</tr>
+<tr>
+<td>38</td>
+<td>pendmoves(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>39</td>
+<td>pipelist(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>40</td>
+<td>portmon</td>
+<td></td>
+</tr>
+<tr>
+<td>41</td>
+<td>procdump(64)</td>
+<td><code>Procdump64.exe -ma 6276 firefox-6276.dmp</code> dump进程内存空间</td>
+</tr>
+<tr>
+<td>42</td>
+<td>procexp(64)</td>
+<td>查看系统进程信息</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Procmon</td>
+<td>根据设定的过滤条件监控进程的各种行为</td>
+</tr>
+<tr>
+<td>44</td>
+<td>PsExec(64)</td>
+<td>交互式执行远程系统上的进程 <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/HOck5KYFGrVvCxrRCtrnHw">参考</a></td>
+</tr>
+<tr>
+<td>45</td>
+<td>psfile(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>46</td>
+<td>PsGetsid(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>47</td>
+<td>PsInfo(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>48</td>
+<td>pskill(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>49</td>
+<td>pslist(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>50</td>
+<td>PsLoggedon(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>51</td>
+<td>psloglist(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>52</td>
+<td>pspasswd(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>53</td>
+<td>psping(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>54</td>
+<td>PsService(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>55</td>
+<td>psshutdown</td>
+<td></td>
+</tr>
+<tr>
+<td>56</td>
+<td>pssuspend(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>57</td>
+<td>RAMMap</td>
+<td></td>
+</tr>
+<tr>
+<td>58</td>
+<td>RegDelNull(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>59</td>
+<td>regjump</td>
+<td></td>
+</tr>
+<tr>
+<td>60</td>
+<td>ru(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>61</td>
+<td>sdelete(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>62</td>
+<td>ShareEnum</td>
+<td></td>
+</tr>
+<tr>
+<td>63</td>
+<td>ShellRunas</td>
+<td></td>
+</tr>
+<tr>
+<td>64</td>
+<td>sigcheck(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>65</td>
+<td>streams(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>66</td>
+<td>strings(64)</td>
+<td><code>strings.exe –o -accepteula win7.dd</code>类似于<code>Linux</code>下的<code>strings -a -td win7.dd</code>，以<code>&lt;decimal_offset&gt;:&lt;string&gt;</code>的格式输出二进制文件中的字符串</td>
+</tr>
+<tr>
+<td>67</td>
+<td>sync(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>68</td>
+<td>Sysmon(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>69</td>
+<td>Tcpvcon</td>
+<td></td>
+</tr>
+<tr>
+<td>70</td>
+<td>Tcpview</td>
+<td></td>
+</tr>
+<tr>
+<td>71</td>
+<td>Testlimit(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>72</td>
+<td>vmmap</td>
+<td></td>
+</tr>
+<tr>
+<td>73</td>
+<td>Volumeid(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>74</td>
+<td>whois(64)</td>
+<td></td>
+</tr>
+<tr>
+<td>75</td>
+<td>Winobj</td>
+<td>查看内核对象和命名空间，比如驱动</td>
+</tr>
+<tr>
+<td>76</td>
+<td>ZoomIt</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zh2
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zanderchang.github.io/2020/01/10/SysinternalsSuite%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" title="SysinternalsSuite工具使用总结">http://zanderchang.github.io/2020/01/10/SysinternalsSuite工具使用总结/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/04/keras%E9%A2%84%E5%AE%9A%E4%B9%89%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/" rel="prev" title="keras预定义激活函数">
+      <i class="fa fa-chevron-left"></i> keras预定义激活函数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/10/MemLabs-Memory-Forensics-Challenges/" rel="next" title="MemLabs Memory Forensics Challenges">
+      MemLabs Memory Forensics Challenges <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zh2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zh2</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

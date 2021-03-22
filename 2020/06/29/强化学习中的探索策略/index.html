@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zanderchang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020) 作者：Lilian Weng">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习中的探索策略">
+<meta property="og:url" content="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/index.html">
+<meta property="og:site_name" content="zh2的博客">
+<meta property="og:description" content="Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020) 作者：Lilian Weng">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-06-29T02:52:07.000Z">
+<meta property="article:modified_time" content="2021-03-21T12:13:40.481Z">
+<meta property="article:author" content="zh2">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>强化学习中的探索策略 | zh2的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><!-- hexo-inject:begin --><!-- hexo-inject:end --><link rel="alternate" href="/atom.xml" title="zh2的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zh2的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zh2">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zh2的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          强化学习中的探索策略
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-29 10:52:07 10:52:07" itemprop="dateCreated datePublished" datetime="2020-06-29T10:52:07+08:00">2020-06-29 10:52:07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-21 20:13:40 20:13:40" itemprop="dateModified" datetime="2021-03-21T20:13:40+08:00">2021-03-21 20:13:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>Exploration Strategies in Deep Reinforcement Learning (Jun 7, 2020)</em></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://lilianweng.github.io/lil-log/">Lilian Weng</a></p>
+<span id="more"></span>
+<h1 id="Classic-Exploration-Strategies"><a href="#Classic-Exploration-Strategies" class="headerlink" title="Classic Exploration Strategies"></a>Classic Exploration Strategies</h1><p>传统探索策略</p>
+<ul>
+<li>适用于MAB或表格型RL<ul>
+<li><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex" xmlns="http://www.w3.org/2000/svg" width="0.919ex" height="1ex" role="img" focusable="false" viewBox="0 -431 406 442"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="matrix(1 0 0 -1 0 0)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D716" d="M227 -11Q149 -11 95 41T40 174Q40 262 87 322Q121 367 173 396T287 430Q289 431 329 431H367Q382 426 382 411Q382 385 341 385H325H312Q191 385 154 277L150 265H327Q340 256 340 246Q340 228 320 219H138V217Q128 187 128 143Q128 77 160 52T231 26Q258 26 284 36T326 57T343 68Q350 68 354 58T358 39Q358 36 357 35Q354 31 337 21T289 0T227 -11Z"></path></g></g></g></svg></mjx-container>-greedy</li>
+<li>UCB</li>
+<li>Boltzmann(softmax) exploration</li>
+<li>Thompson sampling</li>
+</ul>
+</li>
+<li>适用于DRL<ul>
+<li>Entropy loss term</li>
+<li>Noise-based Exploration 在各种地方添加噪声<ul>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.10295">Noisy Networks for Exploration</a>(2017)<ul>
+<li>NoisyNet在NN权重上基于GD引入扰动</li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1706.01905">Parameter Space Noise for Exploration</a>(2017)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="Key-Exploration-Problems"><a href="#Key-Exploration-Problems" class="headerlink" title="Key Exploration Problems"></a>Key Exploration Problems</h1><h2 id="The-Hard-Exploration-Problem"><a href="#The-Hard-Exploration-Problem" class="headerlink" title="The Hard-Exploration Problem"></a>The Hard-Exploration Problem</h2><p>奖励少或者奖励有欺骗性</p>
+<h2 id="The-Noisy-TV-Problem"><a href="#The-Noisy-TV-Problem" class="headerlink" title="The Noisy-TV Problem"></a>The Noisy-TV Problem</h2><p>Agent被TV中虚假的不同状态吸引注意力而不去探索真实状态</p>
+<h1 id="Intrinsic-Rewards-as-Exploration-Bonuses"><a href="#Intrinsic-Rewards-as-Exploration-Bonuses" class="headerlink" title="Intrinsic Rewards as Exploration Bonuses"></a>Intrinsic Rewards as Exploration Bonuses</h1><p>利用内在奖励解决Hard-Exploration问题</p>
+<h2 id="Count-based-Exploration"><a href="#Count-based-Exploration" class="headerlink" title="Count-based Exploration"></a>Count-based Exploration</h2><p>基于计数评估状态的新颖程度</p>
+<h3 id="Counting-by-Density-Model"><a href="#Counting-by-Density-Model" class="headerlink" title="Counting by Density Model"></a>Counting by Density Model</h3><ul>
+<li>Density model(2016)<h3 id="Counting-after-Hashing"><a href="#Counting-after-Hashing" class="headerlink" title="Counting after Hashing"></a>Counting after Hashing</h3>将高维状态空间用hash（LSH、SimHash）进行映射<h2 id="Prediction-based-Exploration"><a href="#Prediction-based-Exploration" class="headerlink" title="Prediction-based Exploration"></a>Prediction-based Exploration</h2>基于预测来评估模型对环境的熟悉程度<h3 id="Forward-Dynamics"><a href="#Forward-Dynamics" class="headerlink" title="Forward Dynamics"></a>Forward Dynamics</h3></li>
+<li>IAC(2007)</li>
+<li>ICM(2017)</li>
+<li>VIME(2017)<h3 id="Random-Networks"><a href="#Random-Networks" class="headerlink" title="Random Networks"></a>Random Networks</h3>预测任务与环境无关时选择随机任务来辅助探索</li>
+<li>DORA(2018)</li>
+<li>RND(2018)<ul>
+<li>Random Network Distillation<h3 id="Physical-Properties"><a href="#Physical-Properties" class="headerlink" title="Physical Properties"></a>Physical Properties</h3>发现物理环境中隐藏的属性来鼓励探索</li>
+</ul>
+</li>
+</ul>
+<h1 id="Memory-based-Exploration"><a href="#Memory-based-Exploration" class="headerlink" title="Memory-based Exploration"></a>Memory-based Exploration</h1><p>引入外部存储解决上述基于奖励的探索方法存在的问题</p>
+<h2 id="Episodic-Memory"><a href="#Episodic-Memory" class="headerlink" title="Episodic Memory"></a>Episodic Memory</h2><ul>
+<li>NGU(2020)<ul>
+<li>Never Give Up</li>
+<li>Agent57(2020)<h2 id="Direct-Exploration"><a href="#Direct-Exploration" class="headerlink" title="Direct Exploration"></a>Direct Exploration</h2></li>
+</ul>
+</li>
+<li>Go-Explore(2019)</li>
+<li>DTSIL(2019)</li>
+<li>policy-based Go-Explore(2020)<h2 id="Q-Value-Exploration"><a href="#Q-Value-Exploration" class="headerlink" title="Q-Value Exploration"></a>Q-Value Exploration</h2></li>
+<li>Bootstrapped DQN(2016)<h2 id="Varitional-Options"><a href="#Varitional-Options" class="headerlink" title="Varitional Options"></a>Varitional Options</h2></li>
+<li>VIC(2017)</li>
+<li>VALOR(2018)</li>
+<li>DIAYN(2018)</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://lilianweng.github.io/lil-log/2020/06/07/exploration-strategies-in-deep-reinforcement-learning.html">原文地址</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zh2
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zanderchang.github.io/2020/06/29/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E4%B8%AD%E7%9A%84%E6%8E%A2%E7%B4%A2%E7%AD%96%E7%95%A5/" title="强化学习中的探索策略">http://zanderchang.github.io/2020/06/29/强化学习中的探索策略/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/25/%E7%AC%A6%E5%8F%B7%E6%89%A7%E8%A1%8C%E7%9B%B8%E5%85%B3-Angr/" rel="prev" title="符号执行相关-Angr">
+      <i class="fa fa-chevron-left"></i> 符号执行相关-Angr
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/21/functools-partial/" rel="next" title="functools.partial">
+      functools.partial <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Classic-Exploration-Strategies"><span class="nav-number">1.</span> <span class="nav-text">Classic Exploration Strategies</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Key-Exploration-Problems"><span class="nav-number">2.</span> <span class="nav-text">Key Exploration Problems</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Hard-Exploration-Problem"><span class="nav-number">2.1.</span> <span class="nav-text">The Hard-Exploration Problem</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#The-Noisy-TV-Problem"><span class="nav-number">2.2.</span> <span class="nav-text">The Noisy-TV Problem</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Intrinsic-Rewards-as-Exploration-Bonuses"><span class="nav-number">3.</span> <span class="nav-text">Intrinsic Rewards as Exploration Bonuses</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Count-based-Exploration"><span class="nav-number">3.1.</span> <span class="nav-text">Count-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Counting-by-Density-Model"><span class="nav-number">3.1.1.</span> <span class="nav-text">Counting by Density Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Counting-after-Hashing"><span class="nav-number">3.1.2.</span> <span class="nav-text">Counting after Hashing</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prediction-based-Exploration"><span class="nav-number">3.2.</span> <span class="nav-text">Prediction-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Forward-Dynamics"><span class="nav-number">3.2.1.</span> <span class="nav-text">Forward Dynamics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Random-Networks"><span class="nav-number">3.2.2.</span> <span class="nav-text">Random Networks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Physical-Properties"><span class="nav-number">3.2.3.</span> <span class="nav-text">Physical Properties</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Memory-based-Exploration"><span class="nav-number">4.</span> <span class="nav-text">Memory-based Exploration</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Episodic-Memory"><span class="nav-number">4.1.</span> <span class="nav-text">Episodic Memory</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Direct-Exploration"><span class="nav-number">4.2.</span> <span class="nav-text">Direct Exploration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-Value-Exploration"><span class="nav-number">4.3.</span> <span class="nav-text">Q-Value Exploration</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Varitional-Options"><span class="nav-number">4.4.</span> <span class="nav-text">Varitional Options</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zh2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zh2</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

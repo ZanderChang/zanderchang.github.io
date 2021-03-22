@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Noto Serif SC:300,300italic,400,400italic,700,700italic|Roboto Mono:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"zanderchang.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFL 及其相关拓展项目总结">
+<meta property="og:url" content="http://zanderchang.github.io/2019/04/29/AFL%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E6%8B%93%E5%B1%95%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="zh2的博客">
+<meta property="og:description" content="原文标题 Zoo AFL (Apr 24, 2019) 作者：@d1g1 本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-04-29T06:44:42.000Z">
+<meta property="article:modified_time" content="2021-03-21T12:13:40.480Z">
+<meta property="article:author" content="zh2">
+<meta property="article:tag" content="外文翻译">
+<meta property="article:tag" content="漏洞挖掘">
+<meta property="article:tag" content="AFL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://zanderchang.github.io/2019/04/29/AFL%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E6%8B%93%E5%B1%95%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>AFL 及其相关拓展项目总结 | zh2的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+<link rel="alternate" href="/atom.xml" title="zh2的博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">zh2的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="http://zanderchang.github.io/2019/04/29/AFL%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E6%8B%93%E5%B1%95%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="zh2">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zh2的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AFL 及其相关拓展项目总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-29 14:44:42 14:44:42" itemprop="dateCreated datePublished" datetime="2019-04-29T14:44:42+08:00">2019-04-29 14:44:42</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2021-03-21 20:13:40 20:13:40" itemprop="dateModified" datetime="2021-03-21T20:13:40+08:00">2021-03-21 20:13:40</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" itemprop="url" rel="index"><span itemprop="name">漏洞挖掘</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><em>原文标题 Zoo AFL (Apr 24, 2019)</em></p>
+<p>作者：<a target="_blank" rel="noopener" href="https://habr.com/en/users/d1g1/">@d1g1</a></p>
+<p>本文主要讨论的不是经典 AFL 本身，而是为其设计的工具以及对其本身做出的改进，我们认为这些改进可以显著提高模糊测试的质量。如果你想知道如何提高 AFL 效率以及如何更快地找到更多漏洞，请继续阅读！（持续更新中）</p>
+<span id="more"></span>
+<h1 id="AFL-是什么，它有什么用？"><a href="#AFL-是什么，它有什么用？" class="headerlink" title="AFL 是什么，它有什么用？"></a>AFL 是什么，它有什么用？</h1><p>AFL是一个覆盖导向或基于反馈的模糊测试工具，关于这些概念的更多信息可以在参考这篇论文 <a target="_blank" rel="noopener" href="https://arxiv.org/abs/1812.00140">Fuzzing: Art, Science, and Engineering</a>。总结一下 AFL：</p>
+<ul>
+<li>它改进可执行文件以了解它如何影响覆盖范围</li>
+<li>变异输入数据以最大化覆盖范围</li>
+<li>重复上一步以找到程序崩溃的位置</li>
+<li>通过实践证明它非常有效</li>
+<li>它易于使用</li>
+</ul>
+<p>如果你不清楚 AFL 是什么的话，这里有一些资源帮助你上手和理解：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://lcamtuf.coredump.cx/afl/">项目主页</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ThalesIgnite/afl-training">AFL 练习</a></li>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/wolframroesler/afl-demo">AFL Demo</a> — 使用 AFL fuzz C++ 程序</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mrash/afl-cve">AFL 发现的漏洞</a> —（截至 2017）</li>
+<li>在<a target="_blank" rel="noopener" href="https://tunnelshade.in/blog/2018/01/afl-internals-compile-time-instrumentation/">这里</a>你可以读到关于 AFL 在构建过程中添加到程序中的内容</li>
+<li><a target="_blank" rel="noopener" href="https://copyninja.info/blog/afl-and-network-programs.html">一些</a>关于 fuzz 网络程序的技巧</li>
+</ul>
+<p>在写这篇文章时 AFL 的最新版本是<a target="_blank" rel="noopener" href="http://lcamtuf.coredump.cx/afl/">2.52b</a>。随着时间的推移，一些分支正在被纳入到 AFL 主分支。接下来我们会列举几个有用的附件工具。</p>
+<p><strong>关于 Rode0day 竞赛</strong></p>
+<p><a target="_blank" rel="noopener" href="https://rode0day.mit.edu/">Rode0day</a> 竞赛每月举办一次，参赛者要在花费更少时间的情况下在预先制作的语料库（无论是否获取源代码）中找到最多的漏洞。就其本质而言，Rode0day 是 AFL 不同分支之间的争斗。</p>
+<p>一些AFL用户<a target="_blank" rel="noopener" href="https://groups.google.com/forum/#!topic/afl-users/6NTPAkK7JEk">指出</a>，AFL 的作者 Michal Zalewski 显然已经放弃该项目， 因为上次的改进日期还得追溯到 2017 年 11 月 5 日。这可能与他离开 Google 并开展一些新项目有关。 因此用户开始为最新的版本 2.52b 制作新的<a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/afl-patches">补丁</a>)。</p>
+<p>AFL 还有不同的变体和衍生物，允许模糊测试 Python，Go，Rust，OCaml，GCJ Java，内核系统调用，甚至整个虚拟机。</p>
+<p><strong>AFL 对其它语言的支持</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/jwilk/python-afl">python-afl</a> — Python</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rust-fuzz/afl.rs">afl.rs</a> — Rust</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/connor4312/js-fuzz">afl-fuzz-js</a> — Javascript</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Barro/java-afl">java-afl</a> — Java</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/isstac/kelinci">kelinci</a> — Java（<a target="_blank" rel="noopener" href="https://www.modzero.ch/modlog/archives/2018/09/20/java_bugs_with_and_without_fuzzing/index.html">相关文章</a>）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/cretz/javan-warty-pig">javan-warty-pig</a> — JVM</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Proteas/afl-swift">afl-swift</a> — Swift</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kayceesrk/ocamlopt-afl">ocamlopt-afl</a> — OCaml</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Metalnem/sharpfuzz">sharpfuzz</a> — .Net</li>
+</ul>
+<h1 id="AFL-附属工具"><a href="#AFL-附属工具" class="headerlink" title="AFL 附属工具"></a>AFL 附属工具</h1><p>本节我们收集了 AFL 的各种脚本和工具，并将它们分为几类：</p>
+<h2 id="崩溃处理"><a href="#崩溃处理" class="headerlink" title="崩溃处理"></a>崩溃处理</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/rc0r/afl-utils">afl-utils</a> — 自动处理/分析崩溃和减少测试用例数量</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/floyd-fuh/afl-crash-analyzer">afl-crash-analyzer</a> — AFL 崩溃分析程序</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ThePatrickStar/fuzzer-utils">fuzzer-utils</a> — 分析结果</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Ayrx/atriage">atriage</a> — 简单的分类工具</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kcwu/afl-kit">afl-kit</a> — Python 实现的 afl-cmin</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/d33tah/aflize">AFLize</a> — 生成适合 AFL 的 debian 包的构建</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FoRTE-Research/afl-fid">afl-fid</a> — 处理输入数据</li>
+</ul>
+<h2 id="代码覆盖率"><a href="#代码覆盖率" class="headerlink" title="代码覆盖率"></a>代码覆盖率</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mrash/afl-cov">afl-cov</a> — 提供人性化的覆盖率数据</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Barro/count-afl-calls">count-afl-calls</a> — 使用脚本计算二进制文件中的插桩块数，评估其占比</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bshastry/afl-sancov">afl-sancov</a> — 类似于 afl-cov 但使用 clang的消毒机制（sanitizer）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Cisco-Talos/covnavi">covnavi</a> — 思科 Talos 开发的用于代码覆盖和分析的脚本</li>
+<li><a target="_blank" rel="noopener" href="https://gitlab.com/laf-intel/laf-llvm-pass/tree/master">LAF LLVM Passes</a> — 类似于 AFL 的补丁集合，可以改进代码使其更容易找到分支</li>
+</ul>
+<h2 id="一些用于最小化测试用例的脚本"><a href="#一些用于最小化测试用例的脚本" class="headerlink" title="一些用于最小化测试用例的脚本"></a>一些用于最小化测试用例的脚本</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/ilsani/afl-pytmin">afl-pytmin</a> — 一个 afl-tmin 的包装器，它试图通过使用多 CPU 内核来加速最小化测试用例的过程</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/MarkusTeufelberger/afl-ddmin-mod">afl-ddmin-mod</a> — 基于 ddmin 算法的 afl-tmin</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/googleprojectzero/halfempty">halfempty</a> — 来自 Tavis Ormandy 基于并行化的快速最小化测试用例的程序</li>
+</ul>
+<h2 id="分布式执行"><a href="#分布式执行" class="headerlink" title="分布式执行"></a>分布式执行</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/MartijnB/disfuzz-afl">disfuzz-afl</a> — AFL 的分布式模糊测试</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/quantumvm/AFLDFF">AFLDFF</a> — AFL 分布式模糊测试框架</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bnagy/afl-launch">afl-launch</a> — AFL 多实例执行</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/afl-mothership/afl-mothership">afl-mothership</a> — AWS 云上多同步 AFL 的管理和执行</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/abhisek/afl-in-the-cloud">afl-in-the-cloud</a> — 另一个在 AWS 中运行 AFL 的脚本</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/clvang000/VU_BSc_project">VU_BSc_project</a> — 使用 libFuzzer 和 AFL 对开源库进行模糊测试</li>
+</ul>
+<p>最近有一篇文章 <a target="_blank" rel="noopener" href="https://gamozolabs.github.io/fuzzing/2018/09/16/scaling_afl.html">Scaling AFL to a 256 thread machine</a>。</p>
+<h2 id="部署，管理，监控，报告"><a href="#部署，管理，监控，报告" class="headerlink" title="部署，管理，监控，报告"></a>部署，管理，监控，报告</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shellphish/afl-other-arch">afl-other-arch</a> — 用于添加对各种非x86体系结构的支持</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bnagy/afl-trivia">afl-trivia</a> — 简化 AFL 管理的脚本</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/reflare/afl-monitor">afl-monitor</a> — AFL 监控脚本</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zx1340/afl-manager">afl-manager</a> — Python 实现的用于管理 multi-afl 的 Web 服务器</li>
+<li><a target="_blank" rel="noopener" href="https://hub.docker.com/r/moflow/afl-tools/">afl-tools</a> — 带有 afl-latest, afl-dyninst 和 Triforce-afl 的 docker 镜像</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/block8437/afl-remote">afl-remote</a> — 远程管理 AFL 实例的 Web 服务器</li>
+</ul>
+<h2 id="包装器（wrapper）"><a href="#包装器（wrapper）" class="headerlink" title="包装器（wrapper）"></a>包装器（wrapper）</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/angr/phuzzer">phuzzer</a> - 基于 Python 与 AFL 交互</li>
+</ul>
+<h1 id="AFL-改进"><a href="#AFL-改进" class="headerlink" title="AFL 改进"></a>AFL 改进</h1><p>AFL 对漏洞研究人员和模糊测试本身产生了巨大的影响，他们开始根据原始 AFL 进行改进。在不同的情况下，与原始AFL相比，每个改进都有其自身的优缺点。</p>
+<p>几乎所有改进版本可以在 <a target="_blank" rel="noopener" href="https://hub.docker.com">hub.docker.com</a> 找到。</p>
+<p>目的是什么？</p>
+<ul>
+<li><p>提高速度并/或提高代码覆盖率</p>
+<ul>
+<li>算法</li>
+<li>环境<ul>
+<li>操作系统</li>
+<li>硬件</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>无源码环境</p>
+<ul>
+<li>代码模拟</li>
+<li>代码插桩<ul>
+<li>静态</li>
+<li>动态</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="AFL-默认模式"><a href="#AFL-默认模式" class="headerlink" title="AFL 默认模式"></a>AFL 默认模式</h2><p>在继续研究 AFL 的不同改进和分支之前，我们必须讨论两种重要的模式，这些模式在过去也有过改进但最终被合并。它们是 Syzygy 和 QEMU。</p>
+<h3 id="Syzygy-模式-—-instrument-exe-中工作的模式"><a href="#Syzygy-模式-—-instrument-exe-中工作的模式" class="headerlink" title="Syzygy 模式 — instrument.exe 中工作的模式"></a><a target="_blank" rel="noopener" href="https://doar-e.github.io/blog/2017/08/05/binary-rewriting-with-syzygy/">Syzygy</a> 模式 — instrument.exe 中工作的模式</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">instrument.exe <span class="attribute">--mode</span>=afl <span class="attribute">--input-image</span>=test.exe <span class="attribute">--output-image</span>=test.instr.exe</span><br></pre></td></tr></table></figure>
+<p>Syzygy 允许使用 AFL 静态重写 PE32 二进制文件，但需要符号和额外环境的才能识别 WinAFL 内核。</p>
+<h3 id="QEMU-模式-—-QEMU-下的工作方式见-Internals-of-AFL-fuzzer-—-QEMU-Instrumentation"><a href="#QEMU-模式-—-QEMU-下的工作方式见-Internals-of-AFL-fuzzer-—-QEMU-Instrumentation" class="headerlink" title="QEMU 模式 — QEMU 下的工作方式见 Internals of AFL fuzzer — QEMU Instrumentation"></a>QEMU 模式 — QEMU 下的工作方式见 <a target="_blank" rel="noopener" href="https://tunnelshade.in/blog/2018/02/afl-internals-qemu-instrumentation/">Internals of AFL fuzzer — QEMU Instrumentation</a></h3><p>使用 QEMU 实现对二进制文件的支持在版本 1.31b 中被添加到 AFL 处理流程上游。AFL QEMU 模式使用 QEMU tcg（一个微小的代码生成器）二进制转换引擎的二进制插桩功能。为此，AFL 有一个 QEMU 的构建脚本，它提取特定版本 QEMU（2.10.0）的源代码，将它们放到几个小的补丁上，并为指定架构构建。然后，创建名为 afl-qemu-trace 的文件，该文件实际上是 QEMU 用户模式模拟（仅可执行ELF文件）的文件。因此，AFL 可以使用不同体系架构（QEMU 支持）中 elf 二进制文件的反馈进行模糊测试。此外，还有许多 AFL 工具，比如从显示器上获取有关当前会话的信息，以及 afl-analyze 等高级内容。但同时 AFL 也会受到 QEMU 的局限， 比如如果工具链使用硬件 SoC 功能构建文件（该功能启动二进制并且 QEMU 不支持），则只要有特定指令或使用特定 MMIO，模糊测试就会中断。</p>
+<p><a target="_blank" rel="noopener" href="https://abiondo.me/2018/09/21/improving-afl-qemu-mode/">这里</a>是 QEMU 模式的另一个有趣的分支，其中使用TCG代码插桩和缓存，速度提高了3-4倍。</p>
+<h2 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h2><p>AFL 的分支首先与经典 AFL 算法的变化和改进有关。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/wmliang/pe-afl">pe-afl</a> — 对在 Windows 操作系统中没有源代码的 PE 文件进行模糊测试的改进。fuzzer 使用 IDA Pro 分析目标程序，并生成用于接下来静态插桩的信息。然后用 AFL 对插桩后的程序进行模糊测试。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/arizvisa/afl-cygwin">afl-cygwin</a> — 尝试使用 Cygwin 将经典 AFL 移植到Windows。然而它有很多错误且很慢，作者已经放弃了开发</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mboehme/aflfast">AFLFast</a>（使用 Power Schedule 改进 AFL 的调度算法和搜索策略）— 最早的 AFL 分支之一，它增加了启发式功能，实现在短时间内找到更多路径。它在目标 binutils 上获得了比 AFL 高 1-2 个数量级的发现，在24小时内发现了原始 AFL 未能发现的 4 个 CVE，达到平均 19 倍的效率提升。Team Codejitsu 在美国国防部和 DARPA 组织的 CGC（基于人工智能的自动化漏洞挖掘大赛）上，使用 AFLFast 获得了漏洞发现数目单项挑战的亚军。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/carolemieux/afl-rb">FairFuzz</a> — AFL 的扩展，针对难抵达的分支（利用Branch Mask）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/aflgo/aflgo">AFLGo</a> — AFL 的扩展，获取代码的某些部分而不是完整的程序覆盖，可用于测试补丁或新添加的代码片段</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/carolemieux/perffuzz">PerfFuzz</a> — AFL 的扩展，用于查找可能显着减慢程序速度的测试用例</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mboehme/pythia">Pythia</a> — AFL 的扩展，预测找到新路径的难度</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/AngoraFuzzer/Angora">Angora</a> — 最新的 fuzzer 之一，用 Rust 语言编写，使用新的策略进行变异并增加覆盖范围。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/Dongdongshe/neuzz">Neuzz</a> — 用神经网络进行模糊测试</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/FoRTE-Research/UnTracer-AFL">UnTracer-AFL</a> — 将 AFl 与 UnTracer 集成以进行有效跟踪</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sslab-gatech/qsym/">Qsym</a> — 针对混合模糊测试的实用混合执行（concolic execution）引擎。从本质上讲，它是一个符号执行引擎（基本组件作为 intel pin 的插件来实现），它与 AFL 一起执行混合模糊测试。这是基于反馈的模糊测试演变的一个阶段，需要单独讨论。它的主要优点是可以相对快速地进行混合执行。这是由于本机执行命令而没有代码、快照和一些启发式的中间表示。它使用旧版本的Intel pin（由于 libz3 和其他 DBT 之间的支持问题），目前支持ELF x86 和 x86_64 架构</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zhunki/Superion">Superion</a> — 灰盒模糊测试器，其优点是除了插桩程序外，它还使用 ANTLR 语法获取输入数据的规范，然后在此语法的帮助下执行变异</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/aflsmart/aflsmart">AFLSmart</a> — 另一个灰盒模糊测试器，它以 Peach 使用的格式获得输入数据的规范</li>
+</ul>
+<p>有许多研究论文致力于实现 AFL 被改进的新方法和模糊测试技术。由于它们只有白皮书，所以我们甚至没有提到这些。如果你愿意，你可以搜索它们。例如最新的一些有 <a target="_blank" rel="noopener" href="http://chao.100871.net/papers/oakland18.pdf">CollAFL: Path Sensitive Fuzzing</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1807.00182.pdf">EnFuzz</a>、<a target="_blank" rel="noopener" href="https://i.blackhat.com/asia-19/Fri-March-29/bh-asia-Dominiak-Efficient-Approach-to-Fuzzing-Interpreters-wp.pdf">Efficient approach to fuzzing interpreters</a>、<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1811.08973.pdf">ML</a> 用于 AFL 等。</p>
+<h2 id="基于-QEMU-的改进"><a href="#基于-QEMU-的改进" class="headerlink" title="基于 QEMU 的改进"></a>基于 QEMU 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/nccgroup/TriforceAFL">TriforceAFL</a> — AFL/QEMU对系统完全模拟来进行模糊测试。是由 nccgroup 提供的一个分支。它允许在 QEMU 模式下对整个操作系统进行模糊测试。它是通过一个特殊指令（aflCall (0f 24)）（在 QEMU x64 CPU 中添加）实现的。然而它不再受支持; 支持 AFL 的最后一个版本是2.06b</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/nccgroup/TriforceLinuxSyscallFuzzer">TriforceLinuxSyscallFuzzer</a> — Linux 系统调用的模糊测试</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/kanglictf/afl-qai">afl-qai</a> — 一个带有 QEMU 增强插桩（qai）的小型演示项目。</li>
+</ul>
+<h2 id="基于-KLEE-的改进"><a href="#基于-KLEE-的改进" class="headerlink" title="基于 KLEE 的改进"></a>基于 KLEE 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/julieeen/kleefl">kleefl</a> — 通过符号执行生成测试用例（在大程序上非常慢）</li>
+</ul>
+<h2 id="基于-Angr-的改进"><a href="#基于-Angr-的改进" class="headerlink" title="基于 Angr 的改进"></a>基于 Angr 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/shellphish/driller">Driller</a> - 将 AFL 和 Angr 结合在一起，还被用于 CGC(Cyber Grand Challenge) 自动网络攻防竞赛上</li>
+</ul>
+<h2 id="基于-Unicorn-的改进"><a href="#基于-Unicorn-的改进" class="headerlink" title="基于 Unicorn 的改进"></a>基于 Unicorn 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/Battelle/afl-unicorn">afl-unicorn</a> — 允许通过在 <a target="_blank" rel="noopener" href="https://www.unicorn-engine.org/">Unicorn Engine</a> 上模拟代码片段进行模糊测试</li>
+</ul>
+<p>我们在实践中成功使用了 AFL 的这种改进，由于目标是在 SOC 上执行的某个 RTOS（real-time operating system，实时操作系统）的代码区域，因此我们无法使用QEMU模式。在我们没有源代码的情况下（我们无法构建用于解析器分析的独立二进制文件）并且程序不直接获取输入数据（例如，数据被加密或是如在 CGC 二进制文件中的信号样本），然后我们可以逆向并找到所谓的位置函数，函数中中数据以便于模糊测试器使用的格式进行处理。这是 AFL 最普遍/通用的修改，即它允许模糊测试任何东西。它独立于架构、源、输入数据格式和二进制格式（例如裸机，只是来自控制器内存的代码片段）。研究人员首先检查这个二进制文件并编写一个模糊测试器，它在解析过程的输入端模拟状态。显然与 AFL 不同，这需要对二进制进行一定的检查。对于裸机固件，如 Wi-FI 或基带，我们需要记住一些缺点：</p>
+<ul>
+<li>我们必须本地处理控制和的检查</li>
+<li>模糊测试器的状态是保存在内存转储中的内存状态，这可以防止模糊测试器进入某些路径</li>
+<li>动态内存调用没有消毒，但它可以手动实现，它将取决于 RTOS（必须进行研究）</li>
+<li>未模拟任务内 RTOS 交互，这也可能阻止寻找某些路径</li>
+</ul>
+<p>使用这种修改的例子有：</p>
+<p><a target="_blank" rel="noopener" href="https://hackernoon.com/afl-unicorn-fuzzing-arbitrary-binary-code-563ca28936bf">afl-unicorn: Fuzzing Arbitrary Binary Code</a></p>
+<p><a target="_blank" rel="noopener" href="https://hackernoon.com/afl-unicorn-part-2-fuzzing-the-unfuzzable-bea8de3540a5">afl-unicorn: Part 2 — Fuzzing the ‘Unfuzzable’</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/fgsect/unicorefuzz">unicorefuzz</a> 使用 afl-unicorn 来 fuzz 内核</p>
+<p>在我们继续基于动态二进制检测（DBI）框架进行修改之前，不要忘记这些框架的最快速度由 DynamoRIO，Dynlnst 以及 PIN 实现。</p>
+<h2 id="基于-PIN-的改进"><a href="#基于-PIN-的改进" class="headerlink" title="基于 PIN 的改进"></a>基于 PIN 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mothran/aflpin">aflpin</a> — 采用 Intel PIN 插桩的 AFL</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/spinpx/afl_pin_mode">afl_pin_mode</a> — 另一个采用 Intel PIN 插桩的 AFL</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/afl-pin">afl-pin</a> — 采用 PINtool 的 AFL</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/carlosgprado/NaFl">NaFl</a> — AFL 模糊测试器的克隆（基本核心）</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/houcy/PinAFL">PinAFL</a> — 该工具的作者试图将 AFL 移植到 Windows，以便对已编译的二进制文件进行模糊测试。该项目好像是为了好玩而在一夜之间完成的且未进一步发展。存储库里没有源文件，只有已编译的二进制文件和启动指令。我们不知道它基于哪个版本的 AFL，它只支持 32 位应用程序。</li>
+</ul>
+<p>正如我们所看到的，AFL 有许多不同的修改，但它们在现实生活中并不是非常有用。</p>
+<h2 id="基于-Dyninst-的改进"><a href="#基于-Dyninst-的改进" class="headerlink" title="基于 Dyninst 的改进"></a>基于 Dyninst 的改进</h2><p><a target="_blank" rel="noopener" href="https://github.com/talos-vulndev/afl-dyninst">afl-dyninst</a> — AFL + Dyninst == AFL 黑盒模糊测试。这个版本的特点是首先使用 Dyninst 对一个研究过的程序（没有源代码）进行静态插桩（静态二进制插桩，静态二进制重写），然后使用经典 AFL 进行模糊测试，AFL 会认为程序是用 afl-gcc/afl-g++/afl-as 构建的。因此，它在没有源代码的情况下以非常好的生产率工作：与本地编译相比，经典 AFL 是 0.25 倍的速度。与QEMU相比，它具有显着优势：它允许动态链接库的插桩，而 QEMU 只能插桩与库静态链接的基本可执行文件。然而现在它只支持 Linux，如果增加对于 Windows 支持，则需要对 Dyninst 本身进行更改，这个工作<a target="_blank" rel="noopener" href="https://github.com/dyninst/dyninst/issues/120">正在进行</a>中。</p>
+<p>还有另一个<a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/afl-dyninst">分支</a>具有提升的速度和某些功能（AARCH64 和 PPC 架构的支持）。</p>
+<h2 id="基于-DynamoRIO-的改进"><a href="#基于-DynamoRIO-的改进" class="headerlink" title="基于 DynamoRIO 的改进"></a>基于 DynamoRIO 的改进</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/mxmssh/drAFL">drAFL</a> — AFl + DynamoRIO – 在 Linux 上没有源代码的模糊测试</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/atrosinenko/afl-dr">afl-dr</a> — 基于 DynamoRIO 的另一种实现，在 <a target="_blank" rel="noopener" href="https://habrahabr.ru/post/332076/">Habr</a> 上有很好的描述</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/afl-dynamorio">afl-dynamorio</a> — 来自 vanhauser-thc 的修改。 据他所说：“当正常的 afl-dyninst 能够使二进制崩溃并且 QEMU 模式 -Q 无法执行时，用 DynamoRIO 运行 AFL。”它支持 ARM 和 AARCH64。DynamoRIO 比 QEMU 慢大约 10 倍，比 dyninst 慢 25 倍，但比 Pintool 快 10 倍。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ivanfratric/winafl">WinAFL</a> — 最著名的 AFL分支。（DynamoRIO，也是 syzygy 模式）。这个修改的出现只是时间问题，因为许多人想在 Windows 上尝试 AFL 并将其应用于没有源代码的应用程序。目前，这个工具正在被积极改进，尽管 AFL 代码库（撰写本文时为 2.43b）相对过时，但它都有助于发现多个漏洞（CVE-2016-7212，CVE-2017-0073，CVE- 2017-0190，CVE-2017-11816）。Google Zero Project 团队和 MSRC 漏洞与解决团队的专家正在参与此项目，因此我们希望它能够得到进一步的发展。开发人员使用动态插桩（基于DynamoRIO）而不是编译时插桩，这显着减慢了被分析软件的执行速度，但产生的开销（加倍）与二进制模式下的经典 AFL 相当。他们还解决了快速启动过程的问题，称其为持续模糊测试模式；他们选择对函数进行模糊测试（通过文件内部的偏移或导出表中存在的函数名称）并对其进行插桩，以便可以在循环中调用它，从而启动多个输入数据样本而无需重新启动程序。最近发表的一篇<a target="_blank" rel="noopener" href="https://research.checkpoint.com/50-adobe-cves-in-50-days/">文章</a>描述了作者如何使用 WinAFL 在约 50 天内发现约 50 个漏洞。发布之后很快 WinAFL 就支持 Intel PT（Processor Tracing，处理器跟踪）模式，在这里可以找到<a target="_blank" rel="noopener" href="https://github.com/googleprojectzero/winafl/blob/master/readme_pt.md">细节信息</a>。</li>
+</ul>
+<p>专业读者可能注意到这些改进使用了除了Frida之外的各种流行的插桩框架。 唯一提到 Frida 与 AFL 的结合使用是在 <a target="_blank" rel="noopener" href="http://wpage.unina.it/roberto.natella/papers/natella_androidfuzzing_issre2017.pdf">Chizpurfle: A Gray-Box Android Fuzzer for Vendor Service Customizations</a> 中找到的。 带 Frida 的 AFL 版本非常有用，因为 Frida 支持多种 RISC 架构。</p>
+<p>许多研究者也期待由 Capstone，Unicorn 和 Keystone 的创建者发布的 DBI Scopio 框架。基于这个框架，作者已经创建了一个模糊测试器（Darko），据他们说能够成功地使用它来对嵌入式设备进行模糊测试。有关这方面的更多信息，请参阅 <a target="_blank" rel="noopener" href="https://conference.hitb.org/hitbsecconf2018pek/materials/D2T1%20-%20Finding%200days%20in%20Embedded%20Systems%20with%20Code%20Coverage%20Guided%20Fuzzing%20-%20Dr%20Quynh%20and%20Kai%20Jern%20Lau.pdf">Digging Deep: Finding 0days in Embedded Systems with Code Coverage Guided Fuzzing</a>。</p>
+<h2 id="基于处理器硬件特征的改进"><a href="#基于处理器硬件特征的改进" class="headerlink" title="基于处理器硬件特征的改进"></a>基于处理器硬件特征的改进</h2><p>关于支持处理器硬件功能的 AFL 修改方面，首先，它允许对内核代码进行模糊测试；其次，它允许在没有源代码的情况下更快地对应用程序进行模糊测试。</p>
+<p>当然，谈到处理器硬件功能，我们最感兴趣的是 <a target="_blank" rel="noopener" href="https://software.intel.com/en-us/node/721535">Intel PT</a>。从第 6 代处理器开始（大约自2015年起）支持该功能。 因此，为了能够使用下面列出的模糊测试器，我们需要一个支持 Intel PT 的处理器。</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/intelpt/winafl-intelpt">WinAFL-IntelPT</a> — 使用 Intel PT 而不是 DynamoRIO 的第三方 WinAFL。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hunter-ht-2018/ptfuzzer">ptfuzzer</a> - 使用 Intel PT 对二进制进行黑盒测试。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/RUB-SysSec/kAFL">kAFL</a> — 一个旨在解决独立于操作系统的模糊测试内核时的覆盖率导向问题的学术项目。 它通过使用管理程序（hypervisor）和 Intel PT 来解决该问题。有关它的更多信息可以在白皮书 <a target="_blank" rel="noopener" href="https://www.usenix.org/system/files/conference/usenixsecurity17/sec17-schumilo.pdf">kAFL: Hardware-Assisted Feedback Fuzzing for OS Kernels</a> 中找到。</li>
+</ul>
+<h1 id="AFL-具体应用"><a href="#AFL-具体应用" class="headerlink" title="AFL 具体应用"></a>AFL 具体应用</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/airbus-seclab/gustave">GUSTAVE</a> - 一个嵌入式操作系统内核的 Fuzzer，基于 QEMU 和 AFL。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/ele7enxxh/android-afl">android-afl</a> - 在 Android 上使用 AFL。<a target="_blank" rel="noopener" href="https://paper.seebug.org/245/">在Linux上使用AFL对Stagefright进行模糊测试</a></li>
+<li>使用 AFL 对嵌入式系统的 TEE 进行模糊测试。<a target="_blank" rel="noopener" href="https://nullcon.net/website/archives/pdf/bangalore-2019/fuzzing-embedded-(trusted">PDF</a>-operating-systems%20using-AFL.pdf) <a target="_blank" rel="noopener" href="https://youtu.be/AZhxZlwZ160">YOUTUBE</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/sslab-gatech/janus">Janus</a> - 基于 AFL 和 Syzkaller 对 linux 的文件系统进行模糊测试， 支持 8 种文件系统 ext4、XFS、btrfs、F2FS、GFS2、HFS+、ReiserFS 和 vFAT；以及 34 个文件操作的系统调用。</li>
+<li>利用 AFL 模糊测试 <a target="_blank" rel="noopener" href="https://github.com/fcambus/statzone">statzone</a>。<a target="_blank" rel="noopener" href="https://www.cambus.net/fuzzing-dns-zone-parsers/">地址</a></li>
+<li>利用 AFL 模糊测试 Linux 内核。<a target="_blank" rel="noopener" href="https://blog.cloudflare.com/a-gentle-introduction-to-linux-kernel-fuzzing/">地址</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zyw-200/FirmAFL">FIRM-AFL</a> - 基于 AFL 实现的用于 IoT 固件灰盒模糊测试的工具。<a target="_blank" rel="noopener" href="https://www.cs.ucr.edu/~heng/pubs/FirmAFL.pdf">PDF</a></li>
+<li>对 OP-TEE 的系统调用接口进行模糊测试。<a target="_blank" rel="noopener" href="https://github.com/Riscure/optee_fuzzer">地址</a></li>
+<li>利用 WinAFL 对二进制程序进行模糊测试，利用内存访问热图来精简输入种子大小。<a target="_blank" rel="noopener" href="https://sec-consult.com/en/blog/2017/09/hack-the-hacker-fuzzing-mimikatz-on-windows-with-winafl-heatmaps-0day/">地址</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/rohanpadhye/FuzzFactory">FuzzFactory</a> - AFL 扩展，使用 Waypoints 针对特定领域进行通用的以覆盖率位导向的模糊测试。<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=34A1jtgfgsU">YOUTUBE</a> <a target="_blank" rel="noopener" href="https://dl.acm.org/citation.cfm?doid=3366395.3360600">Paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.petergoodman.me/docs/qpss-2019-slides.pdf">PowerFL</a> - PowerFL = AFL + QEMU + VxWorks，使用 AFL 和 QEMU 对 PowerPC 和 Intel i386 VxWorks 进行 fuzz。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/andreafioraldi/frida-js-afl-instr">frida-js-afl-instr</a> - 使用 <a target="_blank" rel="noopener" href="https://github.com/vanhauser-thc/AFLplusplus">AFL++</a> 和 Frida 进行 Linux 内存中的模糊测试。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/bruce30262/libprotobuf-mutator_fuzzing_learning">libprotobuf-mutator_fuzzing_learning</a> - 将 AFL++ 和 LibFuzzer 结合使用（通过protobuf）。</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/aflnet/aflnet">AFLNet</a> - 面向网络协议的<strong>状态</strong>灰盒 Fuzzer，以 Server 和 Client 之间正常的协议通信数据（tcpdump 监听端口并用 Wireshark 做进一步处理）作为语料，不需要知道协议具体数据格式和语法。</li>
+<li><a target="_blank" rel="noopener" href="https://www.secpulse.com/archives/71903.html">fuzz实战之afl</a> - 利用 AFL fuzz 网络程序 libmodbus 库，利用 <a target="_blank" rel="noopener" href="https://github.com/zardus/preeny">preeny</a> <code>LD_PRELOAD</code> 把从 socket 获取数据，转变为从 stdin 获取数据。</li>
+<li><a target="_blank" rel="noopener" href="https://securitylab.github.com/research/fuzzing-sockets-FTP">Fuzzing sockets, part 1: FTP servers</a> - 利用 AFL++ fuzz FTP 服务器（命令），作者详细介绍如何改写 FTP 服务器源码来支持 fuzz（工程量大，修改约 1500 行代码），并介绍了<code>CVE-2020-9273</code>，<code>CVE-2020-9365</code>和<code>CVE-2020-9274</code>的原理。</li>
+</ul>
+<h1 id="AFL-原理与实现"><a href="#AFL-原理与实现" class="headerlink" title="AFL 原理与实现"></a>AFL 原理与实现</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://paper.seebug.org/496/">AFL(American Fuzzy Lop)实现细节与文件变异</a></li>
+<li><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-254705.htm">AFL afl_fuzz.c 详细分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://paper.seebug.org/841/">AFL 漏洞挖掘技术漫谈（一）：用 AFL 开始你的第一次 Fuzzing</a></li>
+<li><a target="_blank" rel="noopener" href="https://paper.seebug.org/842/">AFL 漏洞挖掘技术漫谈（二）：Fuzz 结果分析和代码覆盖率</a>：各种辅助分析的工具<ul>
+<li><code>afl-cmin -i input_dir -o output_dir -- /path/to/tested/program [params] @@</code></li>
+</ul>
+</li>
+<li><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-257399.htm">AFL学习笔记（上）</a>：持续更新中</li>
+<li><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-249912.htm">漏洞挖掘技术之 AFL 项目分析</a></li>
+</ul>
+<h1 id="Fuzz-相关文章"><a href="#Fuzz-相关文章" class="headerlink" title="Fuzz 相关文章"></a>Fuzz 相关文章</h1><ul>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/nREiT1Uj25igCMWu1kta9g">Fuzzing战争: 从刀剑弓斧到星球大战</a></li>
+</ul>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>如你所见，研究人员仍在积极地改进 AFL，而且 AFL 还存在进行实验和创新的空间，我们也可以创建一个我们自己的实用有趣的 AFL。</p>
+<p>感谢阅读，祝大家 Fuzz 顺利。</p>
+<p><a target="_blank" rel="noopener" href="https://habr.com/ru/company/dsec/blog/449134/">原文链接</a></p>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>Post author:  </strong>zh2
+  </li>
+  <li class="post-copyright-link">
+    <strong>Post link: </strong>
+    <a href="http://zanderchang.github.io/2019/04/29/AFL%E5%8F%8A%E5%85%B6%E7%9B%B8%E5%85%B3%E6%8B%93%E5%B1%95%E9%A1%B9%E7%9B%AE%E6%80%BB%E7%BB%93/" title="AFL 及其相关拓展项目总结">http://zanderchang.github.io/2019/04/29/AFL及其相关拓展项目总结/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>Copyright Notice:  </strong>All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> unless stating additionally.
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%96%E6%96%87%E7%BF%BB%E8%AF%91/" rel="tag"># 外文翻译</a>
+              <a href="/tags/%E6%BC%8F%E6%B4%9E%E6%8C%96%E6%8E%98/" rel="tag"># 漏洞挖掘</a>
+              <a href="/tags/AFL/" rel="tag"># AFL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/30/VBA-Stomping%E7%AE%80%E4%BB%8B/" rel="next" title="VBA Stomping 简介">
+      VBA Stomping 简介 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AFL-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E5%AE%83%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">AFL 是什么，它有什么用？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AFL-%E9%99%84%E5%B1%9E%E5%B7%A5%E5%85%B7"><span class="nav-number">2.</span> <span class="nav-text">AFL 附属工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B4%A9%E6%BA%83%E5%A4%84%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">崩溃处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%A6%86%E7%9B%96%E7%8E%87"><span class="nav-number">2.2.</span> <span class="nav-text">代码覆盖率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E7%94%A8%E4%BA%8E%E6%9C%80%E5%B0%8F%E5%8C%96%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B%E7%9A%84%E8%84%9A%E6%9C%AC"><span class="nav-number">2.3.</span> <span class="nav-text">一些用于最小化测试用例的脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E6%89%A7%E8%A1%8C"><span class="nav-number">2.4.</span> <span class="nav-text">分布式执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%EF%BC%8C%E7%AE%A1%E7%90%86%EF%BC%8C%E7%9B%91%E6%8E%A7%EF%BC%8C%E6%8A%A5%E5%91%8A"><span class="nav-number">2.5.</span> <span class="nav-text">部署，管理，监控，报告</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E8%A3%85%E5%99%A8%EF%BC%88wrapper%EF%BC%89"><span class="nav-number">2.6.</span> <span class="nav-text">包装器（wrapper）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AFL-%E6%94%B9%E8%BF%9B"><span class="nav-number">3.</span> <span class="nav-text">AFL 改进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#AFL-%E9%BB%98%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">AFL 默认模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Syzygy-%E6%A8%A1%E5%BC%8F-%E2%80%94-instrument-exe-%E4%B8%AD%E5%B7%A5%E4%BD%9C%E7%9A%84%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.1.</span> <span class="nav-text">Syzygy 模式 — instrument.exe 中工作的模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#QEMU-%E6%A8%A1%E5%BC%8F-%E2%80%94-QEMU-%E4%B8%8B%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%96%B9%E5%BC%8F%E8%A7%81-Internals-of-AFL-fuzzer-%E2%80%94-QEMU-Instrumentation"><span class="nav-number">3.1.2.</span> <span class="nav-text">QEMU 模式 — QEMU 下的工作方式见 Internals of AFL fuzzer — QEMU Instrumentation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E6%94%AF"><span class="nav-number">3.2.</span> <span class="nav-text">分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-QEMU-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.3.</span> <span class="nav-text">基于 QEMU 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-KLEE-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.4.</span> <span class="nav-text">基于 KLEE 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Angr-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.5.</span> <span class="nav-text">基于 Angr 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Unicorn-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.6.</span> <span class="nav-text">基于 Unicorn 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-PIN-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.7.</span> <span class="nav-text">基于 PIN 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-Dyninst-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.8.</span> <span class="nav-text">基于 Dyninst 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E-DynamoRIO-%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.9.</span> <span class="nav-text">基于 DynamoRIO 的改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%84%E7%90%86%E5%99%A8%E7%A1%AC%E4%BB%B6%E7%89%B9%E5%BE%81%E7%9A%84%E6%94%B9%E8%BF%9B"><span class="nav-number">3.10.</span> <span class="nav-text">基于处理器硬件特征的改进</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AFL-%E5%85%B7%E4%BD%93%E5%BA%94%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">AFL 具体应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#AFL-%E5%8E%9F%E7%90%86%E4%B8%8E%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">AFL 原理与实现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Fuzz-%E7%9B%B8%E5%85%B3%E6%96%87%E7%AB%A0"><span class="nav-number">6.</span> <span class="nav-text">Fuzz 相关文章</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">zh2</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zh2</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
