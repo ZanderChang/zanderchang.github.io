@@ -3,11 +3,11 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 我的博客
+title: zh2的博客
 subtitle:
 description:
 keywords:
-author: Glory
+author: zh2
 language: zh-Hans
 # language: zh-CN
 timezone: Asia/Shanghai
@@ -103,3 +103,20 @@ feed:
   path: atom.xml
   limit: 0
   hub:
+
+mathjax:
+  tags: none # or 'ams' or 'all'
+  single_dollars: true # enable single dollar signs as in-line math delimiters
+  cjk_width: 0.9 # relative CJK char width
+  normal_width: 0.6 # relative normal (monospace) width
+  append_css: true # add CSS to pages rendered by MathJax
+  every_page: false # if true, every page will be rendered by MathJax regardless the `mathjax` setting in Front-matter
+
+# Post wordcount display settings
+# Dependencies: https://github.com/willin/hexo-wordcount
+post_wordcount:
+  item_text: true
+  wordcount: true
+  min2read: true
+  totalcount: true
+  separated_meta: true
